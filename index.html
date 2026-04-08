@@ -748,14 +748,28 @@ const rawProducts = [
 {sku:"RFSH003",name:"Hair Dryer Brush (Multi)",category:"Hair Dryer Brush",karakteristik:"Multi-gaya",pengaturan:"2 speed, 3 suhu, 1 mode auto-bersih",kecepatan:"58 m/s",ion_negatif:"130 juta",kepala_lepas:"✓",daya:"1500 W",ukuran:"29.5×5×5 cm",berat:"0.86 kg",panjang_kabel:"1.8 m"}
 ];
 
+// 1. Buat daftar "Jalur Khusus" untuk produk yang gambarnya error/typo
+const imageOverrides = {
+  "XCQH002": "https://img.myshopline.com/image/store/2000075912/1622516949344/XCQI002-_900x.jpeg?w=400",
+  
+  // Kakak bisa tambahkan SKU lain yang gambarnya tidak muncul di sini.
+  // Formatnya: "SKU" : "LINK_GAMBAR", (jangan lupa tanda kutip dan koma)
+  // Contoh:
+  // "SKU123" : "https://img.myshopline.com/.../gambar.jpeg",
+};
+
+// 2. Proses datanya
 const products = rawProducts.map(p => {
-  // Pastikan SKU huruf besar semua sesuai format Shopline
   const skuUp = p.sku.toUpperCase();
   
+  // Cek apakah SKU ini masuk di daftar jalur khusus di atas?
+  if (imageOverrides[skuUp]) {
+    return { ...p, image: imageOverrides[skuUp] }; // Pakai link manual
+  }
+  
+  // Kalau tidak ada di jalur khusus, pakai rumus pola standar
   return {
     ...p, 
-    // Menggunakan URL dari contoh kakak. 
-    // Kita coba pakai akhiran -1 (gambar utama). Kalau kosong, sistem web akan otomatis memunculkan gambar placeholder yang sudah kita buat.
     image: `https://img.myshopline.com/image/store/1622516949344/${skuUp}-1_900x.jpeg?w=400`
   };
 });
