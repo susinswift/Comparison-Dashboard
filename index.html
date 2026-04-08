@@ -747,11 +747,7 @@ const faqs = {
 const products = rawProducts.map(p => ({
   ...p,
   image: `https://pc.simplus.online/cdn/shop/files/${p.sku.toLowerCase()}_1.jpg`
-}));// --- STATE MANAGEMENT ---
-let activeCat = "Semua";
-let selected  = [];
-let viewMode  = "products"; 
-let faqSearch = "";
+}));
 
 // --- FUNGSI: GENERATE SELLING POINT ---
 function generateSellingPoint(p) {
