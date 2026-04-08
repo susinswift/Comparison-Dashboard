@@ -1412,15 +1412,12 @@ function toggleSelect(sku) {
 }
 
 function openModal(sku) {
-  const p = products.find(x => x.sku === sku);
-  if (!p) return;
+  const p = products.find(x => x.sku === sku); if (!p) return;
   const col = catColors[p.category] || "#6366f1";
   const fields = FIELDS[p.category] || Object.keys(LABELS);
   
   document.getElementById("modalHeaderBar").style.background = `linear-gradient(135deg, ${col}, ${col}cc)`;
-  document.getElementById("modalSkuRow").innerHTML = `
-    <span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span>
-    <span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>`;
+  document.getElementById("modalSkuRow").innerHTML = `<span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span><span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>`;
   document.getElementById("modalName").textContent = p.name;
   document.getElementById("modalChar").textContent = p.karakteristik || "";
   
@@ -1430,26 +1427,31 @@ function openModal(sku) {
   const sp = generateSellingPoint(p);
   const spHTML = sp.length > 0 ? `<div style="margin-bottom:16px;background:${col}08;border-radius:10px;padding:12px;border:1px solid ${col}20;"><div style="font-size:10px;font-weight:700;color:${col};letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">🌟 Keunggulan Produk</div>${sp.map(s=>`<div style="font-size:12.5px;color:#334155;margin-bottom:5px;">${s}</div>`).join("")}</div>` : "";
   
-  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:200px; max-height:200px; border-radius:12px;" onerror="this.style.display='none'"></div>`;
-
-  const manualLink = manualUrls[p.sku];
-  const manualHTML = manualLink
-    ? `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;">
-        <a href="${manualLink}" target="_blank" rel="noopener"
-          style="display:flex;align-items:center;justify-content:center;gap:8px;
-            width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;
-            font-size:13px;color:#fff;background:linear-gradient(135deg,${col},${col}cc);
-            box-shadow:0 4px 14px ${col}40;transition:all 0.2s;"
-          onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
-          📖 Lihat User Manual
-        </a>
-      </div>`
-    : `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9; text-align:center;font-size:12px;color:#94a3b8;">User manual belum tersedia</div>`;
+  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:200px; max-height:200px; border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);" onerror="this.style.display='none'"></div>`;
   
-  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + manualHTML;
+  const manualLink = manualUrls[p.sku];
+  const manualHTML = manualLink ? `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;"><a href="${manualLink}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(135deg,${col},${col}cc);box-shadow:0 4px 14px ${col}40;transition:all 0.2s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">📖 Lihat User Manual Full</a></div>` : `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9; text-align:center;font-size:12px;color:#94a3b8;">User manual belum tersedia</div>`;
+
+  // --- BAGIAN BARU: PANDUAN & TROUBLESHOOT ---
+  let tipsHTML = "";
+  if (faqs[p.category]) {
+    // Ambil 3 pertanyaan/jawaban pertama dari FAQ kategori ini untuk ditampilkan
+    tipsHTML = `<div style="margin-top:20px;background:#f8fafc;border-radius:12px;padding:16px;border:1px solid #e2e8f0;">
+      <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span>🛠️</span> Panduan Pakai & Perawatan</div>
+      ${faqs[p.category].slice(0, 3).map(faq => `
+        <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #cbd5e1;">
+          <div style="font-size:11.5px;font-weight:700;color:#334155;margin-bottom:4px;">Tanya: ${faq.q}</div>
+          <div style="font-size:11.5px;color:#64748b;line-height:1.5;">Jawab: ${faq.a}</div>
+        </div>
+      `).join("")}
+      <div style="font-size:11px;text-align:center;color:${col};font-weight:700;cursor:pointer;margin-top:4px;" onclick="closeModal(); document.querySelector('.faq-sidebar-btn').click();">Lihat Semua FAQ →</div>
+    </div>`;
+  }
+  // ----------------------------------------
+
+  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + tipsHTML + manualHTML;
   document.getElementById("modal").style.display = "flex";
 }
-
 function closeModal() { document.getElementById("modal").style.display = "none"; }
 
 // --- FAQ FUNCTIONS ---
