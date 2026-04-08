@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="referrer" content="no-referrer"/>
+<title>Simplus Product Database</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;min-height:100vh;color:#1e293b;}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);
+  padding:16px 28px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 20px rgba(99,102,241,0.3);
+  position:sticky;top:0;z-index:50;
+}
+.header-logo{
+  background:rgba(255,255,255,0.25);backdrop-filter:blur(10px);
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:18px;color:#fff;flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.4);
+}
+.header-title{font-weight:800;font-size:18px;color:#fff;letter-spacing:-0.3px;}
+.header-sub{font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;}
+.header-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.selected-badge{
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#fff;font-weight:600;
+}
+.reset-btn{
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#fff;cursor:pointer;
+  font-weight:600;transition:all 0.2s;font-family:'Inter',sans-serif;
+}
+.reset-btn:hover{background:rgba(255,255,255,0.35);}
+
+/* LAYOUT */
+.layout{display:flex;height:calc(100vh - 73px);}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background:linear-gradient(180deg,#fff 0%,#f8f7ff 100%);
+  border-right:1px solid #e2e8f0;
+  overflow-y:auto;padding:14px 8px;flex-shrink:0;
+  box-shadow:2px 0 10px rgba(0,0,0,0.04);
+}
+.sidebar-title{
+  font-size:10px;font-weight:700;color:#94a3b8;
+  letter-spacing:1.2px;text-transform:uppercase;
+  padding:4px 10px 10px;
+}
+.cat-btn{
+  width:100%;text-align:left;padding:8px 10px;
+  border-radius:10px;border:none;background:transparent;
+  color:#64748b;cursor:pointer;margin-bottom:2px;
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-family:'Inter',sans-serif;
+  transition:all 0.15s;font-weight:500;
+}
+.cat-btn:hover{background:#f1f5f9;color:#334155;}
+.cat-btn.active{color:#fff;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cat-count{font-size:10px;padding:1px 6px;border-radius:20px;margin-left:auto;font-weight:700;}
+.cat-btn.active .cat-count{background:rgba(255,255,255,0.3);color:#fff;}
+.cat-btn:not(.active) .cat-count{background:#f1f5f9;color:#94a3b8;}
+
+/* FAQ SIDEBAR BTN */
+.sidebar-divider{border:none;border-top:1px solid #e2e8f0;margin:10px 8px;}
+.faq-sidebar-btn{
+  width:100%;text-align:left;padding:9px 10px;
+  border-radius:10px;border:none;background:transparent;
+  cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-family:'Inter',sans-serif;
+  transition:all 0.15s;font-weight:600;color:#6366f1;
+}
+.faq-sidebar-btn:hover{background:#f1f5f9;}
+.faq-sidebar-btn.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,0.3);}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px 22px;}
+
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:16px;}
+.search-input{
+  width:100%;background:#fff;border:2px solid #e2e8f0;border-radius:14px;
+  padding:11px 16px 11px 44px;color:#1e293b;font-size:13px;outline:none;
+  box-sizing:border-box;font-family:'Inter',sans-serif;
+  transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+.search-input:focus{border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,0.1);}
+.search-input::placeholder{color:#94a3b8;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;}
+
+/* COMPARE */
+.compare-section{
+  background:#fff;border-radius:16px;padding:20px;margin-bottom:18px;overflow-x:auto;
+  border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+.compare-title{
+  font-weight:800;font-size:13px;margin-bottom:14px;letter-spacing:0.05em;
+  background:linear-gradient(135deg,#6366f1,#ec4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.compare-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.compare-table th{text-align:left;padding:9px 12px;border-bottom:2px solid #f1f5f9;font-weight:700;min-width:130px;color:#64748b;}
+.compare-table td{padding:8px 12px;border-bottom:1px solid #f8fafc;font-size:12px;color:#334155;vertical-align:top;}
+.compare-table tr:hover td{background:#fafbff;}
+.compare-table td.spec-label{color:#94a3b8;font-weight:500;}
+.compare-table td.char-val{font-weight:600;color:#6366f1;}
+
+/* CS MESSAGE BOX */
+.cs-message-box{margin-top:18px;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;}
+.cs-message-header{background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.cs-message-header-left{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#fff;}
+.cs-message-header-left span{font-size:16px;}
+.copy-btn{
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);
+  border-radius:8px;padding:5px 12px;font-size:11px;color:#fff;cursor:pointer;
+  font-weight:700;font-family:'Inter',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:5px;
+}
+.copy-btn:hover{background:rgba(255,255,255,0.35);}
+.copy-btn.copied{background:rgba(255,255,255,0.9);color:#6366f1;}
+.cs-message-body{background:#f8f9ff;padding:16px;font-size:13px;line-height:1.7;color:#334155;white-space:pre-wrap;font-family:'Inter',sans-serif;max-height:280px;overflow-y:auto;border-top:1px solid #e2e8f0;}
+
+/* RESULT INFO */
+.result-info{font-size:12px;color:#94a3b8;margin-bottom:12px;font-weight:500;}
+.compare-hint{color:#6366f1;margin-left:8px;font-weight:600;}
+
+/* GRID & CARD (DENGAN FOTO) */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px;}
+.card{
+  background:#fff;border:2px solid #f1f5f9;border-radius:16px;padding:16px;
+  cursor:pointer;transition:all 0.2s;position:relative;display:flex;flex-direction:column;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.1);}
+.card.selected{box-shadow:0 8px 25px rgba(99,102,241,0.15);}
+.card-img-wrap{
+  width:100%;height:160px;background:#f8fafc;border-radius:10px;
+  margin-bottom:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.card-img{width:100%;height:100%;object-fit:contain;transition:transform 0.3s;}
+.card:hover .card-img{transform:scale(1.05);}
+.check-mark{
+  position:absolute;top:12px;right:12px;border-radius:50%;width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;
+  font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:10;
+}
+.card-stripe{height:4px;border-radius:4px;margin-bottom:12px;}
+.card-top{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.card-sku{border-radius:8px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:0.3px;}
+.card-cat{font-size:10px;color:#94a3b8;background:#f8fafc;border-radius:6px;padding:3px 7px;font-weight:500;border:1px solid #e2e8f0;margin-left:auto;}
+.card-name{font-weight:700;font-size:14px;color:#1e293b;margin-bottom:3px;line-height:1.3;}
+.card-char{font-size:11.5px;font-weight:500;margin-bottom:10px;}
+.card-specs{border-top:1px solid #f1f5f9;padding-top:10px;flex-grow:1;}
+.spec-row{display:flex;justify-content:space-between;margin-bottom:4px;gap:8px;}
+.spec-key{font-size:11px;color:#94a3b8;font-weight:500;white-space:nowrap;}
+.spec-val{font-size:11px;color:#475569;text-align:right;font-weight:600;}
+.detail-btn{
+  margin-top:10px;width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:7px;
+  font-size:11px;cursor:pointer;transition:all 0.2s;font-weight:600;font-family:'Inter',sans-serif;
+  background:#fafbff;color:#6366f1;
+}
+.detail-btn:hover{color:#fff;border-color:transparent;}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:60px 20px;color:#94a3b8;font-size:14px;font-weight:500;}
+.no-results-emoji{font-size:48px;margin-bottom:12px;}
+
+/* FAQ SECTION */
+.faq-view{padding:0;}
+.faq-header-bar{background:#fff;border-radius:16px;padding:20px 24px;margin-bottom:18px;border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);display:flex;align-items:center;gap:14px;}
+.faq-header-icon{width:48px;height:48px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.faq-header-title{font-weight:800;font-size:16px;color:#1e293b;}
+.faq-header-sub{font-size:12px;color:#94a3b8;margin-top:2px;}
+.faq-search-wrap{position:relative;margin-left:auto;width:240px;}
+.faq-search{width:100%;background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;padding:8px 12px 8px 36px;font-size:12px;outline:none;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.faq-search:focus{border-color:#6366f1;background:#fff;}
+.faq-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:#94a3b8;}
+.faq-cat-block{background:#fff;border-radius:16px;margin-bottom:14px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+.faq-cat-header{padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;transition:background 0.15s;}
+.faq-cat-header:hover{background:#fafbff;}
+.faq-cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.faq-cat-name{font-weight:700;font-size:13px;color:#1e293b;flex:1;}
+.faq-cat-count{font-size:11px;color:#94a3b8;background:#f1f5f9;border-radius:20px;padding:2px 8px;font-weight:600;}
+.faq-cat-chevron{font-size:12px;color:#94a3b8;transition:transform 0.2s;}
+.faq-cat-block.open .faq-cat-chevron{transform:rotate(180deg);}
+.faq-items{display:none;border-top:1px solid #f1f5f9;}
+.faq-cat-block.open .faq-items{display:block;}
+.faq-item{border-bottom:1px solid #f8fafc;}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{padding:12px 18px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background 0.15s;}
+.faq-q:hover{background:#fafbff;}
+.faq-q-icon{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;margin-top:1px;}
+.faq-q-text{font-size:12.5px;font-weight:600;color:#334155;flex:1;line-height:1.4;}
+.faq-q-arrow{font-size:11px;color:#94a3b8;transition:transform 0.2s;margin-top:2px;flex-shrink:0;}
+.faq-item.open .faq-q-arrow{transform:rotate(180deg);}
+.faq-item.open .faq-q{background:#fafbff;}
+.faq-a{display:none;padding:0 18px 14px 50px;font-size:12.5px;color:#64748b;line-height:1.7;}
+.faq-item.open .faq-a{display:block;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.55);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:200;padding:24px;}
+.modal-box{background:#fff;border-radius:20px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.2);}
+.modal-header-bar{padding:22px 24px 16px;border-radius:20px 20px 0 0;position:relative;}
+.modal-sku-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.modal-name{font-weight:800;font-size:18px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.15);}
+.modal-char{font-size:12px;font-weight:600;color:rgba(255,255,255,0.85);margin-top:4px;}
+.close-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.25);border:none;border-radius:10px;width:32px;height:32px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.close-btn:hover{background:rgba(255,255,255,0.4);}
+.modal-body{padding:20px 24px 24px;}
+.modal-specs-title{font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;}
+.modal-spec-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f1f5f9;gap:12px;}
+.modal-spec-row:last-child{border-bottom:none;}
+.modal-spec-key{font-size:13px;color:#94a3b8;font-weight:500;}
+.modal-spec-val{font-size:13px;color:#1e293b;text-align:right;font-weight:600;max-width:65%;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:#cbd5e1;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">S</div>
+  <div>
+    <div class="header-title">Simplus Product Database</div>
+    <div class="header-sub" id="headerSub"></div>
+  </div>
+  <div class="header-right" id="headerRight"></div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-title">Kategori</div>
+  </div>
+  <div class="content" id="mainContent">
+    <div class="search-wrap" id="searchWrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" placeholder="Cari SKU, nama produk, atau karakteristik..." oninput="render()"/>
+    </div>
+    <div id="compareSection"></div>
+    <div class="result-info" id="resultInfo"></div>
+    <div class="grid" id="grid"></div>
+    <div class="no-results" id="noResults" style="display:none;">
+      <div class="no-results-emoji">🔎</div>
+      <div>Tidak ada produk ditemukan</div>
+    </div>
+    <div id="faqView" style="display:none;"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" style="display:none;" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header-bar" id="modalHeaderBar">
+      <div class="modal-sku-row" id="modalSkuRow"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-char" id="modalChar"></div>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-specs-title">Spesifikasi Lengkap</div>
+      <div id="modalSpecsList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let activeCat = "Semua";
+let selected  = [];
+let viewMode  = "products"; 
+let faqSearch = "";
+
+const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush"];
+
+const catColors={
+"Vacuum Cleaner":"#3B82F6","Garment Steamer / Iron":"#8B5CF6","Dehumidifier":"#06B6D4",
+"Humidifier":"#10B981","Air Purifier":"#6366F1","Dust Mite Vacuum":"#F59E0B",
+"Vacuum Mop":"#EC4899","Carpet & Upholstery":"#14B8A6","Electric Fan":"#84CC16",
+"Air Cooler":"#0EA5E9","Air Fryer (Digital)":"#F97316","Air Fryer (Knob)":"#EF4444",
+"Electric Cooker":"#D946EF","Electric Steamer":"#22C55E","Drip Coffee Machine":"#A16207",
+"Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
+"Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
+"Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5"
+};
+
+const FIELDS={
+"Vacuum Cleaner":["metode","filter","dustbin","daya","suction","kebisingan","kabel","ukuran","berat"],
+"Garment Steamer / Iron":["tipe","daya","kapasitas","waktu_pemanasan","jumlah_uap","ukuran","berat"],
+"Dehumidifier":["mode_kontrol","kapasitas_tangki","dehumidifikasi","kebisingan","ukuran","berat","daya"],
+"Humidifier":["tipe","kapasitas","melembabkan","daya_baterai","kebisingan","ukuran","berat","daya"],
+"Air Purifier":["cara_kontrol","cadr","filter","daya","kebisingan","cocok_untuk","ukuran","berat"],
+"Dust Mite Vacuum":["tipe","dustbin","sterilisasi_uv","fungsi_lainnya","filter","daya","kabel","aksesori","berat","suction","getaran","ukuran","kebisingan"],
+"Vacuum Mop":["pengaturan","suction","tangki_kotor","tangki_bersih","daya","waktu_cas","waktu_pakai","berat"],
+"Carpet & Upholstery":["cara_kontrol","pengaturan","suction","tangki_kotor","tangki_bersih","daya","kabel","berat"],
+"Electric Fan":["tipe","pengaturan","daya","kebisingan","ukuran","berat"],
+"Air Cooler":["kapasitas","pengaturan","daya","kebisingan","ukuran","berat"],
+"Air Fryer (Digital)":["rentang_suhu","waktu","daya","kapasitas","jendela","ukuran","berat"],
+"Air Fryer (Knob)":["rentang_suhu","waktu","daya","kapasitas","jendela","ukuran","berat"],
+"Electric Cooker":["bahan","kapasitas","daya","ukuran","berat"],
+"Electric Steamer":["kapasitas","tier","jadwal","daya","ukuran","berat"],
+"Drip Coffee Machine":["kapasitas_tangki","kapasitas_gelas","daya","waktu","ukuran","berat"],
+"Semi-auto Espresso":["tekanan","kapasitas_tangki","batang_uap","daya","waktu_pemanasan","ukuran","berat"],
+"Capsule Coffee":["tekanan","kapasitas_tangki","batang_uap","daya","waktu_pemanasan","ukuran","berat"],
+"Electric Chopper":["pengaturan","kapasitas","pisau","daya","ukuran","berat"],
+"Blender / Juicer":["kapasitas","pisau","daya","ukuran","berat"],
+"Hair Dryer":["motor","ion_negatif","daya","kebisingan","kecepatan","panjang_kabel","ukuran","berat"],
+"Hair Straightener":["pengaturan","suhu","daya","waktu_panas","lapisan","ukuran","berat"],
+"Hair Curler":["diameter","suhu","daya","waktu_panas","ukuran","berat"],
+"Hair Dryer Brush":["pengaturan","kecepatan","ion_negatif","kepala_lepas","daya","panjang_kabel","ukuran","berat"]
+};
+
+const LABELS={
+metode:"Metode",filter:"Filter",dustbin:"Kapasitas Debu",daya:"Daya",suction:"Daya Hisap",
+kebisingan:"Kebisingan",kabel:"Panjang Kabel",ukuran:"Ukuran",berat:"Berat",
+tipe:"Tipe",kapasitas:"Kapasitas",waktu_pemanasan:"Waktu Panas",jumlah_uap:"Jumlah Uap",
+mode_kontrol:"Mode Kontrol",kapasitas_tangki:"Kapasitas Tangki",dehumidifikasi:"Dehumidifikasi",
+cara_kontrol:"Cara Kontrol",cadr:"CADR",cocok_untuk:"Cocok untuk Area",
+sterilisasi_uv:"Sterilisasi UV",angin_panas:"Angin Panas",getaran:"Getaran",
+pengaturan:"Pengaturan",tangki_kotor:"Tangki Kotor",tangki_bersih:"Tangki Bersih",
+waktu_cas:"Waktu Cas",waktu_pakai:"Waktu Pakai",melembabkan:"Melembabkan",
+daya_baterai:"Daya Baterai",rentang_suhu:"Rentang Suhu",waktu:"Interval Waktu",
+jendela:"Jendela Transparan",bahan:"Material",tier:"Tier",jadwal:"Penjadwalan",
+kapasitas_gelas:"Kapasitas Gelas",tekanan:"Tekanan Maks",batang_uap:"Batang Uap",
+pisau:"Mata Pisau",motor:"Motor",ion_negatif:"Ion Negatif",kecepatan:"Kecepatan Angin",
+panjang_kabel:"Panjang Kabel",suhu:"Suhu",waktu_panas:"Waktu Pemanasan",
+lapisan:"Lapisan Pelat",diameter:"Diameter Barrel",kepala_lepas:"Kepala Lepas-Pasang",
+fungsi_lainnya:"Fungsi Lainnya",aksesori:"Aksesori"
+};
+
+const BASE = "https://pc.simplus.online/products/";
+const manualUrls = {
+  "XCQH002": BASE+"user-manual---corded-vacuum-cleaner-xcqh002",
+  "XCQH008": BASE+"user-manual---corded-vacuum-cleaner-xcqh008",
+  "XCQH011": BASE+"user-manual---vacuum-cleaner-xcqh011",
+  "XCQH014": BASE+"user-manual---vacuum-cleaner-xcqh014",
+  "XCQH015": BASE+"user-manual---horizontai-vacuum-cleaner-xcqh015",
+  "XCQH009": BASE+"user-manual---cordless-vacuum-cleaner-xcqh009",
+  "XCQH010": BASE+"user-manual---cordless-vacuum-cleaner-xcqh010",
+  "XCQH012": BASE+"user-manual---cordless-vacuum-cleaner-xcqh012",
+  "XCQH013": BASE+"user-manual---cordless-vacuum-cleaner-xcqh013",
+  "XCQH017": BASE+"user-manual---cordless-vacuum-cleaner-xcqh017",
+  "GTJH008": BASE+"user-manual---handheld-garment-steamer-gtjh008",
+  "GTJH010": BASE+"user-manual---handheld-garment-steamer-gtjh010",
+  "GTJH011": BASE+"user-manual---foldable-handheld-garment-steamer-gtjh011",
+  "GTJH016": BASE+"user-manual---handheld-garment-steamer-gtjh016",
+  "GTJH017": BASE+"user-manual---handheld-garment-steamer-gtjh017",
+  "GTJH019": BASE+"user-manual---handheld-garment-steamer-gtjh019",
+  "GTJH020": BASE+"user-manual---handheld-garment-steamer-gtjh020",
+  "GTJH009": BASE+"user-manual---stand-garment-steamer-gtjh009",
+  "GTJH014": BASE+"user-manual---stand-garment-steamer-gtjh014",
+  "GTJH018": BASE+"user-manual---stand-garment-steamer-gtjh018",
+  "GTJH023": BASE+"user-manual---stand-garment-steamer-gtjh023",
+  "CUSH001": BASE+"user-manual---dehumidifier-cush001",
+  "CUSH002": BASE+"user-manual---dehumidifier-cush002",
+  "CUSH004": BASE+"user-manual---dehumidifier-cush004",
+  "CUSH005": BASE+"user-manual---dehumidifier-cush004-1",
+  "CUSH006": BASE+"user-manual---dehumidifier-cush006",
+  "CUSH007": BASE+"user-manual---dehumidifier-cush007",
+  "JASH002": BASE+"user-manual---humidifier-jash002",
+  "JASH003": BASE+"user-manual---humidifier-jash003",
+  "JASH004": BASE+"user-manual---humidifier-jash004",
+  "JASH005": BASE+"user-manual---humidifier-jash005",
+  "JASH006": BASE+"-user-manual---humidifier-jash006",
+  "KQJH004": BASE+"user-manual---air-purifier-kqjh004",
+  "KQJH005": BASE+"user-manual---air-purifier-kqjh005",
+  "KQJH006": BASE+"user-manual---air-purifier-kqjh006",
+  "KQJH007": BASE+"user-manual---air-purifier-kqjh007",
+  "CMYH004": BASE+"user-manual---corded-mite-vaccum-cleaner-cmyh004",
+  "CMYH005": BASE+"user-manual---corded-mite-vaccum-cleaner-cmyh005",
+  "CMYH006": BASE+"user-manual---vacuum-cleaner-cmyh006",
+  "CMYH007": BASE+"user-manual---vacuum-cleaner-cmyh007",
+  "XDJH001": BASE+"user-manual---cordless-wet-dry-vacuum-cleaner-s-clean-v1-xdjh001",
+  "XDJH002": BASE+"user-manual---cordless-wet-dry-vacuum-cleaner-s-clean-v1-xdjh002",
+  "XDJH003": BASE+"user-manual---cordless-wet-dry-vacuum-cleaner-xdjh003",
+  "XDJH004": BASE+"user-manual---cordless-wet-dry-vacuum-cleaner-xdjh004",
+  "XDJH005": BASE+"user-manual---cordless-wet-dry-vacuum-cleaner-xdjh005",
+  "BYJH001": BASE+"user-manual---spot-cleaner-byjh001",
+  "BYJH002": BASE+"user-manual---portable-carpet-cleaner-byjh002",
+  "BYJH003": BASE+"user-manual---portable-carpet-cleaner-byjh003",
+  "BYJH004": BASE+"user-manual---portable-carpet-cleaner-byjh004",
+  "DFSH007": BASE+"user-manual---handheld-fan-dfsh007",
+  "DFSH010": BASE+"user-manual---usb-fan-dfsh010",
+  "DFSH011": BASE+"user-manual---usb-fan-dfsh011",
+  "DFSH012": BASE+"user-manual---usb-fan-dfsh012",
+  "DFSH013": BASE+"user-manual---usb-fan-dfsh013",
+  "DFSH014": BASE+"user-manual---usb-fan-dfsh014",
+  "DFSH015": BASE+"user-manual---usb-fan-dfsh015",
+  "LFSH002": BASE+"user-manual---electric-control-air-cooler-with-remote-lfsh002",
+  "LFSH003": BASE+"user-manual---air-cooler-lfsh003",
+  "LFSH004": BASE+"user-manual---air-cooler-lfsh004",
+  "LFSH005": BASE+"user-manual---air-cooler-lfsh005",
+  "KQZG015": BASE+"user-manual---air-fryer-kqzg015",
+  "KQZG017": BASE+"user-manual---air-fryer-kqzg017-1",
+  "KQZG018": BASE+"user-manual---air-fryer-kqzg018",
+  "KQZG020": BASE+"user-manual---air-fryer-kqzg020",
+  "KQZG007": BASE+"user-manual---air-fryer-kqzg007",
+  "KQZG013": BASE+"user-manual---air-fryer-kqzg013",
+  "KQZG014": BASE+"user-manual---air-fryer-kqzg014",
+  "KQZG021": BASE+"user-manual---air-fryer-kqzg021",
+  "DZGH003": BASE+"user-manual---electric-hot-pot-with-stainless-steel-steamer-dzgh003",
+  "DZGH010": BASE+"user-manual---electric-cooker-dzgh010",
+  "DZEG001": BASE+"user-manual---electric-food-steamer-dzeg001",
+  "DZEG002": BASE+"user-manual---electric-food-steamer-dzeg002",
+  "DZEG003": BASE+"user-manual---electric-food-steamer-dzeg003",
+  "DZEG004": BASE+"user-manual---electric-food-steamer-dzeg004",
+  "DZEG005": BASE+"user-manual---electric-food-steamer-dzeg005",
+  "KFJH006": BASE+"user-manual---drip-coffee-maker-kfjh006",
+  "KFJH009": BASE+"user-manual---drip-coffee-maker-kfjh009",
+  "KFJH011": BASE+"user-manual---electric-coffee-machine-kfjh011",
+  "KFJH012": BASE+"user-manual---electric-coffee-machine-kfjh012",
+  "KFJH013": BASE+"user-manual---electric-coffee-machine-kfjh013",
+  "KFJH018": BASE+"user-manual---electric-coffee-machine-kfjh018",
+  "KFJH007": BASE+"user-manual---semi-automatic-espresso-machine-kfjh007",
+  "KFJH014": BASE+"user-manual---electric-coffee-machine-kfjh014",
+  "KFJH017": BASE+"user-manual---electric-coffee-machine-kfjh017",
+  "KFJH008": BASE+"user-manual---electric-coffee-machine-kfjh008",
+  "KFJH019": BASE+"user-manual---electric-coffee-machine-kfjh019",
+  "DDJR003": BASE+"user-manual---electric-food-chopper-ddjr003",
+  "DDJR004": BASE+"user-manual---food-processor-ddjr004",
+  "DDJR005": BASE+"user-manual---food-processor-ddjr005",
+  "DDJR006": BASE+"user-manual---food-chopper-ddjr006",
+  "LLJH004": BASE+"user-manual---food-processor-lljh004",
+  "LLJH005": BASE+"user-manual---3-in-1-food-processor-lljh005",
+  "LLJH007": BASE+"user-manual---electric-blender-lljh007",
+  "LLJH010": BASE+"user-manual---electric-blender-lljh010",
+  "ZZJH006": BASE+"user-manual---portable-blender-zzjh006",
+  "ZZJH008": BASE+"user-manual---portable-blender-zzjh008",
+  "ZZJH009": BASE+"user-manual---electric-juicer-zzjh009",
+  "CFJH001": BASE+"user-manual---hair-dryer-cfjh001",
+  "CFJH004": BASE+"user-manual---hair-dryer-cfjh004",
+  "CFJH006": BASE+"user-manual---hyper-sim-x1-high-speed-hair-dryer-cfjh006",
+  "CFJH007": BASE+"user-manual---hair-dryer-cfjh007",
+  "CFJH008": BASE+"user-manual---hair-dryer-cfjh008",
+  "CFJH010": BASE+"user-manual---hair-dryer-cfjh010",
+  "CFJH011": BASE+"user-manual---hair-dryer-cfjh011",
+  "ZFBA002": BASE+"user-manual---hair-straightener-zfba002",
+  "ZFBA003": BASE+"user-manual---hair-straightener-zfba003",
+  "ZFBA004": BASE+"user-manual---hair-straightener-zfba004",
+  "ZFBA005": BASE+"user-manual---hair-straightener-zfba005",
+  "ZFBA008": BASE+"user-manual---hair-straightener-zfba008",
+  "ZFSH001": BASE+"user-manual---hair-straightener-zfsh001",
+  "JFBA004": BASE+"user-manual---2-in-1-hair-straightener-curler-jfba004",
+  "JFBA005": BASE+"user-manual---auto-hair-curler-jfba005",
+  "JFBA006": BASE+"user-manual---egg-roll-hair-curler-jfba006",
+  "JFBA007": BASE+"user-manual---hair-curler-jfba007",
+  "JFBA008": BASE+"user-manual---hair-curler-jfba008",
+  "JFBA009": BASE+"user-manual---2-in-1-hair-straightener-curler-jfba009",
+  "RFSH001": BASE+"user-manual---hair-dryer-brush-rfsh001",
+  "RFSH002": BASE+"user-manual---hair-dryer-brush-rfsh002"
+};
+
+const faqs = {
+"Vacuum Cleaner":[
+  {q:"Apakah filter HEPA perlu rutin dibersihkan?",a:"Ya, filter HEPA sebaiknya dibersihkan setiap 1–2 bulan dengan cara ditekan-tekan perlahan atau menggunakan udara bertekanan rendah. Ganti filter baru setiap 6–12 bulan untuk menjaga performa hisap optimal."},
+  {q:"Berapa lama baterai cordless vacuum bisa bertahan sekali cas?",a:"Bergantung model dan pengaturan daya. Cordless vacuum Simplus umumnya bertahan 15–40 menit. XCQH012 yang ringan bisa lebih hemat baterai, sedangkan XCQH013 dengan suction 24.000 PA akan lebih boros daya."},
+  {q:"Apakah vacuum cleaner bisa digunakan untuk menyedot cairan atau lantai basah?",a:"Vacuum cleaner standar (XCQH series) TIDAK dirancang untuk cairan. Untuk membersihkan lantai basah sekaligus menyedot, gunakan produk Vacuum Mop seri XDJH yang memiliki tangki kotor dan bersih terpisah."},
+  {q:"Bagaimana cara membersihkan dustbin/tangki debu yang benar?",a:"Kosongkan dustbin setelah setiap penggunaan. Cuci dengan air hangat dan sabun ringan, bilas bersih, lalu keringkan sepenuhnya sebelum dipasang kembali. Jangan pasang dustbin dalam kondisi masih basah."},
+  {q:"Kenapa daya hisap berkurang padahal masih baru dipakai?",a:"Kemungkinan filter sudah kotor atau dustbin penuh. Bersihkan filter dan kosongkan dustbin. Pastikan tidak ada sumbatan di pipa atau kepala sikat. Periksa juga apakah semua sambungan terpasang dengan rapat."}
+],
+"Garment Steamer / Iron":[
+  {q:"Apakah setrika uap bisa digunakan untuk semua jenis kain?",a:"Cocok untuk sebagian besar kain. Untuk kain sutra halus, beludru, atau bahan sintetis tipis, gunakan mode uap terendah dan jaga jarak dengan kain. Hindari kontak langsung pada kain berkilau yang sensitif terhadap panas."},
+  {q:"Air jenis apa yang sebaiknya digunakan di setrika uap?",a:"Gunakan air bersih atau air yang sudah difilter. Hindari air mineral karena kandungan mineral dapat meninggalkan endapan kapur yang lama-kelamaan menyumbat lubang uap dan mengurangi output uap."},
+  {q:"Bagaimana cara descaling (membersihkan kerak) setrika uap?",a:"Isi tangki dengan campuran air bersih dan cuka putih (1:1), nyalakan setrika dan keluarkan uap selama beberapa menit, lalu matikan dan biarkan dingin. Isi ulang dengan air bersih dan ulangi proses bilas 2–3 kali."},
+  {q:"Apa beda Stand Steamer dan Setrika Uap Tangan (handheld)?",a:"Stand Steamer (GTJH009/014/018/023) memiliki tangki jauh lebih besar (1500–2100 ml) dan output uap tinggi, cocok untuk penggunaan intensif sehari-hari di rumah. Handheld lebih ringkas dan praktis dibawa, ideal untuk travel atau pemakaian sesekali."},
+  {q:"Kenapa uap setrika tidak keluar atau berkurang banyak?",a:"Tangki mungkin sudah kosong atau hampir habis. Bisa juga karena ada kerak mineral yang menyumbat lubang uap — lakukan descaling. Pastikan setrika sudah mencapai suhu optimal sebelum menekan tombol uap."}
+],
+"Dehumidifier":[
+  {q:"Di mana posisi terbaik untuk meletakkan dehumidifier?",a:"Letakkan di tengah ruangan atau area yang paling lembab, dengan jarak minimal 30 cm dari dinding dan furnitur di semua sisi agar sirkulasi udara optimal. Hindari meletakkan di sudut tersembunyi atau di belakang furnitur besar."},
+  {q:"Seberapa sering tangki air dehumidifier perlu dikosongkan?",a:"Tergantung tingkat kelembaban ruangan. Di kondisi sangat lembab (>80% RH), tangki kecil seperti CUSH001 (0,6 L) mungkin perlu dikosongkan setiap hari. Model dengan tangki 2–2,5 L bisa bertahan 2–5 hari."},
+  {q:"Berapa tingkat kelembaban ideal untuk ruangan?",a:"Tingkat kelembaban ideal berkisar 40–60% RH. Di bawah 40% udara terlalu kering dan bisa menyebabkan iritasi saluran pernapasan. Di atas 60% rentan terhadap pertumbuhan jamur dan tungau debu."},
+  {q:"Apakah dehumidifier bisa dioperasikan terus-menerus (24 jam)?",a:"Ya, dehumidifier dirancang untuk operasi berkelanjutan. Bersihkan filter setiap 2 minggu. Beberapa model seperti CUSH006 dengan daya 200W lebih optimal untuk penggunaan intensif di ruangan besar."},
+  {q:"Apakah dehumidifier efektif untuk mencegah jamur di dinding?",a:"Ya, menjaga kelembaban di bawah 60% RH secara signifikan menghambat pertumbuhan jamur. Untuk ruangan yang sudah ada jamur, bersihkan jamur terlebih dahulu sebelum menggunakan dehumidifier."}
+],
+"Humidifier":[
+  {q:"Seberapa sering air dalam humidifier harus diganti?",a:"Ganti air setiap hari meski masih tersisa untuk mencegah pertumbuhan bakteri dan jamur. Cuci dan bilas tangki setidaknya seminggu sekali dengan air bersih, atau gunakan campuran air dan cuka putih untuk disinfeksi."},
+  {q:"Air jenis apa yang direkomendasikan untuk humidifier?",a:"Gunakan air yang sudah difilter atau air yang disuling. Air keran dengan kandungan mineral tinggi dapat meninggalkan residu putih (white dust) pada permukaan furniture dan bagian dalam humidifier."},
+  {q:"Humidifier cocok diletakkan di ruangan berapa m²?",a:"Humidifier mini seperti JASH003/005 cocok untuk ruangan kecil hingga 10 m². Model dengan kapasitas 4000–4500 ml seperti JASH002/006 efektif untuk ruangan hingga 25–35 m²."},
+  {q:"Apakah humidifier aman digunakan saat tidur?",a:"Ya, semua humidifier Simplus beroperasi di bawah 36 dBA yang sangat senyap, tidak mengganggu tidur. Pastikan tangki cukup terisi agar tidak kehabisan di tengah malam."},
+  {q:"Berapa lama humidifier bisa beroperasi dalam sekali pengisian penuh?",a:"Bergantung model dan pengaturan. JASH005 (250 ml) bisa bertahan hingga 14 jam, JASH002 (4000 ml) hingga 24 jam, dan JASH006 (4500 ml) bahkan hingga 26 jam di mode paling hemat."}
+],
+"Air Purifier":[
+  {q:"Seberapa sering filter HEPA air purifier perlu diganti?",a:"Filter HEPA sebaiknya diganti setiap 6–12 bulan tergantung intensitas penggunaan dan kualitas udara. Jika tinggal di area berpolusi tinggi atau memiliki hewan peliharaan, ganti lebih sering (setiap 4–6 bulan)."},
+  {q:"Apa itu CADR dan bagaimana cara memilih sesuai ukuran ruangan?",a:"CADR (Clean Air Delivery Rate) mengukur seberapa cepat purifier membersihkan udara (m³/jam). Panduan: KQJH005 (150 m³/jam) untuk 15–20 m², KQJH004 (300 m³/jam) untuk 25–35 m², KQJH006 (500 m³/jam) untuk 50–70 m²."},
+  {q:"Apakah air purifier bisa menghilangkan bau dan asap rokok?",a:"Air purifier dengan filter HEPA efektif menyaring partikel debu dan alergen hingga 0,3 mikron. Untuk bau rokok, asap, atau VOC, filter karbon aktif lebih efektif. Pastikan pilih model dengan sistem filter berlapis."},
+  {q:"Apakah aman mengoperasikan air purifier 24 jam penuh?",a:"Ya, air purifier dirancang untuk operasi berkelanjutan. Gunakan mode otomatis agar kecepatan fan menyesuaikan kualitas udara secara real-time, menghemat listrik dan memperpanjang usia filter."},
+  {q:"Bagaimana cara membersihkan filter air purifier?",a:"Jangan mencuci filter HEPA dengan air karena dapat merusak serat filter. Bersihkan permukaan filter dengan vacuum cleaner mode suction rendah atau ketuk perlahan untuk mengeluarkan debu. Ganti filter sesuai jadwal yang direkomendasikan."}
+],
+"Dust Mite Vacuum":[
+  {q:"Seberapa sering kasur perlu dibersihkan dengan dust mite vacuum?",a:"Direkomendasikan minimal seminggu sekali untuk pemeliharaan rutin. Bagi yang memiliki alergi, asma, atau anak kecil, sebaiknya 2–3 kali per minggu, terutama pada musim penghujan saat kelembaban tinggi yang mendukung pertumbuhan tungau."},
+  {q:"Apakah sinar UV benar-benar efektif membunuh tungau?",a:"Ya, sinar UV-C efektif merusak DNA tungau dan kuman. Untuk hasil optimal, gerakkan vacuum perlahan (sekitar 1 cm/detik) agar sinar UV memiliki waktu kontak yang cukup dengan permukaan yang dibersihkan."},
+  {q:"Selain kasur, permukaan apa saja yang bisa dibersihkan?",a:"Bantal, guling, sofa berbahan kain, karpet, boneka stuffed animal, gorden, alas meja, dan permukaan kain lainnya. Hindari penggunaan pada permukaan yang basah atau elektronik."},
+  {q:"Bagaimana cara merawat dan membersihkan filter dust mite vacuum?",a:"Ketuk filter perlahan setelah setiap penggunaan untuk melepas debu. Cuci filter dengan air mengalir (jika washable) setiap 1–2 minggu dan keringkan sepenuhnya minimal 24 jam sebelum dipasang kembali."},
+  {q:"Apakah getaran tinggi bisa merusak kasur atau kain?",a:"Tidak. Getaran dirancang khusus untuk meluruhkan tungau dari serat kain tanpa merusak material. Namun hindari penggunaan terlalu lama di satu titik yang sama untuk mencegah keausan pada kain tipis."}
+],
+"Vacuum Mop":[
+  {q:"Apakah tangki kotor dan bersih wajib dibersihkan setelah setiap pemakaian?",a:"Ya, sangat dianjurkan. Kosongkan tangki kotor dan bilas dengan air bersih setelah setiap penggunaan. Air kotor yang dibiarkan dapat menimbulkan bau tidak sedap dan menjadi tempat berkembangnya bakteri."},
+  {q:"Cairan pembersih apa yang boleh digunakan di vacuum mop?",a:"Gunakan air bersih saja atau cairan pembersih lantai ber-pH netral yang sudah diencerkan. Hindari cairan mengandung bleach, alkohol tinggi, atau asam kuat karena dapat merusak komponen dan selang internal."},
+  {q:"Bagaimana cara membersihkan sikat rol (roller brush)?",a:"Lepaskan sikat rol dari unit utama, buang rambut dan benang yang tersangkut menggunakan gunting kecil, lalu cuci dengan air hangat. Keringkan sikat sepenuhnya sebelum dipasang kembali untuk mencegah bau jamur."},
+  {q:"Berapa lama waktu pengisian daya dan berapa lama bisa dipakai?",a:"XDJH001/002: cas 3–4 jam, pakai 15–40 menit. XDJH003: cas 2–3 jam, pakai 21–32 menit. XDJH004: cas 3,5–4,5 jam, pakai 24–41 menit. XDJH005: cas 4,5 jam, pakai 30–50 menit."},
+  {q:"Apakah vacuum mop bisa digunakan di lantai kayu atau parket?",a:"Ya, bisa digunakan di lantai kayu, parket, keramik, dan marmer. Untuk lantai kayu, gunakan mode dengan sedikit air agar tidak meresap ke celah kayu. Pastikan setting air pada level terendah."}
+],
+"Carpet & Upholstery":[
+  {q:"Apakah wajib menggunakan cairan pembersih khusus, atau air biasa cukup?",a:"Air bersih saja bisa digunakan untuk noda ringan. Untuk noda membandel, gunakan cairan pembersih yang sesuai jenis material (karpet atau sofa kain). Hindari terlalu banyak cairan — kain yang terlalu basah bisa berjamur."},
+  {q:"Berapa lama karpet atau sofa kering setelah dibersihkan?",a:"Umumnya 1–3 jam tergantung ketebalan material, jumlah cairan yang digunakan, dan sirkulasi udara ruangan. Gunakan kipas atau AC untuk mempercepat pengeringan. Jangan duduki sofa sebelum benar-benar kering."},
+  {q:"Apakah bisa digunakan untuk sofa kulit asli atau kulit sintetis?",a:"TIDAK direkomendasikan untuk sofa kulit asli karena air dapat merusak material. Untuk kulit sintetis (PU/PVC), gunakan dengan sangat sedikit cairan. Alat ini paling optimal untuk sofa berbahan kain, beludru, dan tekstil."},
+  {q:"Bagaimana cara membersihkan tangki kotor setelah digunakan?",a:"Kosongkan tangki segera setelah penggunaan, bilas dengan air hangat beberapa kali hingga bersih, dan biarkan mengering dengan tutup terbuka. Jangan menyimpan alat dengan tangki masih berisi air kotor."},
+  {q:"Apakah bisa untuk membersihkan noda tua yang sudah mengering?",a:"Untuk noda lama, basahi area noda terlebih dahulu dan biarkan 1–2 menit agar cairan meresap sebelum menggunakan alat. Model BYJH003 dengan 4 mode pengaturan dan suction 18.000 PA paling efektif untuk noda membandel."}
+],
+"Electric Fan":[
+  {q:"Apakah kipas USB bisa digunakan dengan powerbank?",a:"Ya! Semua kipas USB Simplus bisa digunakan dengan powerbank, laptop, charger USB, atau adaptor USB standar. Pastikan output USB powerbank minimal 5V/1A untuk performa optimal."},
+  {q:"Bagaimana cara membersihkan baling-baling kipas dengan aman?",a:"Matikan dan cabut dari sumber daya. Lepaskan cover/kisi-kisi jika bisa dilepas, lalu lap baling-baling dengan kain lembap. Untuk kipas USB mini, gunakan sikat kecil atau cotton bud untuk membersihkan celah antar baling-baling."},
+  {q:"Apakah kipas aman digunakan sepanjang malam saat tidur?",a:"Ya, kipas dengan kebisingan rendah sangat nyaman digunakan saat tidur. DFSH012 (38,5 dBA) dan DFSH014 (39,8 dBA) sangat senyap. Pastikan kipas tidak diarahkan langsung ke tubuh terus-menerus dalam jangka waktu lama."},
+  {q:"Apa perbedaan antara kipas 2-3 pengaturan vs 100 tingkat seperti DFSH013?",a:"Kipas dengan 2–3 pengaturan lebih simpel dan mudah digunakan untuk kebutuhan sehari-hari. Model dengan 100 tingkat kecepatan seperti DFSH013 memungkinkan penyesuaian angin yang sangat presisi sesuai preferensi."},
+  {q:"Berapa konsumsi listrik kipas USB Simplus?",a:"Sangat hemat. DFSH015 hanya 2,22W, DFSH007 hanya 2,5W. Bahkan jika digunakan 8 jam sehari selama sebulan penuh, konsumsi listriknya kurang dari 1 kWh — biaya sangat minimal."}
+],
+"Air Cooler":[
+  {q:"Apakah air cooler seefektif AC dalam mendinginkan ruangan?",a:"Air cooler bekerja dengan menguapkan air untuk menurunkan suhu udara, paling efektif di ruangan kering dan panas dengan ventilasi baik. Di ruangan lembab (seperti musim hujan), efektivitasnya berkurang karena udara sudah jenuh uap air."},
+  {q:"Seberapa sering tangki air perlu diisi ulang?",a:"Bergantung kapasitas dan pengaturan. Tangki 10 L (LFSH002/004) bertahan sekitar 4–8 jam. Tangki 40 L (LFSH003/005) bisa bertahan seharian atau lebih. Pantau level air dan isi ulang sebelum tangki kosong."},
+  {q:"Apakah bisa menggunakan es batu untuk pendinginan lebih maksimal?",a:"Ya! Memasukkan es batu ke tangki air akan menurunkan suhu udara yang dikeluarkan secara signifikan. Ini sangat efektif saat cuaca sangat panas. Gunakan es batu secukupnya dan pastikan tidak memblokir sistem sirkulasi."},
+  {q:"Bagaimana cara merawat filter/bantalan pendingin (cooling pad)?",a:"Lepaskan bantalan pendingin setiap 2–4 minggu, bersihkan dengan air mengalir untuk menghilangkan kotoran dan mineral, lalu keringkan sebelum dipasang kembali. Ganti bantalan pendingin jika sudah rusak atau berbau."},
+  {q:"Berapa jarak ideal antara air cooler dan pengguna?",a:"Efektivitas optimal pada jarak 1–3 meter. Terlalu dekat bisa terasa terlalu dingin dan lembab, terlalu jauh efek pendinginan kurang terasa. Arahkan ke area tengah ruangan untuk distribusi udara merata."}
+],
+"Air Fryer (Digital)":[
+  {q:"Apakah air fryer butuh minyak saat memasak?",a:"Air fryer menggunakan sirkulasi udara panas, sehingga butuh sedikit atau bahkan tanpa minyak sama sekali. Untuk hasil paling renyah, cukup semprotkan atau oleskan sedikit minyak (sekitar 1 sendok teh) di permukaan makanan."},
+  {q:"Makanan apa saja yang bisa dimasak dengan air fryer?",a:"Hampir segalanya: kentang goreng, ayam, ikan, udang, sayuran, spring roll, nugget, hingga kue, roti, dan pizza mini. Air fryer juga bisa untuk menghangatkan makanan dengan cepat tanpa membuatnya lembek."},
+  {q:"Bagaimana cara membersihkan keranjang dan basket air fryer?",a:"Biarkan dingin terlebih dahulu, lalu cuci keranjang dan rak dengan air sabun hangat menggunakan spons lembut. Jangan gunakan scrubber besi yang merusak lapisan anti lengket. Sebagian model dishwasher-safe, cek manual produk."},
+  {q:"Apakah perlu memanaskan (preheat) air fryer sebelum memasak?",a:"Disarankan preheat 2–3 menit sebelum memasukkan makanan, terutama untuk makanan yang butuh hasil crispy. Model digital seperti KQZG015/017/018 memudahkan kontrol suhu presisi untuk preheat yang akurat."},
+  {q:"Berapa suhu dan waktu ideal untuk beberapa makanan umum?",a:"Ayam goreng: 180°C, 20–25 menit. Kentang goreng: 180°C, 15–20 menit. Ikan: 180°C, 12–15 menit. Sayuran: 160°C, 8–12 menit. Nugget/frozen food: 180°C, 8–12 menit. Balik makanan di tengah waktu masak untuk hasil merata."}
+],
+"Air Fryer (Knob)":[
+  {q:"Apa keunggulan air fryer kontrol knob dibanding yang digital?",a:"Air fryer knob lebih simpel dan intuitif — tinggal putar untuk set suhu dan waktu. Tidak ada layar yang bisa rusak, lebih tahan lama, dan biasanya lebih terjangkau. Cocok untuk pengguna yang menginginkan kemudahan tanpa banyak fitur."},
+  {q:"Apakah air fryer knob bisa mengatur suhu dengan presisi?",a:"Kontrol knob mengatur suhu secara bertahap (tidak digit per digit seperti digital). Untuk resep yang butuh suhu sangat spesifik, model digital lebih akurat. Untuk memasak sehari-hari, knob sudah lebih dari cukup."},
+  {q:"Apakah makanan aman tanpa jendela transparan?",a:"Aman, namun Anda perlu membuka basket untuk mengecek kematangan. Model dengan jendela transparan (KQZG014) memungkinkan pantau masakan tanpa membuka tutup, menghemat panas dan mempercepat masak."},
+  {q:"Berapa kapasitas ideal untuk keluarga berapa orang?",a:"KQZG021 (2,5 L): ideal untuk 1–2 orang. KQZG007/013/014 (4–5 L): cocok untuk 2–4 orang. Untuk keluarga lebih besar, pertimbangkan air fryer digital KQZG018 (6,5 L) atau KQZG020 dual basket (6L+4L)."},
+  {q:"Bagaimana cara menghindari asap saat menggunakan air fryer?",a:"Tambahkan sedikit air (2–3 sendok makan) di bawah keranjang untuk mencegah lemak menetes ke elemen pemanas dan menghasilkan asap. Bersihkan residu lemak di dasar basket setelah setiap penggunaan."}
+],
+"Electric Cooker":[
+  {q:"Selain nasi, apa saja yang bisa dimasak dengan electric cooker?",a:"Bubur, oatmeal, sup ringan, sayur rebus, jagung, ubi, dan berbagai makanan yang membutuhkan perebusan atau pengukusan. DZGH010 dengan kapasitas 3L bahkan bisa digunakan untuk membuat hot pot keluarga sederhana."},
+  {q:"Apakah lapisan glasir keramik aman untuk kesehatan?",a:"Ya, lapisan glasir keramik bebas PTFE dan PFOA (bahan kimia berbahaya yang ada di lapisan teflon lama). Lapisan ini anti lengket secara alami, tahan panas tinggi, dan aman untuk memasak makanan sehari-hari."},
+  {q:"Bagaimana cara membersihkan panci electric cooker dengan benar?",a:"Biarkan panci dingin, cuci dengan spons lembut dan sabun ringan. Hindari scrubber kasar atau bahan abrasif yang merusak lapisan keramik. Jangan rendam bagian elektronik unit utama dalam air."},
+  {q:"Apakah aman meninggalkan electric cooker tanpa pengawasan saat memasak?",a:"Ya, electric cooker dilengkapi sistem pemutus otomatis (auto shutoff) saat masakan matang atau air habis. Namun tetap pastikan ditempatkan di permukaan yang stabil dan jauh dari bahan yang mudah terbakar."},
+  {q:"Berapa waktu memasak nasi menggunakan electric cooker Simplus?",a:"DZGH003 (630W, 1,5L): sekitar 20–25 menit untuk 2–3 porsi. DZGH010 (1000W, 3L): sekitar 25–30 menit untuk 4–5 porsi. Waktu bisa bervariasi tergantung jumlah nasi dan jenis beras."}
+],
+"Electric Steamer":[
+  {q:"Berapa lama waktu mengukus untuk berbagai jenis makanan?",a:"Sayuran: 5–10 menit. Ikan/seafood: 10–15 menit. Telur: 12–15 menit. Ayam potong kecil: 20–30 menit. Dimsum/bakpao: 15–20 menit. Waktu bisa bervariasi tergantung ketebalan dan jumlah makanan."},
+  {q:"Apakah bisa memasak makanan berbeda di tier berbeda secara bersamaan?",a:"Ya! Itu keunggulan utama electric steamer multi-tier. Letakkan makanan yang butuh waktu lebih lama di tier bawah (lebih dekat uap panas), dan makanan yang cepat matang di tier atas. Masak efisien dalam satu waktu."},
+  {q:"Bagaimana cara menggunakan fitur penjadwalan (timer)?",a:"Semua model DZEG dilengkapi fitur jadwal. Set waktu yang diinginkan, masukkan makanan, dan steamer akan mulai otomatis pada waktu yang ditentukan. Ideal untuk menyiapkan sarapan atau makan malam tanpa harus menunggu."},
+  {q:"Bagaimana cara membersihkan kerak mineral di tangki air?",a:"Isi tangki dengan campuran air dan cuka putih (1:1), nyalakan steamer selama beberapa menit, lalu matikan dan biarkan dingin. Buang larutan cuka, bilas tangki dengan air bersih 2–3 kali hingga bau cuka hilang."},
+  {q:"Apakah air perlu ditambahkan di tengah proses mengukus yang lama?",a:"Untuk pengukusan lebih dari 30–40 menit, periksa level air secara berkala. Tambahkan air panas (bukan air dingin) jika level sudah rendah, agar suhu tidak turun drastis dan proses mengukus tidak terhenti."}
+],
+"Drip Coffee Machine":[
+  {q:"Kopi jenis dan gilingan apa yang paling cocok untuk drip coffee maker?",a:"Gunakan biji kopi arabika atau robusta yang digiling medium-coarse (sedang-kasar). Gilingan terlalu halus menyumbat filter dan membuat kopi pahit berlebih, sedangkan gilingan terlalu kasar menghasilkan kopi yang terlalu encer."},
+  {q:"Bagaimana cara membersihkan mesin drip coffee maker?",a:"Setelah setiap pemakaian, bersihkan carafe, filter holder, dan basket filter dengan air sabun hangat. Lap bagian luar dengan kain lembab. Jalankan siklus air panas penuh tanpa kopi setiap minggu untuk membersihkan saluran dalam."},
+  {q:"Seberapa sering perlu melakukan descaling mesin kopi?",a:"Lakukan descaling setiap 1–3 bulan tergantung kekerasan air di daerah Anda. Gunakan larutan descaling khusus mesin kopi atau campuran air dan cuka putih (1:2). Jalankan 2–3 siklus bilas air bersih setelahnya."},
+  {q:"Berapa rasio kopi dan air yang ideal untuk rasa terbaik?",a:"Standar umum: 1 sendok makan (sekitar 7–10 gram) kopi per 100–150 ml air. Sesuaikan dengan selera — lebih banyak kopi untuk rasa lebih kuat, kurangi untuk rasa lebih ringan. Eksperimen untuk menemukan rasio ideal Anda."},
+  {q:"Apakah bisa menggunakan filter kertas alternatif selain bawaan?",a:"Bisa, asalkan ukurannya sesuai dengan basket filter mesin. Filter kertas standar ukuran #4 atau #2 umumnya kompatibel dengan sebagian besar model drip coffee maker Simplus. Cek manual produk untuk konfirmasi."}
+],
+"Semi-auto Espresso":[
+  {q:"Kopi apa yang cocok untuk mesin espresso semi-auto?",a:"Gunakan biji kopi yang digiling halus (fine grind) khusus espresso, idealnya digiling segar sebelum brewing. Biji arabika medium-dark roast memberikan keseimbangan rasa, aroma, dan keasaman yang ideal untuk espresso."},
+  {q:"Berapa gram kopi yang dibutuhkan per shot espresso?",a:"Standar single shot: 7–9 gram kopi. Double shot: 14–18 gram. Gunakan tamper untuk menekan kopi dengan tekanan merata (sekitar 15–20 kg) sebelum memasang portafilter ke mesin."},
+  {q:"Bagaimana cara menggunakan batang uap untuk foam susu latte/cappuccino?",a:"Masukkan susu dingin di pitcher kecil (isi ⅓ pitcher). Posisikan ujung batang uap 1–2 cm di bawah permukaan susu dengan sudut sedikit miring. Nyalakan uap dan putar pitcher perlahan-lahan hingga susu mengembang dan mencapai 60–65°C."},
+  {q:"Seberapa sering mesin espresso perlu dibersihkan?",a:"Setelah setiap penggunaan: bersihkan portafilter dan basket. Mingguan: backflush dengan air bersih. Bulanan: descaling tangki air. Jaga kebersihan batang uap segera setelah digunakan — lap dengan kain lembab dan keluarkan sedikit uap."},
+  {q:"Kenapa espresso yang dihasilkan terasa terlalu pahit atau terlalu asam?",a:"Terlalu pahit: air terlalu panas, kopi terlalu banyak, atau ekstraksi terlalu lama. Terlalu asam: kopi kurang, gilingan terlalu kasar, atau ekstraksi terlalu cepat. Mulai dengan ratio standar dan sesuaikan sedikit demi sedikit."}
+],
+"Capsule Coffee":[
+  {q:"Kapsul merek apa yang kompatibel dengan mesin kapsul Simplus?",a:"Mesin kapsul Simplus kompatibel dengan kapsul standar Nespresso Original Line. Periksa manual produk untuk konfirmasi kompatibilitas, karena beberapa mesin mungkin memiliki spesifikasi tertentu."},
+  {q:"Bagaimana cara membersihkan mesin kapsul secara rutin?",a:"Setelah setiap penggunaan: kosongkan wadah kapsul bekas dan drip tray. Mingguan: jalankan siklus air panas tanpa kapsul untuk membersihkan saluran. Bulanan: descaling tangki air menggunakan larutan descaling yang direkomendasikan."},
+  {q:"Apakah kapsul bekas bisa didaur ulang?",a:"Banyak produsen kapsul kopi menyediakan program daur ulang resmi. Kumpulkan kapsul bekas dan kembalikan ke titik pengumpulan yang ditunjuk. Beberapa kapsul kini juga tersedia dalam versi biodegradable atau compostable."},
+  {q:"Berapa lama mesin kapsul siap digunakan setelah dinyalakan?",a:"KFJH008 siap dalam 35 detik, KFJH019 dalam 30 detik. Ini jauh lebih cepat dibanding mesin espresso manual. Sangat ideal untuk pagi hari yang sibuk ketika butuh kopi cepat."},
+  {q:"Apakah bisa membuat kopi dalam jumlah besar sekaligus dengan mesin kapsul?",a:"Mesin kapsul menghasilkan satu shot per kapsul. Untuk membuat lebih dari 1 gelas, gunakan beberapa kapsul secara berurutan. KFJH008 dengan tangki 0,9 L bisa membuat lebih banyak porsi sebelum perlu isi ulang dibanding KFJH019 (0,6 L)."}
+],
+"Electric Chopper":[
+  {q:"Bahan apa saja yang bisa dan tidak bisa dicacah dengan electric chopper?",a:"Bisa: daging lunak, bawang, cabai, sayuran, kacang-kacangan, bumbu dapur, keju lunak. Tidak bisa: tulang keras, bahan beku sangat keras, biji-bijian sangat keras. Potong bahan menjadi potongan kecil sebelum dimasukkan."},
+  {q:"Berapa lama maksimal penggunaan berturut-turut tanpa jeda?",a:"Maksimal 1–2 menit operasi berturut-turut, lalu beri jeda 1–2 menit agar motor tidak overheat. Untuk porsi besar, proses secara bertahap. Jika motor terasa panas, hentikan dan biarkan dingin 5–10 menit."},
+  {q:"Bagaimana cara membersihkan pisau dengan aman?",a:"Lepaskan pisau dengan hati-hati menggunakan kain tebal atau sarung tangan. Cuci pisau dengan sabun dan air — JANGAN dicuci bersama mangkuk dalam dishwasher karena dapat menumpulkan pisau. Keringkan segera untuk mencegah karat."},
+  {q:"Apa perbedaan pisau SUS 304 dan SUS 420?",a:"SUS 304 adalah stainless steel food-grade premium dengan ketahanan korosi sangat tinggi, aman untuk semua jenis bahan makanan. SUS 420 lebih keras dan lebih tajam untuk mencacah bahan padat, namun sedikit kurang tahan korosi dibanding SUS 304."},
+  {q:"Apakah chopper mini DDJR005 bisa untuk membuat bumbu halus seperti blender?",a:"DDJR005 dengan 8 mata pisau SUS 304 dan kapasitas 300 ml bisa menghasilkan cacahan yang cukup halus untuk bumbu. Namun untuk hasil yang benar-benar halus seperti pasta, blender atau food processor lebih sesuai."}
+],
+"Blender / Juicer":[
+  {q:"Apakah semua model blender Simplus bisa menghancurkan es batu?",a:"Tidak semua. LLJH007 (Ice Crusher, 400W, 6 mata pisau SUS304) dirancang khusus untuk es batu. Model lain bisa hancurkan es lunak dalam jumlah sedikit, namun untuk es batu keras dalam jumlah banyak, gunakan LLJH007 agar motor tidak terbebani."},
+  {q:"Bagaimana cara membersihkan blender dengan mudah dan cepat?",a:"Isi setengah blender dengan air hangat, tambahkan setetes sabun cuci piring, lalu blender selama 30–60 detik. Buang air sabun, bilas dengan air bersih, dan blender 30 detik lagi. Metode self-cleaning ini menghemat waktu secara signifikan."},
+  {q:"Apakah portable juicer (ZZJH006/008) perlu diisi daya sebelum digunakan?",a:"Ya, portable juicer menggunakan baterai built-in yang bisa diisi via USB. Isi daya penuh (biasanya 1–2 jam) sebelum penggunaan pertama. Kapasitas baterai memungkinkan 15–20 kali blending per pengisian penuh."},
+  {q:"Apa perbedaan slow juicer dengan juicer/blender biasa?",a:"Slow juicer (ZZJH009) bekerja dengan kecepatan rendah (80–100 RPM) memeras buah dan sayuran tanpa panas berlebih, sehingga nutrisi dan enzim lebih terjaga. Hasil jus lebih jernih dan bebas ampas. Blender biasa lebih cepat namun menghasilkan jus berbusa dengan serat."},
+  {q:"Berapa lama pisau blender bisa bertahan dan kapan harus diganti?",a:"Pisau stainless steel berkualitas bisa bertahan 2–5 tahun dengan perawatan baik. Tanda pisau perlu diganti: hasil blend tidak halus, terdengar suara gesekan, atau pisau sudah tampak tumpul dan berkarat. Hindari memblend es batu terlalu sering untuk memperpanjang usia pisau."}
+],
+"Hair Dryer":[
+  {q:"Apa perbedaan utama motor brushless vs motor bersikat pada hair dryer?",a:"Motor brushless (CFJH006/009/010/011) lebih awet (bisa bertahan 10x lipat lebih lama), menghasilkan angin jauh lebih kencang (60–70 m/s vs 12–20 m/s), lebih senyap, dan lebih ringan. Harganya lebih tinggi namun investasi jangka panjang yang lebih baik."},
+  {q:"Apakah ion negatif benar-benar bermanfaat untuk rambut?",a:"Ya, ion negatif menetralkan ion positif (penyebab frizz) pada rambut. Hasilnya rambut lebih halus, berkilau, dan lebih mudah diatur. Semakin banyak ion negatif (CFJH006 400 juta, CFJH009 400 juta), semakin signifikan manfaatnya."},
+  {q:"Berapa jarak aman antara hair dryer dan rambut saat pengeringan?",a:"Jaga jarak minimal 15–20 cm antara nozzle dan rambut untuk mencegah kerusakan akibat panas berlebih. Selalu gerakkan hair dryer — jangan tahan di satu titik terlalu lama. Gunakan mode cool untuk 'mengunci' gaya rambut di akhir."},
+  {q:"Bagaimana cara merawat hair dryer agar tahan lama?",a:"Bersihkan filter udara di bagian belakang secara rutin (tiap 1–2 minggu) menggunakan sikat kecil untuk mencegah penumpukan debu yang membuat motor overheat. Jangan simpan dengan kabel dilipat terlalu erat. Lepas dari stopkontak setelah digunakan."},
+  {q:"Kapan sebaiknya menggunakan mode cool (udara dingin)?",a:"Gunakan mode cool di 30–60 detik terakhir pengeringan untuk 'menyegel' kutikula rambut. Ini membuat rambut lebih berkilau dan gaya lebih tahan lama. Juga berguna untuk mendinginkan rambut sebelum mengaplikasikan serum atau produk styling."}
+],
+"Hair Straightener":[
+  {q:"Apakah catokan bisa digunakan pada rambut basah?",a:"TIDAK disarankan. Rambut yang masih basah mengandung air yang mendidih saat terkena panas tinggi, merusak struktur protein rambut dan menyebabkan rambut patah. Pastikan rambut kering atau sangat sedikit lembab sebelum catokan."},
+  {q:"Suhu berapa yang tepat untuk berbagai jenis rambut?",a:"Rambut halus/rusak/diwarnai: 110–150°C. Rambut normal: 150–180°C. Rambut tebal/keriting alami: 180–220°C. Rambut sangat tebal/kasar: hingga 230°C. Mulai dari suhu rendah dan naikkan jika dibutuhkan untuk meminimalkan kerusakan."},
+  {q:"Apakah wajib menggunakan heat protectant sebelum catokan?",a:"Sangat direkomendasikan. Produk pelindung panas (heat protectant spray atau serum) membentuk lapisan pelindung di rambut yang mengurangi kerusakan akibat panas signifikan. Aplikasikan merata ke seluruh rambut dan biarkan setengah kering sebelum catokan."},
+  {q:"Berapa lama catokan nirkabel (ZFBA006/008) bisa digunakan sekali cas?",a:"Catokan nirkabel Simplus menggunakan baterai yang dapat diisi. Umumnya bertahan untuk 1–2 sesi styling (15–30 menit penggunaan aktif). Sangat praktis untuk touch-up cepat sebelum keluar atau saat traveling tanpa colokan."},
+  {q:"Bagaimana cara merawat catokan rambut dengan benar?",a:"Matikan dan cabut setelah digunakan, biarkan dingin sempurna sebelum disimpan. Bersihkan plat dengan kain lembab (kondisi hangat, bukan panas). Jangan gulung kabel terlalu erat di sekitar body. Simpan di tempat kering dan hindari menjatuhkan."}
+],
+"Hair Curler":[
+  {q:"Bagaimana cara menggunakan hair curler untuk hasil terbaik?",a:"Bagi rambut menjadi beberapa bagian kecil (2–4 cm lebar). Lilitkan rambut dari pangkal menuju ujung barrel. Tahan 5–15 detik sesuai jenis rambut. Lepaskan perlahan dan biarkan curl dingin sebelum disisir untuk hasil yang lebih tahan lama."},
+  {q:"Diameter barrel mana yang cocok untuk gaya rambut seperti apa?",a:"JFBA008 (22 mm): keriting kencang dan tahan lama. JFBA009 (28 mm): keriting medium natural. JFBA004/005/007/010 (30–32 mm): gelombang lembut dan loose waves. Semakin besar diameter barrel, semakin natural dan longgar hasil keritingnya."},
+  {q:"Suhu berapa yang aman untuk rambut yang sudah di-bleach atau diwarnai?",a:"Gunakan suhu minimum (140–160°C) untuk rambut yang sudah diproses kimia karena sudah lebih rentan terhadap kerusakan. Selalu gunakan heat protectant dan jangan tahan barrel terlalu lama di satu bagian rambut."},
+  {q:"Bagaimana cara menggunakan JFBA010 (auto curler) untuk pemula?",a:"Sisir rambut rata dan kering. Buka klep auto curler, masukkan bagian rambut (jangan terlalu tebal), tutup klep, dan biarkan mesin menggulung rambut otomatis. Dengarkan bunyi 'beep' tanda siap dilepas. Sangat mudah bahkan untuk yang tidak biasa styling!"},
+  {q:"Bagaimana cara membuat keriting bertahan lebih lama?",a:"Mulai dengan rambut bersih yang sedikit lembab (bukan basah). Gunakan mousse atau spray sebelum curling. Setelah curling, biarkan curl dingin sepenuhnya sebelum dilepas atau disisir. Semprot hairspray ringan untuk 'mengunci' bentuk."}
+],
+"Hair Dryer Brush":[
+  {q:"Apakah hair dryer brush bisa sepenuhnya menggantikan hair dryer biasa?",a:"Bisa untuk pengeringan sekaligus styling dalam satu langkah. Namun untuk pengeringan cepat dari rambut sangat basah, hair dryer biasa lebih efisien karena airflow lebih kuat. Hair dryer brush paling optimal saat rambut sudah 70–80% kering."},
+  {q:"Bagaimana cara menggunakan hair dryer brush untuk hasil volume maksimal?",a:"Gunakan pada rambut yang sudah 70–80% kering. Sisir ke arah bawah akar rambut, lalu putar brush ke dalam (untuk volume) sambil menggerakkan ke ujung rambut. Angkat sedikit di area akar untuk volume ekstra. Akhiri dengan mode cool."},
+  {q:"Bagaimana cara membersihkan bulu sikat hair dryer brush?",a:"Setelah setiap penggunaan, gunakan sisir bergigi jarang untuk mengangkat rambut yang tersangkut di bulu sikat. Secara berkala, lepaskan kepala sikat (jika bisa dilepas seperti RFSH001/003) dan cuci dengan air sabun hangat. Keringkan sempurna sebelum digunakan kembali."},
+  {q:"Apa keuntungan RFSH003 yang memiliki 130 juta ion negatif dibanding model lain?",a:"Ion negatif dalam jumlah tinggi efektif menetralkan listrik statis dan ion positif penyebab frizz. Rambut menjadi lebih halus, mengkilap, dan lebih mudah diatur. Sangat bermanfaat untuk rambut yang mudah frizzy atau setelah proses kimia."},
+  {q:"Apakah kepala sikat yang bisa dilepas (RFSH001/003) penting?",a:"Sangat berguna untuk fleksibilitas styling dan kemudahan pembersihan. RFSH003 bahkan hadir dengan beberapa pilihan kepala yang bisa diganti untuk berbagai gaya berbeda — dari volume brush, paddle brush, hingga kepala untuk rambut pendek."}
+]
+};
+
+const rawProducts = [
+{sku:"XCQH002",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Ringan, harga terjangkau",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.35 L",daya:"400 W",suction:"13000 PA",kebisingan:"82 dBA",kabel:"4 m",ukuran:"9×22×109 cm",berat:"1.1 kg"},
+{sku:"XCQH008",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Model dasar",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.5 L",daya:"500 W",suction:"16000 PA",kebisingan:"< 75 dBA",kabel:"4 m",ukuran:"26×28.8×118 cm",berat:"1.57 kg"},
+{sku:"XCQH011",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Model hemat energi",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.5 L",daya:"500 W",suction:"18000 PA",kebisingan:"82 dBA",kabel:"4 m",ukuran:"26×28.8×104 cm",berat:"1.39 kg"},
+{sku:"XCQH014",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Gagang Ergonomis",metode:"Berkabel",filter:"HEPA F6",dustbin:"1 L",daya:"600 W",suction:"18000 PA",kebisingan:"77 dBA",kabel:"4.5 m",ukuran:"25.5×15×114 cm",berat:"1.6 kg"},
+{sku:"XCQH015",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Tangki Debu Upgraded",metode:"Berkabel",filter:"HEPA F8",dustbin:"1.2 L",daya:"1200 W",suction:"22000 PA",kebisingan:"77.1 dBA",kabel:"4.5 m",ukuran:"55×25.3×110 cm",berat:"3.3 kg"},
+{sku:"XCQH009",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Peningkatan penghilangan debu",metode:"Tidak berkabel",filter:"HEPA F9 + Saringan logam",dustbin:"0.6 L",daya:"150 W",suction:"12000 PA",kebisingan:"78 dBA",kabel:"×",ukuran:"24×14.5×116 cm",berat:"1.6 kg"},
+{sku:"XCQH010",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Desain layar sentuh, Pembaruan cerdas",metode:"Tidak berkabel",filter:"HEPA F9 + Saringan logam",dustbin:"0.7 L",daya:"150 W",suction:"16000 PA",kebisingan:"≤75 dBA",kabel:"×",ukuran:"22×34×109 cm",berat:"2.8 kg"},
+{sku:"XCQH012",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Ringan, harga terjangkau",metode:"Tidak berkabel",filter:"HEPA F8",dustbin:"0.35 L",daya:"60 W",suction:"8000 PA",kebisingan:"≤65 dBA",kabel:"×",ukuran:"9×24×109 cm",berat:"0.85 kg"},
+{sku:"XCQH013",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Daya Hisap Upgraded, Filtrasi Tingkat Tinggi",metode:"Tidak berkabel",filter:"HEPA H12 + Saringan logam",dustbin:"0.5 L",daya:"250 W",suction:"24000 PA",kebisingan:"82 dBA",kabel:"×",ukuran:"25×20×117 cm",berat:"2.05 kg"},
+{sku:"XCQH017",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Hemat biaya, Penampung debu besar",metode:"Tidak berkabel",filter:"HEPA F9 + Saringan logam",dustbin:"0.7 L",daya:"150 W",suction:"16000 PA",kebisingan:"72.2 dBA",kabel:"×",ukuran:"24.3×22.7×113 cm",berat:"2.25 kg"},
+{sku:"GTJH008",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Model pemula",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"120 ml",waktu_pemanasan:"5 s",jumlah_uap:"15-20 g/min",ukuran:"19.2×9.6×10 cm",berat:"0.76 kg"},
+{sku:"GTJH010",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Tangki Air Diperbesar",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"250 ml",waktu_pemanasan:"5 s",jumlah_uap:"23 g/min",ukuran:"10×12.7×22 cm",berat:"0.75 kg"},
+{sku:"GTJH011",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Fenting, Dibawa Saat Travel",tipe:"Setrika Uap Tangan",daya:"800/1200 W",kapasitas:"170 ml",waktu_pemanasan:"5 s",jumlah_uap:"20 g/min",ukuran:"17.2×7.6×19.1 cm",berat:"0.72 kg"},
+{sku:"GTJH016",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Hemat energi, ringan",tipe:"Setrika Uap Tangan",daya:"800 W",kapasitas:"210 ml",waktu_pemanasan:"10 s",jumlah_uap:"18 g/min",ukuran:"20.4×7.3×7.6 cm",berat:"0.65 kg"},
+{sku:"GTJH017",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Upgrade Lubang Uap, Volume Uap Lebih Besar",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"170 ml",waktu_pemanasan:"5 s",jumlah_uap:"20.26-22 g/min",ukuran:"20.7×9.7×10.3 cm",berat:"0.77 kg"},
+{sku:"GTJH019",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Tangki Air Diperbesar",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"280 ml",waktu_pemanasan:"30 s",jumlah_uap:"23 g/min",ukuran:"23.2×10×11.5 cm",berat:"0.74 kg"},
+{sku:"GTJH020",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Fenting, Travel",tipe:"Setrika Uap Tangan",daya:"800 W",kapasitas:"180 ml",waktu_pemanasan:"30 s",jumlah_uap:"20 g/min",ukuran:"17.2×7.6×19.1 cm",berat:"0.72 kg"},
+{sku:"GTJH009",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"Daya Besar, Desain Roda",tipe:"Stand Steamer",daya:"2000 W",kapasitas:"1800 ml",waktu_pemanasan:"10 s",jumlah_uap:"34 g/min",ukuran:"30×22×149 cm",berat:"5.25 kg"},
+{sku:"GTJH014",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"3 in 1",tipe:"Stand Steamer",daya:"850 W",kapasitas:"1800 ml",waktu_pemanasan:"20 s",jumlah_uap:"32 g/min",ukuran:"32×23×155 cm",berat:"3.2 kg"},
+{sku:"GTJH018",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"Tripan Setrika Dapat Dilipat",tipe:"Stand Steamer",daya:"1580 W",kapasitas:"1500 ml",waktu_pemanasan:"20 s",jumlah_uap:"38 g/min",ukuran:"35.8×31.5×170 cm",berat:"4.7 kg"},
+{sku:"GTJH023",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"Tangkat dapat diperbesar",tipe:"Stand Steamer",daya:"850 W",kapasitas:"2100 ml",waktu_pemanasan:"40 s",jumlah_uap:"34 g/min",ukuran:"41×32×145 cm",berat:"3.2 kg"},
+{sku:"CUSH001",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"Portabel",mode_kontrol:"Layar sentuh",kapasitas_tangki:"0.6 L",dehumidifikasi:"380 mL/hari",kebisingan:"35 dBA",ukuran:"14.6×14.6×22.7 cm",berat:"0.86 kg",daya:"23 W"},
+{sku:"CUSH002",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"2 in 1: Dehumidifikasi & Aromaterapi",mode_kontrol:"Layar sentuh",kapasitas_tangki:"2.5 L",dehumidifikasi:"380 mL/hari",kebisingan:"< 35 dBA",ukuran:"23×14×36 cm",berat:"2 kg",daya:"65 W"},
+{sku:"CUSH004",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"Hemat energi",mode_kontrol:"Layar sentuh",kapasitas_tangki:"1 L",dehumidifikasi:"500 mL/hari",kebisingan:"< 46.5 dBA",ukuran:"18.1×12.5×27 cm",berat:"1.60 kg",daya:"30 W"},
+{sku:"CUSH005",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"2 in 1: Humidifikasi & Membersihkan",mode_kontrol:"Tombol putar",kapasitas_tangki:"1.5 L",dehumidifikasi:"750 mL/hari",kebisingan:"45 dBA",ukuran:"22×13.8×30.8 cm",berat:"2.60 kg",daya:"40 W"},
+{sku:"CUSH006",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"Teknologi pintar, Ditingkatkan",mode_kontrol:"Layar sentuh",kapasitas_tangki:"2 L",dehumidifikasi:"1200 mL/hari",kebisingan:"48.4 dBA",ukuran:"25.5×22×44.5 cm",berat:"9.80 kg",daya:"200 W"},
+{sku:"CUSH007",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"2 in 1: Dehumidifikasi & Aromaterapi",mode_kontrol:"Layar sentuh",kapasitas_tangki:"2.5 L",dehumidifikasi:"400 mL/hari",kebisingan:"35 dBA",ukuran:"26×14×35.6 cm",berat:"2 kg",daya:"65 W"},
+{sku:"JASH002",name:"Humidifier",category:"Humidifier",karakteristik:"Melembabkan seharian",tipe:"Tanpa kabel",kapasitas:"4000 ml",melembabkan:"Max 350 ml/h",daya_baterai:"24 h",kebisingan:"36 dBA",ukuran:"18.7×18.7×30 cm",berat:"1.25 kg",daya:"23 W"},
+{sku:"JASH003",name:"Humidifier",category:"Humidifier",karakteristik:"Portabel, Untuk kendaraan",tipe:"Berkabel",kapasitas:"300 ml",melembabkan:"35 ml/h",daya_baterai:"4h ~ 8h",kebisingan:"< 35 dBA",ukuran:"7.7×7.7×16.5 cm",berat:"0.21 kg",daya:"5 W"},
+{sku:"JASH004",name:"Humidifier",category:"Humidifier",karakteristik:"Penggunaan di atas meja",tipe:"Berkabel",kapasitas:"500 ml",melembabkan:"25-51 ml/h",daya_baterai:"1.5h ~ 6h",kebisingan:"< 35 dBA",ukuran:"16.5×7.2×10.5 cm",berat:"0.33 kg",daya:"5 W"},
+{sku:"JASH005",name:"Humidifier",category:"Humidifier",karakteristik:"Portabel",tipe:"Berkabel",kapasitas:"250 ml",melembabkan:"40 ml/h",daya_baterai:"14 h",kebisingan:"< 35 dBA",ukuran:"8×8×12.4 cm",berat:"0.15 kg",daya:"2.5 W"},
+{sku:"JASH006",name:"Humidifier",category:"Humidifier",karakteristik:"Ditingkatkan, Tangki Air Besar",tipe:"Tanpa kabel",kapasitas:"4500 ml",melembabkan:"Max 300 ml/h",daya_baterai:"26 h",kebisingan:"35 dBA",ukuran:"18.5×18.5×30.8 cm",berat:"1.03 kg",daya:"23 W"},
+{sku:"KQJH004",name:"Air Purifier",category:"Air Purifier",karakteristik:"Model hemat energi",cara_kontrol:"Layar sentuh",cadr:"300 m³/jam",filter:"HEPA H11",daya:"30 W",kebisingan:"28~45 dBA",cocok_untuk:"25~35 m²",ukuran:"25×37 cm",berat:"3.15 kg"},
+{sku:"KQJH005",name:"Air Purifier",category:"Air Purifier",karakteristik:"Model dasar",cara_kontrol:"Tombol / APP",cadr:"150 m³/jam",filter:"HEPA H13",daya:"23 W",kebisingan:"45~82 dBA",cocok_untuk:"15~20 m²",ukuran:"21×39 cm",berat:"2 kg"},
+{sku:"KQJH006",name:"Air Purifier",category:"Air Purifier",karakteristik:"Teknologi pintar, Ditingkatkan",cara_kontrol:"Layar sentuh / APP",cadr:"500 m³/jam",filter:"HEPA H11",daya:"50 W",kebisingan:"30~60 dBA",cocok_untuk:"50~70 m²",ukuran:"25×54.5 cm",berat:"5 kg"},
+{sku:"KQJH007",name:"Air Purifier",category:"Air Purifier",karakteristik:"Penyesuaian otomatis ditingkatkan",cara_kontrol:"Layar sentuh",cadr:"330 m³/jam",filter:"HEPA H13",daya:"40 W",kebisingan:"35~71 dBA",cocok_untuk:"30~40 m²",ukuran:"23.8×23.8×41.2 cm",berat:"3.3 kg"},
+{sku:"CMYH004",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Hemat biaya",tipe:"Berkabel",dustbin:"0.45 L",sterilisasi_uv:"×",fungsi_lainnya:"×",filter:"HEPA F9 + SUS304 Filter Logam",daya:"300 W",kabel:"4 m",aksesori:"×",berat:"1.25 kg",suction:"14000 Pa",getaran:"8500 kali/menit",ukuran:"23×23.1×13.7 cm",kebisingan:"75 dBA"},
+{sku:"CMYH005",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Model hemat energi",tipe:"Berkabel",dustbin:"0.45 L",sterilisasi_uv:"GY00:× / GY01:✓",fungsi_lainnya:"×",filter:"HEPA F9 + SUS304 Filter Logam",daya:"300 W",kabel:"4 m",aksesori:"×",berat:"1.25 kg",suction:"14000 Pa",getaran:"10000 kali/menit",ukuran:"24.6×29×15.5 cm",kebisingan:"75 dBA"},
+{sku:"CMYH006",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Bantuan panas",tipe:"Berkabel",dustbin:"0.3 L + 0.2 L",sterilisasi_uv:"✓",fungsi_lainnya:"Pengering panas",filter:"HEPA F9 + SUS304 Filter Logam",daya:"400 W",kabel:"4 m",aksesori:"×",berat:"1.65 kg",suction:"16000 Pa",getaran:"14000 kali/menit",ukuran:"30.5×24.5×19.5 cm",kebisingan:"83 dBA"},
+{sku:"CMYH007",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Efisiensi Ditingkatkan",tipe:"Berkabel",dustbin:"0.35 L + 0.25 L",sterilisasi_uv:"✓",fungsi_lainnya:"Fungsi aroma",filter:"HEPA F9 + SUS304 Filter Logam",daya:"350 W",kabel:"4 m",aksesori:"Tablet aroma ×1",berat:"1.5 kg",suction:"18000 Pa",getaran:"96000 kali/menit",ukuran:"30×23.5×18.5 cm",kebisingan:"82 dBA"},
+{sku:"XDJH001",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Model dasar",pengaturan:"3",suction:"17000 PA",berat:"3.8 kg",tangki_kotor:"~800 ml",tangki_bersih:"~600 ml",daya:"200 W",waktu_cas:"3~4 jam",waktu_pakai:"15~40 menit"},
+{sku:"XDJH002",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Model dasar, Kepala sikat lebar",pengaturan:"2",suction:"19000 PA",berat:"4 kg",tangki_kotor:"~800 ml",tangki_bersih:"~600 ml",daya:"200 W",waktu_cas:"3~4 jam",waktu_pakai:"25~40 menit"},
+{sku:"XDJH003",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Efisiensi biaya",pengaturan:"2",suction:"12000 PA",berat:"2.8 kg",tangki_kotor:"~360 ml",tangki_bersih:"~400 ml",daya:"150 W",waktu_cas:"2~3 jam",waktu_pakai:"21~32 menit"},
+{sku:"XDJH004",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Teknologi pintar, Ditingkatkan",pengaturan:"3",suction:"20000 PA",berat:"4.5 kg",tangki_kotor:"~1130 ml",tangki_bersih:"~810 ml",daya:"200 W",waktu_cas:"3.5~4.5 jam",waktu_pakai:"24~41 menit"},
+{sku:"XDJH005",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"LCD, 180° Lie-Flat, Hot Air Drying, Silver Ion Sterilization",pengaturan:"3 (Wash/Vacuum/Disinfect, 2 level masing-masing)",suction:"21000 PA",berat:"4.4 kg",tangki_kotor:"~500 ml",tangki_bersih:"~550 ml",daya:"150 W",waktu_cas:"4.5 jam",waktu_pakai:"30~50 menit"},
+{sku:"BYJH001",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Versi upgrade",cara_kontrol:"Layar sentuh",pengaturan:"2",suction:"16000 PA",tangki_kotor:"900 ml",tangki_bersih:"1500 ml",daya:"1200 W",kabel:"5 m",berat:"4.5 kg"},
+{sku:"BYJH002",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Model hemat energi",cara_kontrol:"Tombol",pengaturan:"1",suction:"16000 PA",tangki_kotor:"1280 ml",tangki_bersih:"1660 ml",daya:"500 W",kabel:"5 m",berat:"3.9 kg"},
+{sku:"BYJH003",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Kapasitas air ditingkatkan, Lampiran serbaguna",cara_kontrol:"Tombol",pengaturan:"4",suction:"18000 PA",tangki_kotor:"1400 ml",tangki_bersih:"2300 ml",daya:"1800 W",kabel:"3 m",berat:"4.6 kg"},
+{sku:"BYJH004",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Ukuran ringkas",cara_kontrol:"Tombol",pengaturan:"1",suction:"12000 PA",tangki_kotor:"500~700 ml",tangki_bersih:"1100 ml",daya:"330 W",kabel:"3 m",berat:"2.5 kg"},
+{sku:"DFSH007",name:"USB Fan (Handheld)",category:"Electric Fan",karakteristik:"Desain Keamanan Ditingkatkan",tipe:"Kipas USB",pengaturan:"2",daya:"2.5 W",kebisingan:"35 dBA",ukuran:"5.8×6×19.2 cm",berat:"0.12 kg"},
+{sku:"DFSH010",name:"USB Fan (Table)",category:"Electric Fan",karakteristik:"Model dasar",tipe:"Kipas USB",pengaturan:"3",daya:"8 W",kebisingan:"46.4 dBA",ukuran:"9×4.1×17.2 cm",berat:"0.16 kg"},
+{sku:"DFSH011",name:"USB Fan",category:"Electric Fan",karakteristik:"3 in 1, Baling-baling dari karet",tipe:"Kipas USB",pengaturan:"3",daya:"10 W",kebisingan:"45 dBA",ukuran:"13.5×4.6×3.7 cm",berat:"0.17 kg"},
+{sku:"DFSH012",name:"USB Fan",category:"Electric Fan",karakteristik:"3 in 1, Teknologi canggih",tipe:"Kipas USB",pengaturan:"2",daya:"5 W",kebisingan:"38.5 dBA",ukuran:"4×3.6×12 cm",berat:"0.12 kg"},
+{sku:"DFSH013",name:"USB Fan",category:"Electric Fan",karakteristik:"Angin ditingkatkan",tipe:"Kipas USB",pengaturan:"100 tingkat + 1 pendingin",daya:"10.2 W",kebisingan:"44.6~64.6 dBA",ukuran:"5.1×6.2×16.6 cm",berat:"0.23 kg"},
+{sku:"DFSH014",name:"Desk Fan",category:"Electric Fan",karakteristik:"Tanpa kabel",tipe:"Kipas desktop",pengaturan:"Bebas",daya:"6.5 W",kebisingan:"39.8~61.1 dBA",ukuran:"16.9×12×23.6 cm",berat:"0.46 kg"},
+{sku:"DFSH015",name:"USB Fan (Mini)",category:"Electric Fan",karakteristik:"Mini",tipe:"Kipas USB",pengaturan:"3",daya:"2.22 W",kebisingan:"40.7~55.7 dBA",ukuran:"8×4.5×10.8 cm",berat:"0.08 kg"},
+{sku:"LFSH002",name:"Air Cooler",category:"Air Cooler",karakteristik:"Hemat energi, dapat dikendalikan jarak jauh",kapasitas:"10 L",pengaturan:"3",daya:"65 W",kebisingan:"62 dBA",ukuran:"25.7×28×61.8 cm",berat:"3.7 kg"},
+{sku:"LFSH003",name:"Air Cooler",category:"Air Cooler",karakteristik:"Dua model kontrol, Tangki air besar",kapasitas:"40 L",pengaturan:"3",daya:"220 W",kebisingan:"75 dBA",ukuran:"45×36×106 cm",berat:"9.8 kg"},
+{sku:"LFSH004",name:"Air Cooler",category:"Air Cooler",karakteristik:"Kecil, hemat energi",kapasitas:"10 L",pengaturan:"3",daya:"80 W",kebisingan:"40.6 dBA",ukuran:"24×28×60 cm",berat:"4.2 kg"},
+{sku:"LFSH005",name:"Air Cooler",category:"Air Cooler",karakteristik:"Pendinginan cepat",kapasitas:"40 L",pengaturan:"3",daya:"120 W",kebisingan:"42.5 dBA",ukuran:"43.5×35×95 cm",berat:"7.5 kg"},
+{sku:"KQZG015",name:"Air Fryer Digital",category:"Air Fryer (Digital)",karakteristik:"Tampilan futuristik, Kontrol presisi",rentang_suhu:"80-200°C",waktu:"0-60 menit",daya:"1450 W",kapasitas:"5 L",jendela:"✓",ukuran:"33.6×25.5×29.3 cm",berat:"3.33 kg"},
+{sku:"KQZG017",name:"Air Fryer Digital",category:"Air Fryer (Digital)",karakteristik:"Pintar, Desain minimalis",rentang_suhu:"80-200°C",waktu:"1-60 menit",daya:"650~800 W",kapasitas:"3.5 L",jendela:"✓",ukuran:"33×24.2×30.8 cm",berat:"3.4 kg"},
+{sku:"KQZG018",name:"Air Fryer Digital",category:"Air Fryer (Digital)",karakteristik:"Kapasitas besar, Hemat daya",rentang_suhu:"80-200°C",waktu:"1-60 menit",daya:"800 W",kapasitas:"6.5 L",jendela:"✓",ukuran:"36.7×28.5×25.5 cm",berat:"4 kg"},
+{sku:"KQZG020",name:"Air Fryer Digital (Dual Basket)",category:"Air Fryer (Digital)",karakteristik:"Kapasitas besar, Desain dua keranjang",rentang_suhu:"80-200°C",waktu:"10-60 menit",daya:"1800 W",kapasitas:"6L + 4L",jendela:"✓",ukuran:"43.6×37.9×31.4 cm",berat:"7.86 kg"},
+{sku:"KQZG007",name:"Air Fryer Knob",category:"Air Fryer (Knob)",karakteristik:"Hemat biaya",rentang_suhu:"80-200°C",waktu:"5-30 menit",daya:"650 W",kapasitas:"4 L",jendela:"×",ukuran:"30.9×24.5×29.5 cm",berat:"3.05 kg"},
+{sku:"KQZG013",name:"Air Fryer Knob",category:"Air Fryer (Knob)",karakteristik:"Kontrol pintar",rentang_suhu:"80-200°C",waktu:"0-60 menit",daya:"1400 W",kapasitas:"5 L",jendela:"×",ukuran:"33.6×25.5×30.6 cm",berat:"3.15 kg"},
+{sku:"KQZG014",name:"Air Fryer Knob (Window)",category:"Air Fryer (Knob)",karakteristik:"Kontrol pintar, Masak terlihat",rentang_suhu:"80-200°C",waktu:"0-60 menit",daya:"1450 W",kapasitas:"5 L",jendela:"✓",ukuran:"33.6×25.5×30.6 cm",berat:"3.33 kg"},
+{sku:"KQZG021",name:"Air Fryer Knob (Mini)",category:"Air Fryer (Knob)",karakteristik:"Cepat panas, Cocok untuk lajang",rentang_suhu:"200°C",waktu:"1-60 menit",daya:"500 W",kapasitas:"2.5 L",jendela:"×",ukuran:"27.9×20.4×25.2 cm",berat:"1.98 kg"},
+{sku:"DZGH003",name:"Electric Cooker",category:"Electric Cooker",karakteristik:"Hemat energi, ringan, mudah disimpan",bahan:"SUS 410 + Lapisan glasir keramik",kapasitas:"1.5 L (1~3 orang)",daya:"630 W",ukuran:"25×21×16 cm",berat:"0.97 kg"},
+{sku:"DZGH010",name:"Electric Cooker",category:"Electric Cooker",karakteristik:"Model keluarga, pemanasan super cepat",bahan:"Panci aluminium + Lapisan glasir keramik",kapasitas:"3 L (4~5 orang)",daya:"1000 W",ukuran:"28.5×28.5×19 cm",berat:"1.11 kg"},
+{sku:"DZEG001",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Model hemat energi",kapasitas:"> 3 orang, Total 12L",tier:"3",jadwal:"✓",daya:"800 W",ukuran:"29.5×28×37 cm",berat:"2.03 kg"},
+{sku:"DZEG002",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Mengukus dan Merebus, Model Dasar",kapasitas:"2~3 orang, Total 12L",tier:"2",jadwal:"✓",daya:"1200 W",ukuran:"29.6×28.1×38 cm",berat:"1.93 kg"},
+{sku:"DZEG003",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Model Dasar",kapasitas:"> 2 orang, Total 9~14L",tier:"1",jadwal:"✓",daya:"800 W",ukuran:"27.8×27.8×29.5 cm",berat:"2.6 kg"},
+{sku:"DZEG004",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Ukuran kecil, Pilihan keluarga kecil",kapasitas:"2~3 orang, Total 11L",tier:"2",jadwal:"✓",daya:"800 W",ukuran:"29.8×25.3×29.5 cm",berat:"1.8 kg"},
+{sku:"DZEG005",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Upgrade kapasitas",kapasitas:"> 3 orang, Total 21L",tier:"3",jadwal:"✓",daya:"1300 W",ukuran:"40×30.5×45 cm",berat:"3.5 kg"},
+{sku:"KFJH006",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Mudah Disimpan",kapasitas_tangki:"0.3 L",kapasitas_gelas:"0~300 ml (~3 gelas)",daya:"450 W",waktu:"1 min",ukuran:"18×16.5×22 cm",berat:"0.6 kg"},
+{sku:"KFJH009",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Hemat Biaya",kapasitas_tangki:"0.7 L",kapasitas_gelas:"0~600 ml (~6 gelas)",daya:"650 W",waktu:"5 min",ukuran:"22.5×16×24 cm",berat:"0.76 kg"},
+{sku:"KFJH011",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Model Klasik",kapasitas_tangki:"0.75 L",kapasitas_gelas:"0~750 ml (~7 gelas)",daya:"600 W",waktu:"6-8 min",ukuran:"18.5×14.7×26 cm",berat:"0.89 kg"},
+{sku:"KFJH012",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Dua Fungsi, Kapasitas Besar",kapasitas_tangki:"1.25 L",kapasitas_gelas:"0~1250 ml (~12 gelas)",daya:"750 W",waktu:"6-8 min",ukuran:"28×17×28.6 cm",berat:"1.15 kg"},
+{sku:"KFJH013",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Model Hemat Daya",kapasitas_tangki:"0.25 L",kapasitas_gelas:"0~250 ml (~2 gelas)",daya:"370-450 W",waktu:"3 min",ukuran:"15.4×14×20 cm",berat:"0.53 kg"},
+{sku:"KFJH018",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"2 Saluran, Ukuran Kecil",kapasitas_tangki:"0.3 L",kapasitas_gelas:"0~300 ml (~3 gelas)",daya:"370-450 W",waktu:"4 min",ukuran:"15×18×23.8 cm",berat:"0.63 kg"},
+{sku:"KFJH007",name:"Semi-auto Espresso",category:"Semi-auto Espresso",karakteristik:"Model Pemula",tekanan:"20 bar",kapasitas_tangki:"1.4 L",batang_uap:"✓",daya:"1230-1465 W",ukuran:"32.8×15.4×32.1 cm",berat:"3.2 kg",waktu_pemanasan:"30 s"},
+{sku:"KFJH014",name:"Semi-auto Espresso",category:"Semi-auto Espresso",karakteristik:"Ahli Pembuat Kopi",tekanan:"15 bar",kapasitas_tangki:"1.2 L",batang_uap:"✓",daya:"1230-1465 W",ukuran:"30.6×15.7×30.8 cm",berat:"2.9 kg",waktu_pemanasan:"40 s"},
+{sku:"KFJH017",name:"Semi-auto Espresso",category:"Semi-auto Espresso",karakteristik:"Ukuran Kecil",tekanan:"5 bar",kapasitas_tangki:"0.30 L",batang_uap:"✓",daya:"800 W",ukuran:"15.2×32.2×30 cm",berat:"1.53 kg",waktu_pemanasan:"—"},
+{sku:"KFJH008",name:"Capsule Coffee Machine",category:"Capsule Coffee",karakteristik:"Model Pemula",tekanan:"20 bar",kapasitas_tangki:"0.90 L",batang_uap:"×",daya:"1400 W",ukuran:"35×11.2×24.1 cm",berat:"2.30 kg",waktu_pemanasan:"35 s"},
+{sku:"KFJH019",name:"Capsule Coffee Machine",category:"Capsule Coffee",karakteristik:"Portabel",tekanan:"20 bar",kapasitas_tangki:"0.60 L",batang_uap:"×",daya:"1200 W",ukuran:"8.3×31×20.2 cm",berat:"2.25 kg",waktu_pemanasan:"30 s"},
+{sku:"DDJR003",name:"Electric Chopper",category:"Electric Chopper",karakteristik:"Model klasik, Bodi stainless steel",pengaturan:"2",kapasitas:"2000 ml (~3-6 orang)",pisau:"4 pcs SUS 420",daya:"300 W",ukuran:"22×26 cm",berat:"1.68 kg"},
+{sku:"DDJR004",name:"Electric Chopper",category:"Electric Chopper",karakteristik:"Model pemula",pengaturan:"2",kapasitas:"2000 ml (~3-6 orang)",pisau:"4 pcs SUS 420",daya:"300 W",ukuran:"22×25 cm",berat:"1.63 kg"},
+{sku:"DDJR005",name:"Electric Chopper (Mini)",category:"Electric Chopper",karakteristik:"Portabel",pengaturan:"1",kapasitas:"300 ml (~1-2 orang)",pisau:"8 pcs SUS 304",daya:"200 W",ukuran:"19×10.2 cm",berat:"0.97 kg"},
+{sku:"DDJR006",name:"Electric Chopper",category:"Electric Chopper",karakteristik:"Mudah disimpan",pengaturan:"1",kapasitas:"750 ml max (~1-3 orang)",pisau:"2/4 pcs SUS 304 & SUS 420",daya:"200 W",ukuran:"12×14.5×36 cm",berat:"1.30 kg"},
+{sku:"LLJH004",name:"Blender",category:"Blender / Juicer",karakteristik:"Model pemula",kapasitas:"600 ml",pisau:"4 pcs SUS304",daya:"250 W",ukuran:"10.5×28.5 cm",berat:"1 kg"},
+{sku:"LLJH005",name:"Blender",category:"Blender / Juicer",karakteristik:"Dilengkapi aksesoris khusus",kapasitas:"600 ml",pisau:"2/2/4 pcs SUS304 & SUS420",daya:"380 W",ukuran:"18.5×36.2 cm",berat:"2.05 kg"},
+{sku:"LLJH007",name:"Blender (Ice Crusher)",category:"Blender / Juicer",karakteristik:"Pilihan terbaik (penghancuran es)",kapasitas:"800 ml",pisau:"6 pcs SUS304",daya:"400 W",ukuran:"12.4×31 cm",berat:"2.64 kg"},
+{sku:"LLJH010",name:"Blender (2 in 1 Bottle)",category:"Blender / Juicer",karakteristik:"Dua fungsi, dapat dijadikan botol portabel",kapasitas:"600 ml",pisau:"4 pcs SUS304",daya:"300 W",ukuran:"14.3×18.5×36.4 cm",berat:"1.62 kg"},
+{sku:"ZZJH006",name:"Portable Juicer",category:"Blender / Juicer",karakteristik:"Portabel, Model dasar",kapasitas:"400 ml",pisau:"10 pcs SUS304",daya:"80 W",ukuran:"9.4×9.4×20.4 cm",berat:"0.52 kg"},
+{sku:"ZZJH008",name:"Portable Juicer",category:"Blender / Juicer",karakteristik:"Portabel, Hemat energi",kapasitas:"340 ml",pisau:"10 pcs SUS304",daya:"55 W",ukuran:"9.4×8.6×21 cm",berat:"0.32 kg"},
+{sku:"ZZJH009",name:"Slow Juicer",category:"Blender / Juicer",karakteristik:"Bebas ampas",kapasitas:"Masukan 720ml / Jus 240ml",pisau:"2 pcs PC",daya:"200 W",ukuran:"18.5×16×39 cm",berat:"2.16 kg"},
+{sku:"CFJH001",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Model dasar",motor:"Motor bersikat",ion_negatif:"×",daya:"1250 W",kebisingan:"85 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.52 m",ukuran:"11.5×7.5×27 cm",berat:"0.243 kg"},
+{sku:"CFJH004",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Kecil, hemat energi",motor:"Motor bersikat",ion_negatif:"×",daya:"1000 W",kebisingan:"76.7 dBA",kecepatan:"12 m/s",panjang_kabel:"1.60 m",ukuran:"9.3×7.1×23 cm",berat:"0.269 kg"},
+{sku:"CFJH006",name:"Hair Dryer (Gift Box)",category:"Hair Dryer",karakteristik:"Kemasan kotak hadiah",motor:"Motor tanpa sikat DC",ion_negatif:"400 juta",daya:"1200 W",kebisingan:"76 dBA",kecepatan:"65.0 m/s",panjang_kabel:"1.75 m",ukuran:"9.8×7.6×27 cm",berat:"0.402 kg"},
+{sku:"CFJH007",name:"Hair Dryer (Foldable)",category:"Hair Dryer",karakteristik:"Lipat, portabel",motor:"Motor bersikat",ion_negatif:"50 juta",daya:"1400-1600 W",kebisingan:"78 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.70 m",ukuran:"16×7×21.2 cm",berat:"0.305 kg"},
+{sku:"CFJH008",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Hemat biaya",motor:"Motor bersikat",ion_negatif:"50 juta",daya:"1250 W",kebisingan:"80 dBA",kecepatan:"120.0 m/s",panjang_kabel:"1.50 m",ukuran:"15×7.5×22 cm",berat:"0.261 kg"},
+{sku:"CFJH009",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Nosel angin yang ditingkatkan",motor:"Motor tanpa sikat",ion_negatif:"400 juta",daya:"1600 W",kebisingan:"82.3 dBA",kecepatan:"65.0 m/s",panjang_kabel:"1.80 m",ukuran:"14×7.5×24 cm",berat:"0.346 kg"},
+{sku:"CFJH010",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Hemat biaya (high-speed)",motor:"Motor tanpa sikat",ion_negatif:"200 juta",daya:"1600 W",kebisingan:"68 dBA",kecepatan:"64.5 m/s",panjang_kabel:"1.80 m",ukuran:"24.3×9.5×7.3 cm",berat:"0.304 kg"},
+{sku:"CFJH011",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Bersuara rendah",motor:"Motor tanpa sikat",ion_negatif:"200 juta",daya:"1300 W",kebisingan:"59 dBA",kecepatan:"70.0 m/s",panjang_kabel:"1.80 m",ukuran:"10×7.7×20 cm",berat:"0.295 kg"},
+{sku:"ZFBA002",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Tipe Pemula",pengaturan:"1",suhu:"200°C",daya:"30 W",waktu_panas:"30 s",ukuran:"28×3.2×3.5 cm",berat:"0.27 kg",lapisan:"Cat tahan panas + Glasir keramik"},
+{sku:"ZFBA003",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Kontrol Suhu Presisi",pengaturan:"9",suhu:"110°C-230°C",daya:"45 W",waktu_panas:"10 s",ukuran:"33×3.08×3.24 cm",berat:"0.29 kg",lapisan:"Lapisan glasir keramik"},
+{sku:"ZFBA004",name:"Hair Straightener (Mini)",category:"Hair Straightener",karakteristik:"Mini, Portabel",pengaturan:"1",suhu:"180°C",daya:"17 W",waktu_panas:"10 s",ukuran:"17.5×2×2.5 cm",berat:"0.12 kg",lapisan:"Lapisan glasir keramik"},
+{sku:"ZFBA005",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Pelat Lebar, Cakupan Lebih Luas",pengaturan:"5",suhu:"140°C-220°C",daya:"59 W",waktu_panas:"30 s",ukuran:"30.5×4.5×3.9 cm",berat:"0.36 kg",lapisan:"Lapisan glasir keramik"},
+{sku:"ZFBA006",name:"Hair Straightener (Cordless)",category:"Hair Straightener",karakteristik:"Nirkabel, Tipe Dasar",pengaturan:"1",suhu:"180°C",daya:"10 W",waktu_panas:"10 s",ukuran:"21.2×4×3 cm",berat:"0.18 kg",lapisan:"Lapisan glasir keramik"},
+{sku:"ZFBA008",name:"Hair Straightener (Cordless)",category:"Hair Straightener",karakteristik:"Nirkabel, Versi Upgrade",pengaturan:"2",suhu:"180°C-200°C",daya:"25 W",waktu_panas:"30 s",ukuran:"20.1×3.3×3.6 cm",berat:"0.17 kg",lapisan:"Lapisan glasir keramik"},
+{sku:"ZFSH001",name:"Hair Straightener Brush",category:"Hair Straightener",karakteristik:"Tipe Sikat",pengaturan:"6",suhu:"100°C-200°C",daya:"30 W",waktu_panas:"10 s",ukuran:"33×4.7×4.6 cm",berat:"0.32 kg",lapisan:"Lapisan glasir keramik"},
+{sku:"JFBA004",name:"Hair Curler (2 in 1)",category:"Hair Curler",karakteristik:"2 fungsi lurus & keriting, Model pemula",diameter:"30 mm",suhu:"140°C-200°C",daya:"49 W",waktu_panas:"3 s",ukuran:"30×3 cm",berat:"0.38 kg"},
+{sku:"JFBA005",name:"Hair Curler",category:"Hair Curler",karakteristik:"Harus dimiliki gadis yang ingin terlihat anggun",diameter:"32 mm",suhu:"160°C-200°C",daya:"30 W",waktu_panas:"10 s",ukuran:"32×2.5 cm",berat:"0.36 kg"},
+{sku:"JFBA006",name:"Hair Curler (Cat Wave)",category:"Hair Curler",karakteristik:"Catokan keriting gelombang kucing",diameter:"32 mm",suhu:"170°C-230°C",daya:"42 W",waktu_panas:"20 s",ukuran:"22.5×8.5 cm",berat:"0.37 kg"},
+{sku:"JFBA007",name:"Hair Curler",category:"Hair Curler",karakteristik:"Model wajib untuk rambut panjang",diameter:"32 mm",suhu:"150°C-210°C",daya:"40-59 W",waktu_panas:"30 s",ukuran:"34×3 cm",berat:"0.32 kg"},
+{sku:"JFBA008",name:"Hair Curler (Wave)",category:"Hair Curler",karakteristik:"Model gelombang keriting pemula",diameter:"22 mm",suhu:"140°C-200°C",daya:"50 W",waktu_panas:"30 s",ukuran:"25.8×3 cm",berat:"0.48 kg"},
+{sku:"JFBA009",name:"Hair Curler (Portable)",category:"Hair Curler",karakteristik:"Yang paling portabel",diameter:"28 mm",suhu:"210°C",daya:"30 W",waktu_panas:"10 s",ukuran:"25×4 cm",berat:"0.20 kg"},
+{sku:"JFBA010",name:"Hair Curler (Auto)",category:"Hair Curler",karakteristik:"Harus dimiliki orang yang malas",diameter:"32 mm",suhu:"170°C-210°C",daya:"52 W",waktu_panas:"10 s",ukuran:"35×6 cm",berat:"0.37 kg"},
+{sku:"RFSH001",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model dasar",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"✓",daya:"1100-1200 W",ukuran:"39.8×5.9×6.1 cm",berat:"0.47 kg",panjang_kabel:"1.8 m"},
+{sku:"RFSH002",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model pemula",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"×",daya:"1000-1200 W",ukuran:"38×7.7×10 cm",berat:"0.50 kg",panjang_kabel:"1.75 m"},
+{sku:"RFSH003",name:"Hair Dryer Brush (Multi)",category:"Hair Dryer Brush",karakteristik:"Multi-gaya",pengaturan:"2 speed, 3 suhu, 1 mode auto-bersih",kecepatan:"58 m/s",ion_negatif:"130 juta",kepala_lepas:"✓",daya:"1500 W",ukuran:"29.5×5×5 cm",berat:"0.86 kg",panjang_kabel:"1.8 m"}
+];
+
+// OTOMATIS GENERATE URL GAMBAR UNTUK SETIAP PRODUK
+const products = rawProducts.map(p => ({
+  ...p,
+  image: `https://pc.simplus.online/cdn/shop/files/${p.sku.toLowerCase()}_1.jpg`
+}));
+
+// --- FUNGSI: GENERATE SELLING POINT ---
+function generateSellingPoint(p) {
+  const cat = p.category;
+  let points = [];
+  
+  if (cat === "Vacuum Cleaner") {
+    if (p.metode === "Tidak berkabel") points.push("🔋 Bebas kabel, fleksibel dibawa kemana-mana");
+    else points.push("⚡ Berkabel, daya hisap stabil tanpa khawatir baterai habis");
+    if (p.suction && parseInt(p.suction) >= 20000) points.push("💪 Daya hisap super kuat " + p.suction + " — cocok buat debu membandel");
+    else if (p.suction) points.push("🌀 Daya hisap " + p.suction + " cukup untuk kebersihan sehari-hari");
+    if (p.filter && p.filter.includes("H12")) points.push("🛡️ Filter HEPA H12 — filtrasi tingkat tinggi, udara lebih bersih");
+    else if (p.filter && p.filter.includes("H13")) points.push("🛡️ Filter HEPA H13 — menangkap 99.95% partikel debu & alergen");
+    if (p.berat && parseFloat(p.berat) <= 1.0) points.push("🪶 Super ringan cuma " + p.berat + ", nggak bikin tangan pegel");
+    if (p.karakteristik) points.push("✨ " + p.karakteristik);
+  } else if (cat === "Garment Steamer / Iron") {
+    if (p.tipe === "Stand Steamer") points.push("🏠 Model stand — cocok buat penggunaan intensif di rumah");
+    else points.push("✈️ Setrika uap genggam — ringkas & gampang disimpan");
+    if (p.jumlah_uap && parseInt(p.jumlah_uap) >= 30) points.push("💨 Uap deras " + p.jumlah_uap + " — ngilangin kusut lebih cepat");
+    if (p.waktu_pemanasan && parseInt(p.waktu_pemanasan) <= 10) points.push("⚡ Panas super cepat " + p.waktu_pemanasan + " — langsung bisa dipakai");
+    if (p.kapasitas && parseInt(p.kapasitas) >= 200) points.push("💧 Tangki air besar " + p.kapasitas + " — nggak perlu sering isi ulang");
+    if (p.karakteristik) points.push("✨ " + p.karakteristik);
+  } else if (cat === "Vacuum Mop") {
+    if (p.suction && parseInt(p.suction) >= 18000) points.push("💪 Daya hisap tinggi " + p.suction + " — ngepel sekaligus nyedot kotoran");
+    if (p.waktu_pakai) points.push("⏱️ Tahan pakai " + p.waktu_pakai + " sekali cas");
+    if (p.tangki_kotor && p.tangki_bersih) points.push("🪣 Tangki kotor " + p.tangki_kotor + " & bersih " + p.tangki_bersih);
+    if (p.karakteristik) points.push("✨ " + p.karakteristik);
+  } else if (cat === "Hair Dryer") {
+    if (p.motor && p.motor.toLowerCase().includes("tanpa sikat")) points.push("🌪️ Motor Brushless — awet, kencang & senyap");
+    if (p.ion_negatif && p.ion_negatif !== "×") points.push("✨ " + p.ion_negatif + " Ion Negatif — rambut lebih halus & tidak kering");
+    if (p.kecepatan && parseInt(p.kecepatan) >= 50) points.push("💨 Kecepatan angin " + p.kecepatan + " — ngeringin rambut secepat kilat");
+    if (p.karakteristik) points.push("✨ " + p.karakteristik);
+  } else if (cat === "Air Fryer (Digital)") {
+    points.push("🍟 Menggoreng sehat minim minyak");
+    if (p.jendela === "✓") points.push("👁️ Jendela transparan — pantau kematangan masakan tanpa buka tutup");
+    if (p.kapasitas && parseFloat(p.kapasitas) >= 5) points.push("🥘 Kapasitas besar " + p.kapasitas + " — cukup untuk porsi sekeluarga");
+    if (p.karakteristik) points.push("✨ " + p.karakteristik);
+  } else {
+    if (p.karakteristik) points.push("✨ " + p.karakteristik);
+    if (p.daya) points.push("⚡ Konsumsi Daya: " + p.daya);
+    if (p.ukuran) points.push("📏 Ukuran: " + p.ukuran);
+  }
+  return points.slice(0, 4);
+}
+
+// --- FUNGSI: GENERATE CS TEXT (DINAMIS) ---
+// ── GENERATE CS MESSAGE (DENGAN LOGIC REKOMENDASI CERDAS) ──
+function generateCSMessage(compareProds) {
+  let msg = "Halo Kak! 😊 Berikut perbandingan produk Simplus yang kakak tanyakan ya~\n\n";
+  
+  compareProds.forEach((p, i) => {
+    const num = ["1️⃣","2️⃣","3️⃣","4️⃣"][i];
+    msg += `${num} ${p.sku} — ${p.name}\n`;
+    msg += `📌 ${p.karakteristik}\n`;
+    const points = generateSellingPoint(p);
+    points.forEach(pt => { msg += `${pt}\n`; });
+    msg += "\n";
+  });
+
+  if (compareProds.length < 2) {
+    msg += "Kalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya! 🙏";
+    return msg;
+  }
+
+  // Safety check: Cegah error kalau CS membandingkan produk dari kategori yang berbeda
+  const allSameCat = compareProds.every(p => p.category === compareProds[0].category);
+  if (!allSameCat) {
+    msg += "━━━━━━━━━━━━━━━━\n💡 Rekomendasi Singkat:\nSemua produk di atas punya keunggulan masing-masing karena fungsinya berbeda ya kak! Bisa disesuaikan dengan kebutuhan kakak 😊\n\nKalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya! 🙏";
+    return msg;
+  }
+
+  msg += "━━━━━━━━━━━━━━━━\n";
+  msg += "💡 Rekomendasi Singkat:\n";
+
+  const cat = compareProds[0].category;
+  let rekomendasi = "";
+
+  // ── PER CATEGORY LOGIC (Custom by User) ──
+
+  if (cat === "Vacuum Cleaner") {
+    const strongest = compareProds.reduce((a, b) => parseInt(a.suction) > parseInt(b.suction) ? a : b);
+    const lightest = compareProds.reduce((a, b) => parseFloat(a.berat) < parseFloat(b.berat) ? a : b);
+    const bestFilter = compareProds.find(p => p.filter && p.filter.includes("H12")) ||
+                       compareProds.find(p => p.filter && p.filter.includes("H13")) ||
+                       compareProds.find(p => p.filter && p.filter.includes("F9"));
+    const cordless = compareProds.filter(p => p.metode === "Tidak berkabel");
+    const corded   = compareProds.filter(p => p.metode === "Berkabel");
+
+    if (cordless.length > 0 && corded.length > 0) {
+      rekomendasi += `🔌 Kalau kakak butuh daya hisap stabil tanpa khawatir baterai, ${corded.map(p=>p.sku).join(" & ")} pilihan tepat karena berkabel.\n`;
+      rekomendasi += `🔋 Tapi kalau kakak lebih suka bebas bergerak tanpa kabel, ${cordless.map(p=>p.sku).join(" & ")} lebih fleksibel dipakai di mana aja.\n`;
+    } else {
+      rekomendasi += `💪 Untuk daya hisap paling kuat, ${strongest.sku} unggul dengan suction ${strongest.suction}.\n`;
+      if (lightest.sku !== strongest.sku)
+        rekomendasi += `🪶 Kalau kakak prioritasin yang ringan & gampang dibawa, ${lightest.sku} lebih ringan di ${lightest.berat}.\n`;
+    }
+    if (bestFilter)
+      rekomendasi += `🛡️ Untuk filtrasi terbaik, ${bestFilter.sku} dengan filter ${bestFilter.filter} paling efektif nangkap debu halus.\n`;
+  }
+
+  else if (cat === "Dust Mite Vacuum") {
+    const strongest = compareProds.reduce((a, b) => parseInt(a.suction) > parseInt(b.suction) ? a : b);
+    const highestVibration = compareProds.reduce((a, b) => parseInt(a.getaran) > parseInt(b.getaran) ? a : b);
+    const hasUV = compareProds.filter(p => p.sterilisasi_uv && p.sterilisasi_uv.includes("✓"));
+    const hasExtra = compareProds.filter(p => p.fungsi_lainnya && p.fungsi_lainnya !== "×");
+    const hasAccessory = compareProds.filter(p => p.aksesori && p.aksesori !== "×");
+
+    rekomendasi += `💪 Daya hisap paling kuat: ${strongest.sku} dengan ${strongest.suction} — paling efektif bersihin tungau membandel.\n`;
+    if (highestVibration.sku !== strongest.sku || parseInt(highestVibration.getaran) > 10000)
+      rekomendasi += `📳 Getaran tertinggi: ${highestVibration.sku} di ${highestVibration.getaran} — meluruhkan tungau yang nempel lebih dalam.\n`;
+    if (hasUV.length > 0)
+      rekomendasi += `☀️ ${hasUV.map(p=>p.sku).join(" & ")} punya sterilisasi UV — lebih higienis karena bunuh kuman & bakteri sekaligus.\n`;
+    if (hasExtra.length > 0)
+      rekomendasi += `⭐ ${hasExtra.map(p=>p.sku).join(" & ")} punya fungsi tambahan (${hasExtra.map(p=>p.fungsi_lainnya).join(", ")}) — nilai lebih dibanding yang lain.\n`;
+    if (hasAccessory.length > 0)
+      rekomendasi += `🎁 ${hasAccessory.map(p=>p.sku).join(" & ")} sudah termasuk ${hasAccessory.map(p=>p.aksesori).join(", ")}.\n`;
+  }
+
+  else if (cat === "Garment Steamer / Iron") {
+    const mostSteam = compareProds.reduce((a, b) => parseInt(a.jumlah_uap) > parseInt(b.jumlah_uap) ? a : b);
+    const fastestHeat = compareProds.reduce((a, b) => parseInt(a.waktu_pemanasan) < parseInt(b.waktu_pemanasan) ? a : b);
+    const biggestTank = compareProds.reduce((a, b) => parseInt(a.kapasitas) > parseInt(b.kapasitas) ? a : b);
+    const stands = compareProds.filter(p => p.tipe === "Stand Steamer");
+    const handhelds = compareProds.filter(p => p.tipe === "Setrika Uap Tangan");
+
+    if (stands.length > 0 && handhelds.length > 0) {
+      rekomendasi += `🏠 ${stands.map(p=>p.sku).join(" & ")} model stand cocok buat pemakaian intensif di rumah dengan kapasitas tangki besar.\n`;
+      rekomendasi += `✈️ ${handhelds.map(p=>p.sku).join(" & ")} lebih ringkas & gampang disimpan, cocok buat travel atau pemakaian sesekali.\n`;
+    } else {
+      rekomendasi += `💨 Output uap terbesar: ${mostSteam.sku} dengan ${mostSteam.jumlah_uap} — ngilangin kusut lebih cepat & efisien.\n`;
+      if (fastestHeat.sku !== mostSteam.sku)
+        rekomendasi += `⚡ Panas paling cepat: ${fastestHeat.sku} dalam ${fastestHeat.waktu_pemanasan} — langsung siap pakai.\n`;
+      if (biggestTank.sku !== fastestHeat.sku)
+        rekomendasi += `💧 Tangki terbesar: ${biggestTank.sku} dengan ${biggestTank.kapasitas} — paling jarang isi ulang.\n`;
+    }
+  }
+
+  else if (cat === "Dehumidifier") {
+    const strongest = compareProds.reduce((a, b) => parseInt(a.dehumidifikasi) > parseInt(b.dehumidifikasi) ? a : b);
+    const quietest = compareProds.reduce((a, b) => parseInt(a.kebisingan) < parseInt(b.kebisingan) ? a : b);
+    const biggestTank = compareProds.reduce((a, b) => parseFloat(a.kapasitas_tangki) > parseFloat(b.kapasitas_tangki) ? a : b);
+    const hasAroma = compareProds.filter(p => p.karakteristik && p.karakteristik.includes("Aromaterapi"));
+
+    rekomendasi += `💪 Paling kuat menyerap kelembaban: ${strongest.sku} dengan ${strongest.dehumidifikasi} per hari.\n`;
+    if (quietest.sku !== strongest.sku)
+      rekomendasi += `🔇 Paling senyap: ${quietest.sku} di ${quietest.kebisingan} — nyaman dipakai di kamar tidur.\n`;
+    if (biggestTank.sku !== strongest.sku)
+      rekomendasi += `🪣 Tangki terbesar: ${biggestTank.sku} dengan ${biggestTank.kapasitas_tangki} — jarang perlu dikosongkan.\n`;
+    if (hasAroma.length > 0)
+      rekomendasi += `🌸 ${hasAroma.map(p=>p.sku).join(" & ")} punya bonus fungsi aromaterapi — ruangan wangi sekaligus kering.\n`;
+  }
+
+  else if (cat === "Humidifier") {
+    const biggestTank = compareProds.reduce((a, b) => parseInt(a.kapasitas) > parseInt(b.kapasitas) ? a : b);
+    const longestBattery = compareProds.reduce((a, b) => parseInt(a.daya_baterai) > parseInt(b.daya_baterai) ? a : b);
+    const mostMist = compareProds.reduce((a, b) => parseInt(a.melembabkan) > parseInt(b.melembabkan) ? a : b);
+    const cordless = compareProds.filter(p => p.tipe === "Tanpa kabel");
+
+    rekomendasi += `💧 Tangki terbesar: ${biggestTank.sku} dengan ${biggestTank.kapasitas} — tahan lebih lama.\n`;
+    if (mostMist.sku !== biggestTank.sku)
+      rekomendasi += `🌫️ Output uap terbanyak: ${mostMist.sku} dengan ${mostMist.melembabkan} — melembabkan ruangan lebih cepat.\n`;
+    if (cordless.length > 0)
+      rekomendasi += `🔋 ${cordless.map(p=>p.sku).join(" & ")} tanpa kabel — bebas taruh di mana aja.\n`;
+    if (longestBattery.sku)
+      rekomendasi += `⏱️ Tahan paling lama: ${longestBattery.sku} sampai ${longestBattery.daya_baterai}.\n`;
+  }
+
+  else if (cat === "Air Purifier") {
+    const highestCADR = compareProds.reduce((a, b) => parseInt(a.cadr) > parseInt(b.cadr) ? a : b);
+    const quietest = compareProds.reduce((a, b) => parseInt(a.kebisingan) < parseInt(b.kebisingan) ? a : b);
+    const bestFilter = compareProds.find(p => p.filter && p.filter.includes("H13")) || compareProds.find(p => p.filter && p.filter.includes("H11"));
+    const hasApp = compareProds.filter(p => p.cara_kontrol && p.cara_kontrol.includes("APP"));
+
+    rekomendasi += `💨 CADR tertinggi: ${highestCADR.sku} dengan ${highestCADR.cadr} — purifikasi udara paling cepat & cocok untuk ruangan ${highestCADR.cocok_untuk}.\n`;
+    if (bestFilter)
+      rekomendasi += `🛡️ Filter terbaik: ${bestFilter.sku} dengan ${bestFilter.filter} — paling efektif nangkap partikel berbahaya.\n`;
+    if (hasApp.length > 0)
+      rekomendasi += `📱 ${hasApp.map(p=>p.sku).join(" & ")} bisa dikontrol lewat aplikasi — praktis buat kakak yang mobile.\n`;
+    if (quietest.sku !== highestCADR.sku)
+      rekomendasi += `🔇 Paling senyap: ${quietest.sku} — cocok dipakai di kamar tidur atau ruang kerja.\n`;
+  }
+
+  else if (cat === "Vacuum Mop") {
+    const strongest = compareProds.reduce((a, b) => parseInt(a.suction) > parseInt(b.suction) ? a : b);
+    const longestUse = compareProds.reduce((a, b) => {
+      const aVal = parseInt((a.waktu_pakai || "0").split("~")[1] || a.waktu_pakai);
+      const bVal = parseInt((b.waktu_pakai || "0").split("~")[1] || b.waktu_pakai);
+      return aVal > bVal ? a : b;
+    });
+    const biggestDirty = compareProds.reduce((a, b) => parseInt(a.tangki_kotor) > parseInt(b.tangki_kotor) ? a : b);
+
+    rekomendasi += `💪 Daya hisap terkuat: ${strongest.sku} dengan ${strongest.suction} — paling efektif buat kotoran berat.\n`;
+    if (longestUse.sku !== strongest.sku)
+      rekomendasi += `⏱️ Paling tahan lama dipakai: ${longestUse.sku} sampai ${longestUse.waktu_pakai} — cocok untuk area yang luas.\n`;
+    if (biggestDirty.sku !== strongest.sku)
+      rekomendasi += `🪣 Tangki kotor terbesar: ${biggestDirty.sku} dengan ${biggestDirty.tangki_kotor} — jarang perlu dikosongkan.\n`;
+  }
+
+  else if (cat === "Carpet & Upholstery") {
+    const strongest = compareProds.reduce((a, b) => parseInt(a.suction) > parseInt(b.suction) ? a : b);
+    const biggestClean = compareProds.reduce((a, b) => parseInt(a.tangki_bersih) > parseInt(b.tangki_bersih) ? a : b);
+    const mostModes = compareProds.reduce((a, b) => parseInt(a.pengaturan) > parseInt(b.pengaturan) ? a : b);
+
+    rekomendasi += `💪 Daya hisap terkuat: ${strongest.sku} dengan ${strongest.suction} — paling efektif buat noda membandel di karpet & sofa.\n`;
+    if (biggestClean.sku !== strongest.sku)
+      rekomendasi += `💧 Tangki air terbesar: ${biggestClean.sku} dengan ${biggestClean.tangki_bersih} — bisa bersihkan area lebih luas.\n`;
+    if (mostModes.sku !== strongest.sku)
+      rekomendasi += `🎛️ Mode terbanyak: ${mostModes.sku} dengan ${mostModes.pengaturan} mode — paling fleksibel untuk berbagai jenis noda.\n`;
+  }
+
+  else if (cat === "Electric Fan") {
+    const quietest = compareProds.reduce((a, b) => parseInt(a.kebisingan) < parseInt(b.kebisingan) ? a : b);
+    const mostModes = compareProds.reduce((a, b) => parseInt(a.pengaturan) > parseInt(b.pengaturan) ? a : b);
+    const lowestPower = compareProds.reduce((a, b) => parseFloat(a.daya) < parseFloat(b.daya) ? a : b);
+
+    rekomendasi += `🔇 Paling senyap: ${quietest.sku} di ${quietest.kebisingan} — nyaman buat kerja atau tidur.\n`;
+    if (lowestPower.sku !== quietest.sku)
+      rekomendasi += `⚡ Paling hemat listrik: ${lowestPower.sku} dengan ${lowestPower.daya} — cocok dipakai seharian.\n`;
+    if (mostModes.sku !== quietest.sku && mostModes.pengaturan)
+      rekomendasi += `🎛️ Pilihan kecepatan terbanyak: ${mostModes.sku} dengan ${mostModes.pengaturan} — angin bisa disesuaikan lebih presisi.\n`;
+  }
+
+  else if (cat === "Air Cooler") {
+    const biggestTank = compareProds.reduce((a, b) => parseInt(a.kapasitas) > parseInt(b.kapasitas) ? a : b);
+    const lowestPower = compareProds.reduce((a, b) => parseInt(a.daya) < parseInt(b.daya) ? a : b);
+    const quietest = compareProds.reduce((a, b) => parseInt(a.kebisingan) < parseInt(b.kebisingan) ? a : b);
+
+    rekomendasi += `💧 Tangki terbesar: ${biggestTank.sku} dengan ${biggestTank.kapasitas} — tahan lebih lama tanpa isi ulang.\n`;
+    if (lowestPower.sku !== biggestTank.sku)
+      rekomendasi += `⚡ Paling hemat listrik: ${lowestPower.sku} dengan ${lowestPower.daya} — adem tanpa bikin tagihan bengkak.\n`;
+    if (quietest.sku !== biggestTank.sku)
+      rekomendasi += `🔇 Paling senyap: ${quietest.sku} di ${quietest.kebisingan} — cocok buat kamar tidur.\n`;
+  }
+
+  else if (cat === "Air Fryer (Digital)" || cat === "Air Fryer (Knob)") {
+    const biggest = compareProds.reduce((a, b) => {
+      const aVol = parseFloat((a.kapasitas||"0").split("L")[0]);
+      const bVol = parseFloat((b.kapasitas||"0").split("L")[0]);
+      return aVol > bVol ? a : b;
+    });
+    const lowestPower = compareProds.reduce((a, b) => parseInt(a.daya) < parseInt(b.daya) ? a : b);
+    const hasWindow = compareProds.filter(p => p.jendela === "✓");
+    const noWindow  = compareProds.filter(p => p.jendela === "×");
+
+    rekomendasi += `🍳 Kapasitas terbesar: ${biggest.sku} dengan ${biggest.kapasitas} — paling cocok untuk masak porsi keluarga.\n`;
+    if (lowestPower.sku !== biggest.sku)
+      rekomendasi += `⚡ Paling hemat listrik: ${lowestPower.sku} dengan ${lowestPower.daya} — masak sehat tanpa boros energi.\n`;
+    if (hasWindow.length > 0 && noWindow.length > 0)
+      rekomendasi += `👀 ${hasWindow.map(p=>p.sku).join(" & ")} punya jendela transparan — bisa pantau masakan tanpa buka tutup, lebih praktis!\n`;
+  }
+
+  else if (cat === "Electric Cooker") {
+    const biggest = compareProds.reduce((a, b) => {
+      const aVol = parseFloat((a.kapasitas||"0").replace(/[^0-9.]/g,""));
+      const bVol = parseFloat((b.kapasitas||"0").replace(/[^0-9.]/g,""));
+      return aVol > bVol ? a : b;
+    });
+    const fastest = compareProds.reduce((a, b) => parseInt(a.daya) > parseInt(b.daya) ? a : b);
+    const hasSS = compareProds.filter(p => p.bahan && p.bahan.includes("SUS"));
+    const hasAlu = compareProds.filter(p => p.bahan && p.bahan.includes("aluminium"));
+
+    rekomendasi += `🍲 Kapasitas terbesar: ${biggest.sku} dengan ${biggest.kapasitas} — cocok untuk keluarga lebih besar.\n`;
+    if (fastest.sku !== biggest.sku)
+      rekomendasi += `⚡ Daya lebih besar: ${fastest.sku} dengan ${fastest.daya} — masak lebih cepat & efisien.\n`;
+    if (hasSS.length > 0 && hasAlu.length > 0)
+      rekomendasi += `🔩 ${hasSS.map(p=>p.sku).join(" & ")} pakai stainless steel — lebih awet. ${hasAlu.map(p=>p.sku).join(" & ")} pakai aluminium — lebih ringan & panas merata.\n`;
+  }
+
+  else if (cat === "Electric Steamer") {
+    const mostTier = compareProds.reduce((a, b) => parseInt(a.tier) > parseInt(b.tier) ? a : b);
+    const biggest = compareProds.reduce((a, b) => {
+      const aVol = parseInt((a.kapasitas||"0").replace(/[^0-9]/g,"").slice(0,2)|"0");
+      const bVol = parseInt((b.kapasitas||"0").replace(/[^0-9]/g,"").slice(0,2)|"0");
+      return aVol > bVol ? a : b;
+    });
+    const fastest = compareProds.reduce((a, b) => parseInt(a.daya) > parseInt(b.daya) ? a : b);
+
+    rekomendasi += `🥘 Susun terbanyak: ${mostTier.sku} dengan ${mostTier.tier} susun — bisa masak lebih banyak menu sekaligus.\n`;
+    if (biggest.sku !== mostTier.sku)
+      rekomendasi += `🍱 Kapasitas terbesar: ${biggest.sku} — cocok untuk keluarga besar.\n`;
+    if (fastest.sku !== mostTier.sku)
+      rekomendasi += `⚡ Daya terbesar: ${fastest.sku} dengan ${fastest.daya} — masak lebih cepat.\n`;
+  }
+
+  else if (cat === "Drip Coffee Machine") {
+    const biggest = compareProds.reduce((a, b) => parseFloat(a.kapasitas_tangki) > parseFloat(b.kapasitas_tangki) ? a : b);
+    const fastest = compareProds.reduce((a, b) => {
+      const aVal = parseInt((a.waktu||"99").replace(/[^0-9]/g,"")||"99");
+      const bVal = parseInt((b.waktu||"99").replace(/[^0-9]/g,"")||"99");
+      return aVal < bVal ? a : b;
+    });
+    const lowestPower = compareProds.reduce((a, b) => parseInt(a.daya) < parseInt(b.daya) ? a : b);
+
+    rekomendasi += `☕ Kapasitas terbesar: ${biggest.sku} dengan ${biggest.kapasitas_tangki} (${biggest.kapasitas_gelas}) — cocok buat kantor atau keluarga besar.\n`;
+    if (fastest.sku !== biggest.sku)
+      rekomendasi += `⚡ Paling cepat menyeduh: ${fastest.sku} dalam ${fastest.waktu} — kopi siap dalam sekejap.\n`;
+    if (lowestPower.sku !== biggest.sku)
+      rekomendasi += `💡 Paling hemat listrik: ${lowestPower.sku} dengan ${lowestPower.daya} — cocok buat pemakaian harian.\n`;
+  }
+
+  else if (cat === "Semi-auto Espresso") {
+    const highestPressure = compareProds.reduce((a, b) => parseInt(a.tekanan) > parseInt(b.tekanan) ? a : b);
+    const biggestTank = compareProds.reduce((a, b) => parseFloat(a.kapasitas_tangki) > parseFloat(b.kapasitas_tangki) ? a : b);
+    const fastestHeat = compareProds.reduce((a, b) => {
+      const aVal = parseInt((a.waktu_pemanasan||"999").replace(/[^0-9]/g,"")||"999");
+      const bVal = parseInt((b.waktu_pemanasan||"999").replace(/[^0-9]/g,"")||"999");
+      return aVal < bVal ? a : b;
+    });
+
+    rekomendasi += `☕ Tekanan tertinggi: ${highestPressure.sku} dengan ${highestPressure.tekanan} — hasil espresso paling kaya & beraroma.\n`;
+    if (biggestTank.sku !== highestPressure.sku)
+      rekomendasi += `💧 Tangki terbesar: ${biggestTank.sku} dengan ${biggestTank.kapasitas_tangki} — jarang perlu isi ulang.\n`;
+    if (fastestHeat.sku !== highestPressure.sku && fastestHeat.waktu_pemanasan !== "—")
+      rekomendasi += `⚡ Panas paling cepat: ${fastestHeat.sku} dalam ${fastestHeat.waktu_pemanasan} — nggak perlu nunggu lama.\n`;
+  }
+
+  else if (cat === "Capsule Coffee") {
+    const biggestTank = compareProds.reduce((a, b) => parseFloat(a.kapasitas_tangki) > parseFloat(b.kapasitas_tangki) ? a : b);
+    const fastestHeat = compareProds.reduce((a, b) => {
+      const aVal = parseInt((a.waktu_pemanasan||"999").replace(/[^0-9]/g,"")||"999");
+      const bVal = parseInt((b.waktu_pemanasan||"999").replace(/[^0-9]/g,"")||"999");
+      return aVal < bVal ? a : b;
+    });
+
+    rekomendasi += `💧 Tangki terbesar: ${biggestTank.sku} dengan ${biggestTank.kapasitas_tangki} — lebih jarang isi ulang.\n`;
+    if (fastestHeat.sku !== biggestTank.sku)
+      rekomendasi += `⚡ Siap paling cepat: ${fastestHeat.sku} dalam ${fastestHeat.waktu_pemanasan} — kopi langsung jadi!\n`;
+  }
+
+  else if (cat === "Electric Chopper") {
+    const biggest = compareProds.reduce((a, b) => {
+      const aVol = parseInt((a.kapasitas||"0").replace(/[^0-9]/g,"").slice(0,4)||"0");
+      const bVol = parseInt((b.kapasitas||"0").replace(/[^0-9]/g,"").slice(0,4)||"0");
+      return aVol > bVol ? a : b;
+    });
+    const highestPower = compareProds.reduce((a, b) => parseInt(a.daya) > parseInt(b.daya) ? a : b);
+    const portable = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("portabel"));
+
+    rekomendasi += `🥩 Kapasitas terbesar: ${biggest.sku} dengan ${biggest.kapasitas} — sekali proses lebih banyak.\n`;
+    if (highestPower.sku !== biggest.sku)
+      rekomendasi += `⚡ Daya terbesar: ${highestPower.sku} dengan ${highestPower.daya} — cacah bahan lebih cepat & halus.\n`;
+    if (portable.length > 0)
+      rekomendasi += `🎒 ${portable.map(p=>p.sku).join(" & ")} super portabel — cocok dibawa traveling atau masak di luar.\n`;
+  }
+
+  else if (cat === "Blender / Juicer") {
+    const highestPower = compareProds.reduce((a, b) => parseInt(a.daya) > parseInt(b.daya) ? a : b);
+    const biggest = compareProds.reduce((a, b) => {
+      const aVol = parseInt((a.kapasitas||"0").replace(/[^0-9]/g,"").slice(0,4)||"0");
+      const bVol = parseInt((b.kapasitas||"0").replace(/[^0-9]/g,"").slice(0,4)||"0");
+      return aVol > bVol ? a : b;
+    });
+    const mostBlades = compareProds.reduce((a, b) => {
+      const aBlades = parseInt((a.pisau||"0").replace(/[^0-9]/g,"").slice(0,2)||"0");
+      const bBlades = parseInt((b.pisau||"0").replace(/[^0-9]/g,"").slice(0,2)||"0");
+      return aBlades > bBlades ? a : b;
+    });
+    const portable = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("portabel"));
+    const noAmpas = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("ampas"));
+
+    rekomendasi += `⚡ Daya terbesar: ${highestPower.sku} dengan ${highestPower.daya} — paling bertenaga untuk blend bahan keras.\n`;
+    if (biggest.sku !== highestPower.sku)
+      rekomendasi += `🥤 Kapasitas terbesar: ${biggest.sku} dengan ${biggest.kapasitas} — sekali blend lebih banyak.\n`;
+    if (mostBlades.sku !== highestPower.sku)
+      rekomendasi += `🔪 Mata pisau terbanyak: ${mostBlades.sku} dengan ${mostBlades.pisau} — hasil blend lebih halus & merata.\n`;
+    if (portable.length > 0)
+      rekomendasi += `🎒 ${portable.map(p=>p.sku).join(" & ")} portabel — tinggal blend langsung minum dari botolnya.\n`;
+    if (noAmpas.length > 0)
+      rekomendasi += `🥤 ${noAmpas.map(p=>p.sku).join(" & ")} bebas ampas — sari buah murni tanpa sisa.\n`;
+  }
+
+  else if (cat === "Hair Dryer") {
+    const brushless = compareProds.filter(p => p.motor && p.motor.includes("tanpa sikat"));
+    const brushed   = compareProds.filter(p => p.motor && p.motor.includes("bersikat"));
+    const mostIon   = compareProds.reduce((a, b) => {
+      const aIon = parseInt((a.ion_negatif||"0").replace(/[^0-9]/g,"")||"0");
+      const bIon = parseInt((b.ion_negatif||"0").replace(/[^0-9]/g,"")||"0");
+      return aIon > bIon ? a : b;
+    });
+    const quietest  = compareProds.reduce((a, b) => parseFloat(a.kebisingan) < parseFloat(b.kebisingan) ? a : b);
+    const fastestAir = compareProds.reduce((a, b) => parseFloat(a.kecepatan) > parseFloat(b.kecepatan) ? a : b);
+    const foldable  = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("lipat"));
+
+    if (brushless.length > 0 && brushed.length > 0) {
+      rekomendasi += `⚡ ${brushless.map(p=>p.sku).join(" & ")} pakai motor brushless — lebih awet, senyap & tahan lama dibanding motor biasa.\n`;
+      rekomendasi += `💰 ${brushed.map(p=>p.sku).join(" & ")} pakai motor standar — lebih terjangkau untuk pemakaian sehari-hari.\n`;
+    }
+    if (parseInt(mostIon.ion_negatif) > 0)
+      rekomendasi += `✨ Ion negatif terbanyak: ${mostIon.sku} dengan ${mostIon.ion_negatif} — rambut paling halus & berkilau.\n`;
+    if (quietest.sku)
+      rekomendasi += `🔇 Paling senyap: ${quietest.sku} di ${quietest.kebisingan} — nyaman dipakai kapan aja.\n`;
+    if (fastestAir.sku !== quietest.sku)
+      rekomendasi += `💨 Angin paling kencang: ${fastestAir.sku} dengan ${fastestAir.kecepatan} — rambut kering lebih cepat.\n`;
+    if (foldable.length > 0)
+      rekomendasi += `🎒 ${foldable.map(p=>p.sku).join(" & ")} bisa dilipat — praktis masuk tas saat traveling.\n`;
+  }
+
+  else if (cat === "Hair Straightener") {
+    const fastestHeat = compareProds.reduce((a, b) => parseInt(a.waktu_panas) < parseInt(b.waktu_panas) ? a : b);
+    const mostSettings = compareProds.reduce((a, b) => parseInt(a.pengaturan) > parseInt(b.pengaturan) ? a : b);
+    const highestTemp = compareProds.reduce((a, b) => {
+      const aTemp = parseInt((a.suhu||"0").split("-").pop().replace(/[^0-9]/g,"")||"0");
+      const bTemp = parseInt((b.suhu||"0").split("-").pop().replace(/[^0-9]/g,"")||"0");
+      return aTemp > bTemp ? a : b;
+    });
+    const cordless = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("nirkabel"));
+    const mini = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("mini"));
+
+    rekomendasi += `⚡ Panas paling cepat: ${fastestHeat.sku} dalam ${fastestHeat.waktu_panas} — langsung siap styling.\n`;
+    if (mostSettings.sku !== fastestHeat.sku)
+      rekomendasi += `🎛️ Pengaturan suhu terbanyak: ${mostSettings.sku} dengan ${mostSettings.pengaturan} level — paling bisa disesuaikan dengan jenis rambut.\n`;
+    if (highestTemp.sku !== fastestHeat.sku)
+      rekomendasi += `🔥 Suhu tertinggi: ${highestTemp.sku} hingga ${highestTemp.suhu} — cocok untuk rambut tebal & keras.\n`;
+    if (cordless.length > 0)
+      rekomendasi += `🔋 ${cordless.map(p=>p.sku).join(" & ")} nirkabel — bebas styling tanpa repot kabel.\n`;
+    if (mini.length > 0)
+      rekomendasi += `🎒 ${mini.map(p=>p.sku).join(" & ")} mini & portabel — wajib masuk tas traveling.\n`;
+  }
+
+  else if (cat === "Hair Curler") {
+    const fastestHeat = compareProds.reduce((a, b) => parseInt(a.waktu_panas) < parseInt(b.waktu_panas) ? a : b);
+    const highestTemp = compareProds.reduce((a, b) => {
+      const aTemp = parseInt((a.suhu||"0").split("-").pop().replace(/[^0-9]/g,"")||"0");
+      const bTemp = parseInt((b.suhu||"0").split("-").pop().replace(/[^0-9]/g,"")||"0");
+      return aTemp > bTemp ? a : b;
+    });
+    const auto = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("auto"));
+    const portable = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("portabel"));
+
+    rekomendasi += `⚡ Panas paling cepat: ${fastestHeat.sku} dalam ${fastestHeat.waktu_panas} — langsung bisa keriting rambut.\n`;
+    if (highestTemp.sku !== fastestHeat.sku)
+      rekomendasi += `🔥 Suhu tertinggi: ${highestTemp.sku} hingga ${highestTemp.suhu} — cocok untuk rambut tebal & keras.\n`;
+    if (auto.length > 0)
+      rekomendasi += `🤖 ${auto.map(p=>p.sku).join(" & ")} auto curler — tinggal masukin rambut, keriting sendiri! Cocok buat yang nggak biasa styling.\n`;
+    if (portable.length > 0)
+      rekomendasi += `🎒 ${portable.map(p=>p.sku).join(" & ")} super portabel — styling kapan aja & di mana aja.\n`;
+
+    const diameters = compareProds.filter(p => p.diameter);
+    if (diameters.length > 1) {
+      const bigD = diameters.reduce((a, b) => parseInt(a.diameter) > parseInt(b.diameter) ? a : b);
+      const smallD = diameters.reduce((a, b) => parseInt(a.diameter) < parseInt(b.diameter) ? a : b);
+      if (bigD.sku !== smallD.sku)
+        rekomendasi += `🌀 ${bigD.sku} (${bigD.diameter}) untuk keriting lembut & natural, ${smallD.sku} (${smallD.diameter}) untuk hasil keriting lebih kencang & tahan lama.\n`;
+    }
+  }
+
+  else if (cat === "Hair Dryer Brush") {
+    const mostIon = compareProds.reduce((a, b) => {
+      const aIon = parseInt((a.ion_negatif||"0").replace(/[^0-9]/g,"")||"0");
+      const bIon = parseInt((b.ion_negatif||"0").replace(/[^0-9]/g,"")||"0");
+      return aIon > bIon ? a : b;
+    });
+    const fastestAir = compareProds.reduce((a, b) => parseFloat(a.kecepatan) > parseFloat(b.kecepatan) ? a : b);
+    const detachable = compareProds.filter(p => p.kepala_lepas === "✓");
+    const autoClean  = compareProds.filter(p => p.pengaturan && p.pengaturan.toLowerCase().includes("auto"));
+
+    if (parseInt(mostIon.ion_negatif) > 0)
+      rekomendasi += `✨ Ion negatif terbanyak: ${mostIon.sku} dengan ${mostIon.ion_negatif} — rambut paling halus & mengkilap.\n`;
+    rekomendasi += `💨 Airflow paling kencang: ${fastestAir.sku} dengan ${fastestAir.kecepatan} — rambut kering sekaligus terstyling lebih cepat.\n`;
+    if (detachable.length > 0)
+      rekomendasi += `🔄 ${detachable.map(p=>p.sku).join(" & ")} kepala bisa diganti — satu alat banyak gaya styling.\n`;
+    if (autoClean.length > 0)
+      rekomendasi += `🤖 ${autoClean.map(p=>p.sku).join(" & ")} punya mode auto-bersih — perawatan alat jadi lebih mudah.\n`;
+  }
+
+  if (rekomendasi === "") {
+    rekomendasi = "Semua produk di atas punya keunggulan masing-masing ya kak! Bisa disesuaikan dengan kebutuhan & budget kakak 😊\n";
+  }
+
+  msg += rekomendasi;
+  msg += "\nKalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya! 🙏";
+  return msg;
+}
+
+// --- CORE UI FUNCTIONS ---
+function renderHeader() {
+  document.getElementById("headerSub").textContent = `${products.length} produk · ${categories.length - 1} kategori`;
+  const right = document.getElementById("headerRight");
+  if (selected.length > 0 && viewMode === "products") {
+    right.innerHTML = `
+      <div class="selected-badge">${selected.length}/4 dipilih untuk compare</div>
+      <button class="reset-btn" onclick="resetSelected()">✕ Reset</button>
+    `;
+  } else {
+    right.innerHTML = "";
+  }
+}
+
+function resetSelected() { selected = []; render(); }
+
+function renderSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const title = sidebar.querySelector(".sidebar-title");
+  sidebar.innerHTML = "";
+  sidebar.appendChild(title);
+
+  // FAQ button
+  const faqBtn = document.createElement("button");
+  faqBtn.className = "faq-sidebar-btn" + (viewMode === "faq" ? " active" : "");
+  faqBtn.innerHTML = `<span>❓</span><span style="flex:1">FAQs</span><span style="font-size:10px;padding:1px 6px;border-radius:20px;background:${viewMode==='faq'?'rgba(255,255,255,0.3)':'#eef2ff'};color:${viewMode==='faq'?'#fff':'#6366f1'};font-weight:700;">${Object.keys(faqs).length}</span>`;
+  faqBtn.onclick = () => { viewMode = viewMode === "faq" ? "products" : "faq"; activeCat = "Semua"; render(); };
+  sidebar.appendChild(faqBtn);
+
+  const hr = document.createElement("hr");
+  hr.className = "sidebar-divider";
+  sidebar.appendChild(hr);
+
+  const catTitle = document.createElement("div");
+  catTitle.className = "sidebar-title";
+  catTitle.style.paddingTop = "8px";
+  catTitle.textContent = "Kategori";
+  sidebar.appendChild(catTitle);
+
+  categories.forEach(cat => {
+    const count = cat === "Semua" ? products.length : products.filter(p => p.category === cat).length;
+    const btn = document.createElement("button");
+    const col = catColors[cat] || "#64748b";
+    btn.className = "cat-btn" + (activeCat === cat && viewMode === "products" ? " active" : "");
+    if (activeCat === cat && viewMode === "products") btn.style.background = col;
+    btn.onclick = () => { activeCat = cat; viewMode = "products"; render(); };
+    btn.innerHTML = `
+      ${cat !== "Semua" ? `<div class="cat-dot" style="background:${col}"></div>` : "🗂️"}
+      <span style="flex:1">${cat}</span>
+      <span class="cat-count">${count}</span>
+    `;
+    sidebar.appendChild(btn);
+  });
+}
+
+function renderCompare() {
+  const section = document.getElementById("compareSection");
+  const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
+  if (compareProds.length < 2) { section.innerHTML = ""; return; }
+  
+  const fields = FIELDS[compareProds[0].category] || [];
+  let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
+  
+  compareProds.forEach(p => {
+    const col = catColors[p.category] || "#64748b";
+    headCells += `<th>
+      <div style="text-align:center;margin-bottom:8px;">
+        <img src="${p.image}" style="width:60px;height:60px;object-fit:contain;border-radius:8px;border:1px solid #e2e8f0;" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+      </div>
+      <span style="background:${col}18;border:1px solid ${col}40;border-radius:7px;padding:3px 9px;font-size:11px;color:${col};font-weight:800;">${p.sku}</span>
+      <div style="font-size:11px;color:#94a3b8;margin-top:4px;font-weight:500;">${p.name}</div>
+    </th>`;
+  });
+  
+  let rows = `<tr><td class="spec-label">Karakteristik</td>${compareProds.map(p=>`<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}</tr>`;
+  fields.forEach(f => {
+    rows += `<tr><td class="spec-label">${LABELS[f]||f}</td>${compareProds.map(p=>`<td>${p[f]||"—"}</td>`).join("")}</tr>`;
+  });
+  
+  const csMsg = generateCSMessage(compareProds);
+  section.innerHTML = `
+    <div class="compare-section">
+      <div class="compare-title">⚖️ PERBANDINGAN PRODUK</div>
+      <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
+      <div class="cs-message-box">
+        <div class="cs-message-header">
+          <div class="cs-message-header-left"><span>💬</span> Teks Siap Kirim ke Customer</div>
+          <button class="copy-btn" id="copyBtn" onclick="copyMessage()">📋 Copy Teks</button>
+        </div>
+        <div class="cs-message-body" id="csMessageBody">${csMsg}</div>
+      </div>
+    </div>`;
+}
+
+function copyMessage() {
+  const text = document.getElementById("csMessageBody").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.textContent = "✅ Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "📋 Copy Teks"; btn.classList.remove("copied"); }, 2000);
+  });
+}
+
+function renderGrid(filtered) {
+  const grid = document.getElementById("grid");
+  const noResults = document.getElementById("noResults");
+  if (filtered.length === 0) { grid.innerHTML = ""; noResults.style.display = "block"; return; }
+  noResults.style.display = "none";
+  
+  grid.innerHTML = filtered.map(p => {
+    const col = catColors[p.category] || "#64748b";
+    const isSel = selected.includes(p.sku);
+    const fields = (FIELDS[p.category] || []).slice(0, 3).filter(f => p[f]);
+    const specRows = fields.map(f => `<div class="spec-row"><span class="spec-key">${LABELS[f]||f}</span><span class="spec-val">${p[f]}</span></div>`).join("");
+    
+    return `
+      <div class="card ${isSel ? "selected" : ""}"
+        style="border-color:${isSel ? col : "#f1f5f9"};${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
+        onclick="toggleSelect('${p.sku}')">
+        ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
+        
+        <div class="card-img-wrap">
+          <img src="${p.image}" class="card-img" onerror="this.src='https://placehold.co/400x400/f8fafc/94a3b8?text=${p.sku}'">
+        </div>
+        
+        <div class="card-top">
+          <span class="card-sku" style="background:${col}18;border:1px solid ${col}35;color:${col}">${p.sku}</span>
+          <span class="card-cat">${p.category}</span>
+        </div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-char" style="color:${col}">${p.karakteristik||""}</div>
+        <div class="card-specs">${specRows}</div>
+        
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          <button class="detail-btn" style="color:${col};margin-top:0;flex:1"
+            onmouseover="this.style.background='${col}';this.style.color='#fff'"
+            onmouseout="this.style.background='#fafbff';this.style.color='${col}'"
+            onclick="event.stopPropagation();openModal('${p.sku}')">Detail →</button>
+          
+          ${manualUrls[p.sku] ? `<a href="${manualUrls[p.sku]}" target="_blank" rel="noopener"
+            onclick="event.stopPropagation()"
+            style="display:flex;align-items:center;justify-content:center;gap:4px;
+              flex:1;border:1.5px solid ${col}35;border-radius:10px;padding:7px;
+              font-size:11px;font-weight:600;color:${col};background:#fafbff;
+              text-decoration:none;transition:all 0.2s;"
+            onmouseover="this.style.background='${col}';this.style.color='#fff';this.style.borderColor='${col}'"
+            onmouseout="this.style.background='#fafbff';this.style.color='${col}';this.style.borderColor='${col}35'">
+            📖 Manual
+          </a>` : `<button disabled style="flex:1;border:1.5px solid #e2e8f0;border-radius:10px;padding:7px;
+              font-size:11px;font-weight:600;color:#cbd5e1;background:#fafbff;cursor:default;">
+            📖 N/A
+          </button>`}
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function toggleSelect(sku) {
+  if (selected.includes(sku)) selected = selected.filter(s => s !== sku);
+  else if (selected.length < 4) selected.push(sku);
+  render();
+}
+
+function openModal(sku) {
+  const p = products.find(x => x.sku === sku);
+  if (!p) return;
+  const col = catColors[p.category] || "#6366f1";
+  const fields = FIELDS[p.category] || Object.keys(LABELS);
+  
+  document.getElementById("modalHeaderBar").style.background = `linear-gradient(135deg, ${col}, ${col}cc)`;
+  document.getElementById("modalSkuRow").innerHTML = `
+    <span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span>
+    <span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>`;
+  document.getElementById("modalName").textContent = p.name;
+  document.getElementById("modalChar").textContent = p.karakteristik || "";
+  
+  let specsList = fields.filter(f => p[f]).map(f => `<div class="modal-spec-row"><span class="modal-spec-key">${LABELS[f]||f}</span><span class="modal-spec-val">${p[f]}</span></div>`).join("");
+  const catRow = `<div class="modal-spec-row"><span class="modal-spec-key">Kategori</span><span class="modal-spec-val" style="color:${col};font-weight:700">${p.category}</span></div>`;
+  
+  const sp = generateSellingPoint(p);
+  const spHTML = sp.length > 0 ? `<div style="margin-bottom:16px;background:${col}08;border-radius:10px;padding:12px;border:1px solid ${col}20;"><div style="font-size:10px;font-weight:700;color:${col};letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">🌟 Keunggulan Produk</div>${sp.map(s=>`<div style="font-size:12.5px;color:#334155;margin-bottom:5px;">${s}</div>`).join("")}</div>` : "";
+  
+  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:200px; max-height:200px; border-radius:12px;" onerror="this.style.display='none'"></div>`;
+
+  const manualLink = manualUrls[p.sku];
+  const manualHTML = manualLink
+    ? `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;">
+        <a href="${manualLink}" target="_blank" rel="noopener"
+          style="display:flex;align-items:center;justify-content:center;gap:8px;
+            width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;
+            font-size:13px;color:#fff;background:linear-gradient(135deg,${col},${col}cc);
+            box-shadow:0 4px 14px ${col}40;transition:all 0.2s;"
+          onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+          📖 Lihat User Manual
+        </a>
+      </div>`
+    : `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9; text-align:center;font-size:12px;color:#94a3b8;">User manual belum tersedia</div>`;
+  
+  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + manualHTML;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() { document.getElementById("modal").style.display = "none"; }
+
+// --- FAQ FUNCTIONS ---
+function renderFAQ() {
+  const faqView = document.getElementById("faqView");
+  const q = faqSearch.toLowerCase().trim();
+
+  const catEntries = Object.entries(faqs);
+  const filtered = catEntries.map(([cat, items]) => ({
+    cat,
+    items: items.filter(item => !q || item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q))
+  })).filter(e => e.items.length > 0);
+
+  const totalQ = filtered.reduce((sum, e) => sum + e.items.length, 0);
+
+  faqView.innerHTML = `
+    <div class="faq-header-bar">
+      <div class="faq-header-icon">❓</div>
+      <div>
+        <div class="faq-header-title">Frequently Asked Questions</div>
+        <div class="faq-header-sub">${totalQ} pertanyaan di ${filtered.length} kategori</div>
+      </div>
+      <div class="faq-search-wrap">
+        <span class="faq-search-icon">🔍</span>
+        <input class="faq-search" placeholder="Cari pertanyaan..." value="${faqSearch}" oninput="faqSearch=this.value;renderFAQ()" />
+      </div>
+    </div>
+    ${filtered.length === 0 ? `<div class="no-results"><div class="no-results-emoji">🔎</div><div>Tidak ada FAQ yang sesuai</div></div>` : ""}
+    ${filtered.map((e, ci) => {
+      const col = catColors[e.cat] || "#6366f1";
+      return `
+        <div class="faq-cat-block" id="faqBlock${ci}">
+          <div class="faq-cat-header" onclick="toggleFAQCat(${ci})">
+            <div class="faq-cat-dot" style="background:${col}"></div>
+            <div class="faq-cat-name">${e.cat}</div>
+            <div class="faq-cat-count">${e.items.length} FAQ</div>
+            <div class="faq-cat-chevron">▼</div>
+          </div>
+          <div class="faq-items">
+            ${e.items.map((item, qi) => `
+              <div class="faq-item" id="faqItem${ci}_${qi}">
+                <div class="faq-q" onclick="toggleFAQItem(${ci},${qi})">
+                  <div class="faq-q-icon" style="background:${col}">Q</div>
+                  <div class="faq-q-text">${highlight(item.q, q)}</div>
+                  <div class="faq-q-arrow">▼</div>
+                </div>
+                <div class="faq-a">${highlight(item.a, q)}</div>
+              </div>
+            `).join("")}
+          </div>
+        </div>`;
+    }).join("")}
+  `;
+
+  if (q) {
+    filtered.forEach((_, ci) => {
+      const block = document.getElementById(`faqBlock${ci}`);
+      if (block) block.classList.add("open");
+    });
+  }
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark style="background:#fef08a;border-radius:3px;padding:0 2px;">$1</mark>');
+}
+
+function toggleFAQCat(ci) {
+  const block = document.getElementById(`faqBlock${ci}`);
+  if (block) block.classList.toggle("open");
+}
+
+function toggleFAQItem(ci, qi) {
+  const item = document.getElementById(`faqItem${ci}_${qi}`);
+  if (item) item.classList.toggle("open");
+}
+
+// --- RENDER MASTER ---
+function render() {
+  renderSidebar();
+  renderHeader();
+
+  const searchWrap = document.getElementById("searchWrap");
+  const compareSection = document.getElementById("compareSection");
+  const resultInfo = document.getElementById("resultInfo");
+  const grid = document.getElementById("grid");
+  const noResults = document.getElementById("noResults");
+  const faqView = document.getElementById("faqView");
+
+  if (viewMode === "faq") {
+    searchWrap.style.display = "none";
+    compareSection.innerHTML = "";
+    resultInfo.innerHTML = "";
+    grid.innerHTML = "";
+    noResults.style.display = "none";
+    faqView.style.display = "block";
+    renderFAQ();
+  } else {
+    searchWrap.style.display = "block";
+    faqView.style.display = "none";
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    const filtered = products.filter(p => {
+      const matchCat = activeCat === "Semua" || p.category === activeCat;
+      const matchQ = !q || p.sku.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || (p.karakteristik || "").toLowerCase().includes(q);
+      return matchCat && matchQ;
+    });
+    renderCompare();
+    resultInfo.innerHTML = `${filtered.length} produk ditemukan${activeCat !== "Semua" ? ` dalam <strong>${activeCat}</strong>` : ""}
+      ${selected.length > 0 ? `<span class="compare-hint">· ${selected.length} produk dipilih — pilih minimal 2 untuk compare</span>` : `<span style="color:#94a3b8;margin-left:8px;">· Klik kartu produk untuk membandingkan (maks. 4)</span>`}`;
+    renderGrid(filtered);
+  }
+}
+
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// INISIALISASI
+render();
+</script>
+</body>
+</html>
