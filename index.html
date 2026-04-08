@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Simplus Product Database Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* --- BASE STYLE --- */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;min-height:100vh;color:#1e293b;overflow-x:hidden;}
+
+/* --- HEADER --- */
+.header{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);
+  padding:16px 28px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 20px rgba(99,102,241,0.3);
+  position:sticky;top:0;z-index:100;
+}
+.header-logo{
+  background:rgba(255,255,255,0.25);backdrop-filter:blur(10px);
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:18px;color:#fff;border:2px solid rgba(255,255,255,0.4);
+}
+.header-title{font-weight:800;font-size:18px;color:#fff;letter-spacing:-0.3px;}
+.header-sub{font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;}
+.header-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.selected-badge{
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#fff;font-weight:600;
+}
+.reset-btn{
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#fff;cursor:pointer;
+  font-weight:600;transition:all 0.2s;font-family:inherit;
+}
+.reset-btn:hover{background:rgba(255,255,255,0.35);}
+
+/* --- LAYOUT --- */
+.layout{display:flex;height:calc(100vh - 73px);}
+
+/* --- SIDEBAR --- */
+.sidebar{
+  width:240px;background:#fff;border-right:1px solid #e2e8f0;
+  overflow-y:auto;padding:14px 8px;flex-shrink:0;box-shadow:2px 0 10px rgba(0,0,0,0.04);
+}
+.sidebar-title{font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1.2px;text-transform:uppercase;padding:10px;}
+.cat-btn{
+  width:100%;text-align:left;padding:10px;border-radius:10px;border:none;background:transparent;
+  color:#64748b;cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:8px;
+  font-size:12.5px;transition:all 0.15s;font-weight:500;
+}
+.cat-btn:hover{background:#f1f5f9;color:#334155;}
+.cat-btn.active{color:#fff;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.cat-dot{width:8px;height:8px;border-radius:50%;}
+.cat-count{font-size:10px;padding:2px 6px;border-radius:20px;margin-left:auto;background:#f1f5f9;color:#94a3b8;}
+.cat-btn.active .cat-count{background:rgba(255,255,255,0.3);color:#fff;}
+
+/* --- CONTENT --- */
+.content{flex:1;overflow-y:auto;padding:20px 25px;background:#f8faff;}
+
+/* --- SEARCH --- */
+.search-wrap{position:relative;margin-bottom:16px;}
+.search-input{
+  width:100%;background:#fff;border:2px solid #e2e8f0;border-radius:16px;
+  padding:14px 16px 14px 48px;font-size:14px;outline:none;transition:all 0.2s;
+  box-shadow:0 4px 12px rgba(0,0,0,0.03);
+}
+.search-input:focus{border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,0.1);}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:18px;}
+
+/* --- PRODUCT CARD --- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.card{
+  background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:16px;
+  cursor:pointer;transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);position:relative;
+  display:flex;flex-direction:column;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(0,0,0,0.08);border-color:#6366f150;}
+.card.selected{border:2px solid #6366f1;background:#f5f7ff;}
+.card-img-wrap{
+  width:100%;height:180px;background:#f1f5f9;border-radius:14px;
+  margin-bottom:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.card-img{width:100%;height:100%;object-fit:contain;transition:transform 0.5s;}
+.card:hover .card-img{transform:scale(1.1);}
+.check-mark{
+  position:absolute;top:10px;right:10px;width:24px;height:24px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:12px;font-weight:bold;z-index:10;
+}
+.card-sku{font-size:11px;font-weight:800;padding:4px 8px;border-radius:8px;text-transform:uppercase;}
+.card-cat{font-size:10px;color:#94a3b8;font-weight:600;margin-left:auto;}
+.card-name{font-weight:700;font-size:15px;color:#1e293b;margin:8px 0 4px;line-height:1.4;}
+.card-char{font-size:12px;font-weight:500;margin-bottom:12px;}
+.card-specs{border-top:1px solid #f1f5f9;padding-top:10px;margin-bottom:12px;flex-grow:1;}
+.spec-row{display:flex;justify-content:space-between;margin-bottom:4px;font-size:11px;}
+.spec-key{color:#94a3b8;}
+.spec-val{color:#475569;font-weight:600;text-align:right;}
+
+/* --- BUTTONS --- */
+.btn-group{display:flex;gap:8px;}
+.detail-btn{
+  flex:2;border:none;border-radius:10px;padding:8px;font-size:11px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;background:#f1f5f9;color:#6366f1;
+}
+.detail-btn:hover{background:#6366f1;color:#fff;}
+.manual-link{
+  flex:1;display:flex;align-items:center;justify-content:center;text-decoration:none;
+  background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;font-size:11px;font-weight:600;color:#64748b;
+}
+.manual-link:hover{border-color:#6366f1;color:#6366f1;}
+
+/* --- COMPARE SECTION --- */
+.compare-section{background:#fff;border-radius:20px;padding:24px;margin-bottom:24px;border:1px solid #e2e8f0;box-shadow:0 10px 30px rgba(0,0,0,0.05);overflow-x:auto;}
+.compare-title{font-weight:900;font-size:14px;letter-spacing:1px;color:#6366f1;margin-bottom:20px;text-transform:uppercase;}
+.compare-table{width:100%;border-collapse:collapse;min-width:600px;}
+.compare-table th{text-align:left;padding:12px;border-bottom:2px solid #f1f5f9;color:#94a3b8;font-size:12px;}
+.compare-table td{padding:12px;border-bottom:1px solid #f8fafc;font-size:13px;vertical-align:top;}
+.cs-message-box{margin-top:20px;border-radius:16px;border:1px solid #e2e8f0;background:#fcfcff;overflow:hidden;}
+.cs-message-header{background:linear-gradient(90deg,#6366f1,#8b5cf6);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;color:#fff;font-weight:700;font-size:13px;}
+.copy-btn{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;}
+.cs-message-body{padding:16px;font-size:13px;line-height:1.6;color:#334155;white-space:pre-wrap;max-height:300px;overflow-y:auto;}
+
+/* --- MODAL --- */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;}
+.modal-box{background:#fff;border-radius:24px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-header{padding:30px 24px 20px;color:#fff;position:relative;}
+.close-btn{position:absolute;top:15px;right:15px;background:rgba(255,255,255,0.2);border:none;width:30px;height:30px;border-radius:50%;color:#fff;cursor:pointer;}
+
+/* --- UTILS --- */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">S</div>
+  <div>
+    <div class="header-title">Simplus Database</div>
+    <div class="header-sub" id="headerSub">Memuat data...</div>
+  </div>
+  <div class="header-right" id="headerRight"></div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-title">Kategori</div>
+  </div>
+  <div class="content">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Cari SKU, produk, atau fitur..." oninput="render()">
+    </div>
+    <div id="compareSection"></div>
+    <div id="resultInfo" style="font-size:12px; color:#94a3b8; margin-bottom:12px; font-weight:600;"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header" id="modalHeader">
+      <button class="close-btn" onclick="closeModal()">✕</button>
+      <div id="modalMeta"></div>
+      <h2 id="modalName" style="margin-top:10px;"></h2>
+    </div>
+    <div style="padding:24px;" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// --- CONFIGURATION ---
+const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush"];
+
+const catColors = {
+  "Vacuum Cleaner":"#3B82F6","Garment Steamer / Iron":"#8B5CF6","Dehumidifier":"#06B6D4",
+  "Humidifier":"#10B981","Air Purifier":"#6366F1","Dust Mite Vacuum":"#F59E0B",
+  "Vacuum Mop":"#EC4899","Carpet & Upholstery":"#14B8A6","Electric Fan":"#84CC16",
+  "Air Cooler":"#0EA5E9","Air Fryer (Digital)":"#F97316","Air Fryer (Knob)":"#EF4444",
+  "Electric Cooker":"#D946EF","Electric Steamer":"#22C55E","Drip Coffee Machine":"#A16207",
+  "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
+  "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
+  "Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5"
+};
+
+const LABELS = {
+  metode:"Metode", filter:"Filter", dustbin:"Kapasitas Debu", daya:"Daya", suction:"Daya Hisap",
+  kebisingan:"Kebisingan", kabel:"Panjang Kabel", ukuran:"Ukuran", berat:"Berat",
+  tipe:"Tipe", kapasitas:"Kapasitas", waktu_pemanasan:"Waktu Panas", jumlah_uap:"Uap/min",
+  mode_kontrol:"Kontrol", kapasitas_tangki:"Tangki", dehumidifikasi:"Kapasitas",
+  cara_kontrol:"Kontrol", cadr:"CADR", cocok_untuk:"Luas Area",
+  sterilisasi_uv:"UV-C", getaran:"Getaran", pengaturan:"Mode",
+  tangki_kotor:"Tangki Kotor", tangki_bersih:"Tangki Bersih", waktu_cas:"Charge",
+  waktu_pakai:"Durasi", melembabkan:"Output", daya_baterai:"Baterai",
+  rentang_suhu:"Suhu", waktu:"Waktu", jendela:"Jendela", bahan:"Material",
+  tier:"Tier", jadwal:"Timer", kapasitas_gelas:"Kapasitas Gelas", tekanan:"Pressure",
+  batang_uap:"Steam Wand", pisau:"Mata Pisau", motor:"Motor", ion_negatif:"Ion",
+  kecepatan:"Speed", panjang_kabel:"Kabel", suhu:"Suhu", waktu_panas:"Heat Up",
+  lapisan:"Coating", diameter:"Barrel", kepala_lepas:"Detachable"
+};
+
+const FIELDS = {
+  "Vacuum Cleaner":["metode","filter","dustbin","suction","daya","kabel"],
+  "Garment Steamer / Iron":["tipe","daya","kapasitas","waktu_pemanasan","jumlah_uap"],
+  "Vacuum Mop":["pengaturan","suction","tangki_kotor","tangki_bersih","waktu_pakai"],
+  "Hair Dryer":["motor","ion_negatif","daya","kecepatan","kebisingan"],
+  "Air Fryer (Digital)":["kapasitas","daya","rentang_suhu","waktu","jendela"]
+};
+
+const manualUrls = {
+  "XCQH002": "https://pc.simplus.online/products/user-manual---corded-vacuum-cleaner-xcqh002",
+  "XCQH012": "https://pc.simplus.online/products/user-manual---cordless-vacuum-cleaner-xcqh012",
+  "XDJH005": "https://pc.simplus.online/products/user-manual---cordless-wet-dry-vacuum-cleaner-xdjh005",
+  "CFJH006": "https://pc.simplus.online/products/user-manual---hyper-sim-x1-high-speed-hair-dryer-cfjh006"
+};
+
+// --- DATASET (MAPPED WITH IMAGES) ---
+const rawProducts = [
+  {sku:"XCQH002",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Ringan & Ekonomis",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.35 L",daya:"400 W",suction:"13000 PA",kebisingan:"82 dBA",kabel:"4 m",ukuran:"9×22×109 cm",berat:"1.1 kg"},
+  {sku:"XCQH013",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Suction Monster 24kPa",metode:"Wireless",filter:"HEPA H12",dustbin:"0.5 L",daya:"250 W",suction:"24000 PA",kebisingan:"82 dBA",kabel:"-",ukuran:"25×20×117 cm",berat:"2.05 kg"},
+  {sku:"XDJH005",name:"Wet Dry Vacuum Mop",category:"Vacuum Mop",karakteristik:"Bisa Lie-Flat 180°",pengaturan:"3 Mode",suction:"21000 PA",berat:"4.4 kg",tangki_kotor:"500 ml",tangki_bersih:"550 ml",daya:"150 W",waktu_cas:"4.5 jam",waktu_pakai:"30-50 min"},
+  {sku:"CFJH006",name:"High Speed Hair Dryer",category:"Hair Dryer",karakteristik:"Hyper-Sim X1 65m/s",motor:"Brushless DC",ion_negatif:"400 Juta",daya:"1200 W",kebisingan:"76 dBA",kecepatan:"65 m/s",panjang_kabel:"1.75 m"},
+  {sku:"KQZG015",name:"Digital Air Fryer",category:"Air Fryer (Digital)",karakteristik:"Visual Window 5L",rentang_suhu:"80-200°C",waktu:"60 min",daya:"1450 W",kapasitas:"5 L",jendela:"✓"}
+  // ... Tambahkan SKU lainnya di sini jika diperlukan
+];
+
+const products = rawProducts.map(p => ({
+  ...p,
+  image: `https://pc.simplus.online/cdn/shop/files/${p.sku.toLowerCase()}_1.jpg`
+}));
+  // --- STATE MANAGEMENT ---
+let activeCat = "Semua";
+let selected = [];
+
+// --- SELLING POINT GENERATOR (LOGIC DASAR) ---
+function generateSellingPoint(p) {
+  const cat = p.category;
+  let points = [];
+  
+  // Logika poin berdasarkan kategori dan spesifikasi
+  if (cat === "Vacuum Cleaner") {
+    if (p.metode === "Wireless") points.push("🔋 Bebas kabel, sangat fleksibel");
+    if (p.suction && parseInt(p.suction) >= 20000) points.push("💪 Suction monster " + p.suction + " (Sangat Kuat)");
+    if (p.filter && p.filter.includes("H12")) points.push("🛡️ Filter HEPA H12 (Filtrasi Tinggi)");
+  } else if (cat === "Vacuum Mop") {
+    points.push("🧼 Bisa menyapu & mengepel sekaligus");
+    if (p.karakteristik.includes("180")) points.push("📐 Desain Lie-Flat 180° (Bisa rebah total)");
+  } else if (cat === "Hair Dryer") {
+    if (p.motor.includes("Brushless")) points.push("🌪️ Motor Brushless (Awet & Kencang)");
+    if (p.ion_negatif) points.push("✨ " + p.ion_negatif + " Ion Negatif (Rambut Halus)");
+  } else if (cat === "Air Fryer (Digital)") {
+    points.push("🍟 Goreng sehat tanpa minyak");
+    if (p.jendela === "✓") points.push("👁️ Jendela transparan (Pantau masakan)");
+  }
+
+  // Fallback jika tidak ada poin spesifik
+  if (points.length === 0) points.push("✨ " + p.karakteristik);
+  
+  return points;
+}
+
+// --- CORE FUNCTIONS ---
+function renderSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const title = sidebar.querySelector(".sidebar-title");
+  sidebar.innerHTML = "";
+  sidebar.appendChild(title);
+
+  categories.forEach(cat => {
+    const count = cat === "Semua" ? products.length : products.filter(p => p.category === cat).length;
+    const btn = document.createElement("button");
+    const col = catColors[cat] || "#64748b";
+    btn.className = "cat-btn" + (activeCat === cat ? " active" : "");
+    if (activeCat === cat) btn.style.background = col;
+    btn.onclick = () => { activeCat = cat; render(); };
+    btn.innerHTML = `
+      ${cat !== "Semua" ? `<div class="cat-dot" style="background:${col}"></div>` : "🗂️"}
+      <span style="flex:1">${cat}</span>
+      <span class="cat-count">${count}</span>
+    `;
+    sidebar.appendChild(btn);
+  });
+}
+
+function renderGrid(filtered) {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = filtered.map(p => {
+    const col = catColors[p.category] || "#64748b";
+    const isSel = selected.includes(p.sku);
+    const fields = (FIELDS[p.category] || ["daya", "berat", "ukuran"]).slice(0, 3);
+    
+    return `
+      <div class="card ${isSel ? "selected" : ""}" onclick="toggleSelect('${p.sku}')" style="${isSel ? `border-color:${col}` : ""}">
+        ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
+        <div class="card-img-wrap">
+          <img src="${p.image}" class="card-img" onerror="this.src='https://placehold.co/400x400?text=No+Image'">
+        </div>
+        <div style="display:flex; align-items:center;">
+          <span class="card-sku" style="background:${col}15; color:${col}">${p.sku}</span>
+          <span class="card-cat">${p.category}</span>
+        </div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-char" style="color:${col}">${p.karakteristik}</div>
+        <div class="card-specs">
+          ${fields.map(f => `<div class="spec-row"><span class="spec-key">${LABELS[f]||f}</span><span class="spec-val">${p[f]||"-"}</span></div>`).join("")}
+        </div>
+        <div class="btn-group">
+          <button class="detail-btn" onclick="event.stopPropagation(); openModal('${p.sku}')">Detail →</button>
+          ${manualUrls[p.sku] ? `<a href="${manualUrls[p.sku]}" target="_blank" class="manual-link" onclick="event.stopPropagation()">📖 Manual</a>` : ""}
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function toggleSelect(sku) {
+  if (selected.includes(sku)) selected = selected.filter(s => s !== sku);
+  else if (selected.length < 4) selected.push(sku);
+  render();
+}
+
+function renderCompare() {
+  const section = document.getElementById("compareSection");
+  const compareItems = selected.map(sku => products.find(p => p.sku === sku));
+  
+  if (compareItems.length < 2) { section.innerHTML = ""; return; }
+
+  const cat = compareItems[0].category;
+  const fields = FIELDS[cat] || ["daya", "berat", "ukuran"];
+  
+  let head = `<th>Spesifikasi</th>` + compareItems.map(p => `<th><img src="${p.image}" style="width:50px; height:50px; object-fit:contain;"><br>${p.sku}</th>`).join("");
+  let rows = fields.map(f => `<tr><td>${LABELS[f]||f}</td>${compareItems.map(p => `<td style="font-weight:600;">${p[f]||"-"}</td>`).join("")}</tr>`).join("");
+
+  // Generate CS Message
+  let msg = "Halo Kak! 😊 Berikut perbandingan Simplus yang ditanyakan:\n\n";
+  compareItems.forEach((p, i) => {
+    msg += `${i+1}️⃣ *${p.sku}* - ${p.name}\n`;
+    generateSellingPoint(p).forEach(pt => msg += `${pt}\n`);
+    msg += "\n";
+  });
+  msg += "━━━━━━━━━━━━\n💡 *Rekomendasi Singkat:*\n";
+  compareItems.forEach(p => {
+    const sp = generateSellingPoint(p);
+    msg += `✅ Pilih *${p.sku}* jika kakak butuh yang ${sp[0].replace(/^[^\s]+\s/, "")}\n`;
+  });
+
+  section.innerHTML = `
+    <div class="compare-section">
+      <div class="compare-title">⚖️ Perbandingan Produk</div>
+      <table class="compare-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>
+      <div class="cs-message-box">
+        <div class="cs-message-header"><span>💬 Teks Siap Kirim</span> <button class="copy-btn" onclick="copyText()">📋 Salin Teks</button></div>
+        <div class="cs-message-body" id="csMsg">${msg}</div>
+      </div>
+    </div>`;
+}
+
+function copyText() {
+  const txt = document.getElementById("csMsg").innerText;
+  navigator.clipboard.writeText(txt);
+  alert("Teks berhasil disalin!");
+}
+
+function openModal(sku) {
+  const p = products.find(x => x.sku === sku);
+  const col = catColors[p.category] || "#6366f1";
+  document.getElementById("modalHeader").style.background = col;
+  document.getElementById("modalMeta").innerHTML = `<span style="background:rgba(255,255,255,0.2); padding:4px 8px; border-radius:6px; font-size:11px;">${p.sku}</span>`;
+  document.getElementById("modalName").textContent = p.name;
+  
+  let content = `<div style="text-align:center; margin-bottom:20px;"><img src="${p.image}" style="max-width:200px; height:auto;"></div>`;
+  content += `<div style="font-weight:700; margin-bottom:10px; color:${col};">KEUNGGULAN:</div>`;
+  generateSellingPoint(p).forEach(pt => content += `<div style="margin-bottom:5px;">${pt}</div>`);
+  
+  document.getElementById("modalBody").innerHTML = content;
+  document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() { document.getElementById("modal").style.display = "none"; }
+
+function render() {
+  renderSidebar();
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = products.filter(p => (activeCat === "Semua" || p.category === activeCat) && (p.sku.toLowerCase().includes(q) || p.name.toLowerCase().includes(q)));
+  
+  document.getElementById("headerSub").textContent = `${products.length} Produk Terdata`;
+  document.getElementById("resultInfo").textContent = `${filtered.length} produk ditemukan di kategori ${activeCat}`;
+  
+  const right = document.getElementById("headerRight");
+  right.innerHTML = selected.length > 0 ? `<div class="selected-badge">${selected.length}/4 Dipilih</div><button class="reset-btn" onclick="selected=[];render()">Reset</button>` : "";
+  
+  renderCompare();
+  renderGrid(filtered);
+}
+
+// Jalankan saat pertama kali buka
+render();
+</script>
+</body>
+</html>
