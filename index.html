@@ -1437,10 +1437,11 @@ function renderGrid(filtered) {
          </button>`;
 
     return `
-      <div class="card ${isSel ? "selected" : ""}"
-           style="border-color:${isSel ? col : "#f1f5f9"};
-                  ${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
-           data-sku="${safeSku}">
+  <div class="card ${isSel ? "selected" : ""}" 
+       onclick="toggleSelect('${safeSku}')"
+       style="border-color:${isSel ? col : "#f1f5f9"};
+             ${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
+       data-sku="${safeSku}">
 
         ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
 
