@@ -772,14 +772,30 @@ const rawProducts = [
 ,{sku:"KFJH021",name:"Semi-auto Espresso (Compact)",category:"Semi-auto Espresso",karakteristik:"Model ringkas dengan portafilter 51mm dan pembuih susu (Steam Wand)",tekanan:"5 bar",kapasitas_tangki:"0.24 L",batang_uap:"✓",daya:"800 W",waktu_pemanasan:"60 s",ukuran:"-",berat:"-"}
 ];
 
-// 1. Buat daftar "Jalur Khusus" untuk produk yang gambarnya error/typo
 const imageOverrides = {
+  // --- VACUUM (TYPO) ---
   "XCQH002": "https://img.myshopline.com/image/store/2000075912/1622516949344/XCQI002-_900x.jpeg?w=400",
+
+  // --- HAIR DRYER ---
+  "CFJH003": "https://img.myshopline.com/image/store/1622516949344/CFJH003-1_900x.jpeg?w=400",
+  "CFJH005": "https://img.myshopline.com/image/store/1622516949344/CFJH005-1_900x.jpeg?w=400",
   
-  // Kakak bisa tambahkan SKU lain yang gambarnya tidak muncul di sini.
-  // Formatnya: "SKU" : "LINK_GAMBAR", (jangan lupa tanda kutip dan koma)
-  // Contoh:
-  // "SKU123" : "https://img.myshopline.com/.../gambar.jpeg",
+  // --- HAIR STRAIGHTENER ---
+  "ZFBA001": "https://img.myshopline.com/image/store/1622516949344/ZFBA001-1_900x.jpeg?w=400",
+  "ZFBA007": "https://img.myshopline.com/image/store/1622516949344/ZFBA007-1_900x.jpeg?w=400",
+  "ZFBA010": "https://img.myshopline.com/image/store/1622516949344/ZFBA010-1_900x.jpeg?w=400",
+  "ZFSH004": "https://img.myshopline.com/image/store/1622516949344/ZFSH004-1_900x.jpeg?w=400",
+
+  // --- HAIR CURLER ---
+  "JFBA011": "https://img.myshopline.com/image/store/1622516949344/JFBA011-1_900x.jpeg?w=400",
+
+  // --- HAIR DRYER BRUSH (RFSH SERIES) ---
+  "RFSH001": "https://img.myshopline.com/image/store/1622516949344/RFSH001-1_900x.jpeg?w=400",
+  "RFSH002": "https://img.myshopline.com/image/store/1622516949344/RFSH002-1_900x.jpeg?w=400",
+  "RFSH003": "https://img.myshopline.com/image/store/1622516949344/RFSH003-1_900x.jpeg?w=400",
+  "RFSH004": "https://img.myshopline.com/image/store/1622516949344/RFSH004-1_900x.jpeg?w=400",
+  "RFSH005": "https://img.myshopline.com/image/store/1622516949344/RFSH005-1_900x.jpeg?w=400"
+};
 };
 
 // 2. Proses datanya
