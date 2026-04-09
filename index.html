@@ -1467,19 +1467,16 @@ function renderSidebar() {
 
 function renderCompare() {
   const section = document.getElementById("compareSection");
-  // Mencari data produk berdasarkan SKU yang dipilih
   const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
-  
-  // Jika produk yang dipilih kurang dari 2, sembunyikan tabel
-  if (compareProds.length < 2) { 
-    section.innerHTML = ""; 
-    return; 
+
+  if (compareProds.length < 2) {
+    section.innerHTML = "";
+    return;
   }
-  
-  // Ambil daftar field/spek berdasarkan kategori produk pertama
+
   const fields = FIELDS[compareProds[0].category] || [];
-  
-  // Header Tabel (Gambar & SKU)
+
+  // Header Tabel
   let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
   compareProds.forEach(p => {
     const col = catColors[p.category] || "#64748b";
@@ -1491,63 +1488,37 @@ function renderCompare() {
       <div style="font-size:11px;color:#94a3b8;margin-top:4px;font-weight:500;">${p.name}</div>
     </th>`;
   });
-  
+
   // Baris Karakteristik
   let rows = `<tr>
     <td class="spec-label">Karakteristik</td>
-    ${compareProds.map(p => `<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}
+    ${compareProds.map(p => `<td class="char-val" style="color:${catColors[p.category] || '#6366f1'}">${p.karakteristik || "—"}</td>`).join("")}
   </tr>`;
 
-  // Baris Spesifikasi (Looping dari FIELDS)
+  // Baris Spesifikasi
   fields.forEach(f => {
     rows += `<tr>
       <td class="spec-label">${f}</td>
       ${compareProds.map(p => {
-        // Logika baru: Cek di folder specs, jika tidak ada (untuk SKU lama) cek di root
         const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
         return `<td>${val}</td>`;
       }).join("")}
     </tr>`;
   });
 
-  // Baris Tombol Aksi (Copy Info & Detail)
-  rows += `<tr>
-    <td></td>
-    ${compareProds.map(p => `
-      <td style="text-align:center;padding:15px 5px;">
-        <button onclick="copyCSMessage('${p.sku}')" style="background:#6366f1;color:white;border:none;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;margin-bottom:5px;width:100%;">Copy Info</button>
-        <button onclick="openModal('${p.sku}')" style="background:white;color:#64748b;border:1px solid #e2e8f0;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;width:100%;">Detail</button>
-      </td>
-    `).join("")}
-  </tr>`;
-
-  // Masukkan semua ke dalam HTML
-  section.innerHTML = `
-    <div style="background:white;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
-      <div style="padding:15px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
-        <h3 style="margin:0;font-size:14px;color:#1e293b;">Perbandingan Produk</h3>
-        <button onclick="generateAllMessage()" style="background:#10b981;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;">Copy Perbandingan (CS)</button>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="compare-table">
-          <thead><tr>${headCells}</tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    </div>
-  `;
-}
+  const csMsg = generateCSMessage(compareProds);
   
-const csMsg = generateCSMessage(compareProds);
   section.innerHTML = `
     <div class="compare-section" id="compareCaptureArea" style="position:relative;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
         <div class="compare-title" style="margin-bottom:0;">⚖️ PERBANDINGAN PRODUK</div>
-        <button id="downloadImgBtn" onclick="downloadTableAsImage()" style="background:linear-gradient(135deg, #10b981, #059669); border:none; border-radius:8px; padding:6px 14px; font-size:11px; color:#fff; cursor:pointer; font-weight:700; font-family:'Inter',sans-serif; transition:all 0.2s; box-shadow:0 2px 8px rgba(16,185,129,0.3);">
+        <button id="downloadImgBtn" onclick="downloadTableAsImage()" style="background:linear-gradient(135deg, #10b981, #059669); border:none; border-radius:8px; padding:6px 14px; font-size:11px; color:#fff; cursor:pointer; font-weight:700; transition:all 0.2s; box-shadow:0 2px 8px rgba(16,185,129,0.3);">
           📥 Download Gambar
         </button>
       </div>
-      <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
+      <div style="overflow-x:auto;">
+        <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
+      </div>
       <div class="cs-message-box">
         <div class="cs-message-header">
           <div class="cs-message-header-left"><span>💬</span> Teks Siap Kirim ke Customer</div>
@@ -1558,6 +1529,11 @@ const csMsg = generateCSMessage(compareProds);
     </div>`;
 }
 
+// Tambahkan fungsi ini agar tidak error saat tombol download diklik
+function downloadTableAsImage() {
+  alert("Fungsi download gambar memerlukan library tambahan seperti html2canvas.");
+}
+  
 function copyMessage() {
   const text = document.getElementById("csMessageBody").innerText;
   navigator.clipboard.writeText(text).then(() => {
