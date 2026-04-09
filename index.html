@@ -936,16 +936,15 @@ function generateSellingPoint(p) {
   if (p.sellingPoints && p.sellingPoints.length > 0) return p.sellingPoints.slice(0, 4);
   return p.karakteristik ? ["✨ " + p.karakteristik] : [];
 }
-// --- FUNGSI: GENERATE CS TEXT (DINAMIS) ---
-// ── GENERATE CS MESSAGE (DENGAN LOGIC REKOMENDASI CERDAS) ──
+// --- FUNGSI GENERATE TEKS CS (BERSIH & TANPA EMOTICON) ---
 function generateCSMessage(compareProds) {
   let msg = "Halo Kak! Berikut perbandingan produk Simplus yang kakak tanyakan:\n\n";
   
   compareProds.forEach((p, i) => {
-    const num = ["1.", "2.", "3.", "4."][i];
-    msg += `${num} ${p.sku} — ${p.name}\n`;
+    msg += `${i + 1}. ${p.sku} — ${p.name}\n`;
     msg += `Karakteristik: ${p.karakteristik || "-"}\n`;
     
+    // Ambil 3 spek teratas dari folder specs
     if (p.specs) {
       Object.entries(p.specs).slice(0, 3).forEach(([key, val]) => {
         msg += `- ${key}: ${val}\n`;
@@ -958,54 +957,43 @@ function generateCSMessage(compareProds) {
 
   const allSameCat = compareProds.every(p => p.category === compareProds[0].category);
   if (!allSameCat) {
-    return msg + "--------------------------------\nKesimpulan: Produk di atas berasal dari kategori berbeda dengan fungsi yang berbeda pula. Silakan disesuaikan dengan kebutuhan.";
+    return msg + "--------------------------------\nKesimpulan: Produk di atas berasal dari kategori berbeda. Silakan disesuaikan dengan kebutuhan.";
   }
 
   msg += "--------------------------------\n";
   msg += "Rekomendasi Simplus:\n";
-
   const cat = compareProds[0].category;
-  let rekomendasi = "";
+  let rek = "";
 
-  if (cat === "Vacuum Cleaner") {
-    const strongest = compareProds.reduce((a, b) => parseInt(a.specs?.Suction || 0) > parseInt(b.specs?.Suction || 0) ? a : b);
-    const lightest = compareProds.reduce((a, b) => parseFloat(a.specs?.Berat || 99) < parseFloat(b.specs?.Berat || 99) ? a : b);
-    
-    rekomendasi += `- Paling Kuat: ${strongest.sku} (Suction ${strongest.specs?.Suction})\n`;
-    if (lightest.sku !== strongest.sku) {
-      rekomendasi += `- Paling Ringan: ${lightest.sku} (Berat ${lightest.specs?.Berat})\n`;
+  // Logika rekomendasi cerdas otomatis
+  try {
+    if (cat === "Vacuum Cleaner") {
+      const strongest = compareProds.reduce((a, b) => parseInt(a.specs?.Suction || 0) > parseInt(b.specs?.Suction || 0) ? a : b);
+      rek += `- Paling Kuat: ${strongest.sku} (Suction ${strongest.specs?.Suction})\n`;
+    } else if (cat === "Hair Dryer") {
+      const fastest = compareProds.reduce((a, b) => parseInt(a.specs?.Speed || 0) > parseInt(b.specs?.Speed || 0) ? a : b);
+      rek += `- Paling Cepat: ${fastest.sku} (Speed ${fastest.specs?.Speed})\n`;
+    } else {
+      rek += "- Produk di atas adalah pilihan terbaik di kategorinya. Silakan pilih sesuai model yang diinginkan.\n";
     }
-  } 
-  else if (cat === "Hair Dryer") {
-    const fastest = compareProds.reduce((a, b) => parseInt(a.specs?.Speed || 0) > parseInt(b.specs?.Speed || 0) ? a : b);
-    rekomendasi += `- Paling Cepat Kering: ${fastest.sku} (Speed ${fastest.specs?.Speed})\n`;
-  }
-  else if (cat === "Hair Straightener") {
-    const fastestHeat = compareProds.find(p => p.specs?.Panas === "10 s") || compareProds[0];
-    rekomendasi += `- Paling Cepat Panas: ${fastestHeat.sku} (Waktu ${fastestHeat.specs?.Panas})\n`;
-  }
-  else {
-    rekomendasi += "Produk di atas adalah pilihan terbaik di kategorinya. Silakan sesuaikan dengan budget dan model yang diinginkan.\n";
+  } catch (e) {
+    rek += "- Pilihan di atas dapat disesuaikan dengan kebutuhan dan budget kakak.\n";
   }
 
-  msg += rekomendasi + "\nProduk tersedia dan siap dipesan. Terima kasih.";
-  return msg;
+  return msg + rek + "\nProduk tersedia dan siap dipesan. Terima kasih.";
 }
+
 // --- CORE UI FUNCTIONS ---
+
 function renderHeader() {
-  document.getElementById("headerSub").textContent = `${products.length} produk · ${categories.length - 1} kategori`;
+  document.getElementById("headerSub").textContent = `${products.length} produk ditemukan`;
   const right = document.getElementById("headerRight");
   if (selected.length > 0 && viewMode === "products") {
-    right.innerHTML = `
-      <div class="selected-badge">${selected.length}/4 dipilih untuk compare</div>
-      <button class="reset-btn" onclick="resetSelected()">✕ Reset</button>
-    `;
+    right.innerHTML = `<div class="selected-badge">${selected.length}/4 dipilih</div><button class="reset-btn" onclick="resetSelected()">Reset</button>`;
   } else {
     right.innerHTML = "";
   }
 }
-
-function resetSelected() { selected = []; render(); }
 
 function renderSidebar() {
   const sidebar = document.getElementById("sidebar");
@@ -1013,22 +1001,15 @@ function renderSidebar() {
   sidebar.innerHTML = "";
   sidebar.appendChild(title);
 
-  // FAQ button
   const faqBtn = document.createElement("button");
   faqBtn.className = "faq-sidebar-btn" + (viewMode === "faq" ? " active" : "");
-  faqBtn.innerHTML = `<span>❓</span><span style="flex:1">FAQs</span><span style="font-size:10px;padding:1px 6px;border-radius:20px;background:${viewMode==='faq'?'rgba(255,255,255,0.3)':'#eef2ff'};color:${viewMode==='faq'?'#fff':'#6366f1'};font-weight:700;">${Object.keys(faqs).length}</span>`;
-  faqBtn.onclick = () => { viewMode = viewMode === "faq" ? "products" : "faq"; activeCat = "Semua"; render(); };
+  faqBtn.innerHTML = `<span>?</span><span style="flex:1">FAQs</span>`;
+  faqBtn.onclick = () => { viewMode = (viewMode === "faq" ? "products" : "faq"); activeCat = "Semua"; render(); };
   sidebar.appendChild(faqBtn);
 
   const hr = document.createElement("hr");
   hr.className = "sidebar-divider";
   sidebar.appendChild(hr);
-
-  const catTitle = document.createElement("div");
-  catTitle.className = "sidebar-title";
-  catTitle.style.paddingTop = "8px";
-  catTitle.textContent = "Kategori";
-  sidebar.appendChild(catTitle);
 
   categories.forEach(cat => {
     const count = cat === "Semua" ? products.length : products.filter(p => p.category === cat).length;
@@ -1037,11 +1018,7 @@ function renderSidebar() {
     btn.className = "cat-btn" + (activeCat === cat && viewMode === "products" ? " active" : "");
     if (activeCat === cat && viewMode === "products") btn.style.background = col;
     btn.onclick = () => { activeCat = cat; viewMode = "products"; render(); };
-    btn.innerHTML = `
-      ${cat !== "Semua" ? `<div class="cat-dot" style="background:${col}"></div>` : "🗂️"}
-      <span style="flex:1">${cat}</span>
-      <span class="cat-count">${count}</span>
-    `;
+    btn.innerHTML = `<div class="cat-dot" style="background:${cat === 'Semua' ? '#64748b' : col}"></div><span style="flex:1">${cat}</span><span class="cat-count">${count}</span>`;
     sidebar.appendChild(btn);
   });
 }
@@ -1050,127 +1027,101 @@ function renderCompare() {
   const section = document.getElementById("compareSection");
   const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
   
-  if (compareProds.length < 2) { 
-    section.innerHTML = ""; 
-    return; 
-  }
+  if (compareProds.length < 2) { section.innerHTML = ""; return; }
   
   const fields = FIELDS[compareProds[0].category] || [];
-  let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
-  
+  let head = `<th>Spesifikasi</th>`;
   compareProds.forEach(p => {
-    const col = catColors[p.category] || "#64748b";
-    headCells += `<th>
-      <div style="text-align:center;margin-bottom:8px;">
-        <img src="${p.image}" style="width:60px;height:60px;object-fit:contain;border-radius:8px;border:1px solid #e2e8f0;" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
-      </div>
-      <span style="background:${col}18;border:1px solid ${col}40;border-radius:7px;padding:3px 9px;font-size:11px;color:${col};font-weight:800;">${p.sku}</span>
-      <div style="font-size:11px;color:#94a3b8;margin-top:4px;font-weight:500;">${p.name}</div>
-    </th>`;
-  });
-  
-  let rows = `<tr><td class="spec-label">Karakteristik</td>${compareProds.map(p=>`<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}</tr>`;
-  
-  fields.forEach(f => {
-    rows += `<tr>
-      <td class="spec-label">${f}</td>
-      ${compareProds.map(p => {
-        const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
-        return `<td>${val}</td>`;
-      }).join("")}
-    </tr>`;
+    head += `<th><img src="${p.image}" style="width:50px;display:block;margin:0 auto 5px;"><small>${p.sku}</small></th>`;
   });
 
-  const csMsg = generateCSMessage(compareProds);
+  let rows = `<tr><td class="spec-label">Karakteristik</td>${compareProds.map(p=>`<td class="char-val">${p.karakteristik||"-"}</td>`).join("")}</tr>`;
+  fields.forEach(f => {
+    rows += `<tr><td class="spec-label">${f}</td>${compareProds.map(p => `<td>${p.specs?.[f] || "-"}</td>`).join("")}</tr>`;
+  });
 
   section.innerHTML = `
-    <div class="compare-section" id="compareCaptureArea">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-        <div class="compare-title" style="margin-bottom:0;">⚖️ PERBANDINGAN PRODUK</div>
-        <div style="display:flex; gap:8px;">
-          <button onclick="downloadExcel()" style="background:#3b82f6; color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:11px; cursor:pointer; font-weight:700;">📥 Download Excel</button>
-          <button id="copyBtn" onclick="copyMessage()" style="background:#10b981; color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:11px; cursor:pointer; font-weight:700;">📋 Copy Teks</button>
-        </div>
+    <div class="compare-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="compare-title">⚖️ PERBANDINGAN PRODUK</div>
+        <button onclick="downloadExcel()" style="background:#3b82f6;color:white;border:none;padding:5px 12px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;">DOWNLOAD EXCEL</button>
       </div>
       <div style="overflow-x:auto;">
-        <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
+        <table class="compare-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table>
       </div>
-      <div class="cs-message-box">
-        <div class="cs-message-header" style="background:#f1f5f9; color:#475569;">
-          <div class="cs-message-header-left" style="color:#475569;"><span>💬</span> Preview Teks CS (Tanpa Emoticon)</div>
-        </div>
-        <div class="cs-message-body" id="csMessageBody">${csMsg}</div>
-      </div>
-    </div>`;
-}
-  
-const csMsg = generateCSMessage(compareProds);
-  section.innerHTML = `
-    <div class="compare-section" id="compareCaptureArea" style="position:relative;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-        <div class="compare-title" style="margin-bottom:0;">⚖️ PERBANDINGAN PRODUK</div>
-        <button id="downloadImgBtn" onclick="downloadTableAsImage()" style="background:linear-gradient(135deg, #10b981, #059669); border:none; border-radius:8px; padding:6px 14px; font-size:11px; color:#fff; cursor:pointer; font-weight:700; font-family:'Inter',sans-serif; transition:all 0.2s; box-shadow:0 2px 8px rgba(16,185,129,0.3);">
-          📥 Download Gambar
-        </button>
-      </div>
-      <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
       <div class="cs-message-box">
         <div class="cs-message-header">
-          <div class="cs-message-header-left"><span>💬</span> Teks Siap Kirim ke Customer</div>
-          <button class="copy-btn" id="copyBtn" onclick="copyMessage()">📋 Copy Teks</button>
+          <span>Teks CS (Siap Kirim)</span>
+          <button class="copy-btn" id="copyBtn" onclick="copyMessage()">Salin Teks</button>
         </div>
-        <div class="cs-message-body" id="csMessageBody">${csMsg}</div>
+        <div class="cs-message-body" id="csMessageBody">${generateCSMessage(compareProds)}</div>
       </div>
     </div>`;
-}
-
-function copyMessage() {
-  const text = document.getElementById("csMessageBody").innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById("copyBtn");
-    btn.textContent = "✅ Copied!";
-    btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = "📋 Copy Teks"; btn.classList.remove("copied"); }, 2000);
-  });
 }
 
 function renderGrid(filtered) {
   const grid = document.getElementById("grid");
-  const noResults = document.getElementById("noResults");
-  if (filtered.length === 0) { grid.innerHTML = ""; noResults.style.display = "block"; return; }
-  noResults.style.display = "none";
-  
   grid.innerHTML = filtered.map(p => {
-    const col = catColors[p.category] || "#64748b";
+    const col = catColors[p.category] || "#6366f1";
     const isSel = selected.includes(p.sku);
-    
-    // AMBIL SPEK DARI SPECS (Ambil 3 saja untuk di kartu)
-    const fieldKeys = FIELDS[p.category] || [];
-    const specRows = fieldKeys.slice(0, 3).map(f => {
-      const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
-      return `<div class="spec-row"><span class="spec-key">${f}</span><span class="spec-val">${val}</span></div>`;
-    }).join("");
-    
+    const specSummary = Object.entries(p.specs || {}).slice(0, 3).map(([k,v]) => `
+      <div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>
+    `).join("");
+
     return `
-      <div class="card ${isSel ? "selected" : ""}" 
-        style="border-color:${isSel ? col : "#f1f5f9"};${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
-        onclick="toggleSelect('${p.sku}')">
-        ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
-        <div class="card-img-wrap">
-          <img src="${p.image}" class="card-img" onerror="this.src='https://placehold.co/400x400/f8fafc/94a3b8?text=${p.sku}'">
-        </div>
-        <div class="card-top">
-          <span class="card-sku" style="background:${col}18;border:1px solid ${col}35;color:${col}">${p.sku}</span>
-          <span class="card-cat">${p.category}</span>
-        </div>
+      <div class="card ${isSel ? 'selected' : ''}" onclick="toggleSelect('${p.sku}')" style="border-color:${isSel ? col : '#f1f5f9'}">
+        ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ''}
+        <div class="card-img-wrap"><img src="${p.image}" class="card-img"></div>
+        <div class="card-top"><span class="card-sku" style="background:${col}15; color:${col}">${p.sku}</span><span class="card-cat">${p.category}</span></div>
         <div class="card-name">${p.name}</div>
-        <div class="card-char" style="color:${col}">${p.karakteristik||""}</div>
-        <div class="card-specs">${specRows}</div>
-        <div style="display:flex;gap:6px;margin-top:10px;">
-          <button class="detail-btn" style="color:${col};margin-top:0;flex:1" onclick="event.stopPropagation();openModal('${p.sku}')">Detail →</button>
-        </div>
+        <div class="card-specs">${specSummary}</div>
+        <button class="detail-btn" onclick="event.stopPropagation();openModal('${p.sku}')" style="color:${col}">Detail Produk</button>
       </div>`;
   }).join("");
+}
+
+// --- FAQ & UTILS ---
+
+function renderFAQ() {
+  const faqView = document.getElementById("faqView");
+  const q = faqSearch.toLowerCase().trim();
+  const filtered = Object.entries(faqs).map(([cat, items]) => ({
+    cat, items: items.filter(it => !q || it.q.toLowerCase().includes(q) || it.a.toLowerCase().includes(q))
+  })).filter(e => e.items.length > 0);
+
+  faqView.innerHTML = `
+    <div class="faq-header-bar">
+      <div><div class="faq-header-title">Product FAQ</div></div>
+      <div class="faq-search-wrap"><input class="faq-search" placeholder="Cari pertanyaan..." oninput="faqSearch=this.value;renderFAQ()"></div>
+    </div>
+    ${filtered.map((e, ci) => `
+      <div class="faq-cat-block open">
+        <div class="faq-cat-header" onclick="this.parentElement.classList.toggle('open')">
+          <div class="faq-cat-name">${e.cat}</div>
+          <div class="faq-cat-chevron">▼</div>
+        </div>
+        <div class="faq-items">
+          ${e.items.map(it => `<div class="faq-item"><div class="faq-q"><b>Q:</b> ${it.q}</div><div class="faq-a"><b>A:</b> ${it.a}</div></div>`).join("")}
+        </div>
+      </div>
+    `).join("")}`;
+}
+
+function openModal(sku) {
+  const p = products.find(x => x.sku === sku); if(!p) return;
+  const col = catColors[p.category] || "#6366f1";
+  document.getElementById("modalHeaderBar").style.background = col;
+  document.getElementById("modalName").textContent = p.name;
+  document.getElementById("modalChar").textContent = p.karakteristik || "";
+  
+  const allSpecs = Object.entries(p.specs || {}).map(([k, v]) => `
+    <div class="modal-spec-row"><span class="modal-spec-key">${k}</span><span class="modal-spec-val">${v}</span></div>
+  `).join("");
+  
+  const manual = manualUrls[p.sku] ? `<a href="${manualUrls[p.sku]}" target="_blank" class="detail-btn" style="display:block;text-align:center;margin-top:15px;text-decoration:none;background:${col};color:white">Buka User Manual</a>` : "";
+
+  document.getElementById("modalSpecsList").innerHTML = `<div style="text-align:center;margin-bottom:15px"><img src="${p.image}" style="width:120px"></div>` + allSpecs + manual;
+  document.getElementById("modal").style.display = "flex";
 }
 
 function toggleSelect(sku) {
@@ -1179,223 +1130,57 @@ function toggleSelect(sku) {
   render();
 }
 
-function openModal(sku) {
-  const p = products.find(x => x.sku === sku); 
-  if (!p) return;
-  const col = catColors[p.category] || "#6366f1";
-  
-  // Update Header Modal
-  document.getElementById("modalHeaderBar").style.background = `linear-gradient(135deg, ${col}, ${col}cc)`;
-  document.getElementById("modalSkuRow").innerHTML = `
-    <span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span>
-    <span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>
-  `;
-  document.getElementById("modalName").textContent = p.name;
-  document.getElementById("modalChar").textContent = p.karakteristik || "";
-
-  // 1. Bagian Spesifikasi (Logika Baru untuk Folder Specs)
-  let specsList = "";
-  if (p.specs) {
-    // Mengambil data dari folder specs
-    specsList = Object.entries(p.specs).map(([key, val]) => `
-      <div class="modal-spec-row">
-        <span class="modal-spec-key">${key}</span>
-        <span class="modal-spec-val">${val}</span>
-      </div>
-    `).join("");
-  } else {
-    // Cadangan jika masih ada data format lama
-    const fields = FIELDS[p.category] || Object.keys(LABELS);
-    specsList = fields.filter(f => p[f]).map(f => `
-      <div class="modal-spec-row">
-        <span class="modal-spec-key">${LABELS[f]||f}</span>
-        <span class="modal-spec-val">${p[f]}</span>
-      </div>
-    `).join("");
-  }
-
-  const catRow = `<div class="modal-spec-row"><span class="modal-spec-key">Kategori</span><span class="modal-spec-val" style="color:${col};font-weight:700">${p.category}</span></div>`;
-
-  // 2. Bagian Keunggulan (Mengambil dari sellingPoints yang kita buat tadi)
-  const sp = p.sellingPoints || [];
-  const spHTML = sp.length > 0 ? `
-    <div style="margin-bottom:16px;background:${col}08;border-radius:10px;padding:12px;border:1px solid ${col}20;">
-      <div style="font-size:10px;font-weight:700;color:${col};letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">🌟 Keunggulan Produk</div>
-      ${sp.map(s => `<div style="font-size:12.5px;color:#334155;margin-bottom:5px;">• ${s}</div>`).join("")}
-    </div>` : "";
-
-  // 3. Gambar & Manual
-  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:200px; max-height:200px; border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);" onerror="this.style.display='none'"></div>`;
-  const manualLink = manualUrls[p.sku];
-  const manualHTML = manualLink ? `
-    <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;">
-      <a href="${manualLink}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(135deg,${col},${col}cc);box-shadow:0 4px 14px ${col}40;transition:all 0.2s;">📖 Lihat User Manual Full</a>
-    </div>` : `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9; text-align:center;font-size:12px;color:#94a3b8;">User manual belum tersedia</div>`;
-
-  // 4. FAQ / Tips
-  let tipsHTML = "";
-  if (faqs[p.category]) {
-    tipsHTML = `
-      <div style="margin-top:20px;background:#f8fafc;border-radius:12px;padding:16px;border:1px solid #e2e8f0;">
-        <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span>🛠️</span> Panduan Pakai & Perawatan</div>
-        ${faqs[p.category].slice(0, 3).map(faq => `
-          <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #cbd5e1;">
-            <div style="font-size:11.5px;font-weight:700;color:#334155;margin-bottom:4px;">Tanya: ${faq.q}</div>
-            <div style="font-size:11.5px;color:#64748b;line-height:1.5;">Jawab: ${faq.a}</div>
-          </div>
-        `).join("")}
-        <div style="font-size:11px;text-align:center;color:${col};font-weight:700;cursor:pointer;margin-top:4px;" onclick="closeModal(); document.querySelector('.faq-sidebar-btn').click();">Lihat Semua FAQ →</div>
-      </div>`;
-  }
-
-  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + tipsHTML + manualHTML;
-  document.getElementById("modal").style.display = "flex";
-}
-  // ----------------------------------------
-
-  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + tipsHTML + manualHTML;
-  document.getElementById("modal").style.display = "flex";
-}
+function resetSelected() { selected = []; render(); }
 function closeModal() { document.getElementById("modal").style.display = "none"; }
 
-// --- FAQ FUNCTIONS ---
-function renderFAQ() {
-  const faqView = document.getElementById("faqView");
-  const q = faqSearch.toLowerCase().trim();
-
-  const catEntries = Object.entries(faqs);
-  const filtered = catEntries.map(([cat, items]) => ({
-    cat,
-    items: items.filter(item => !q || item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q))
-  })).filter(e => e.items.length > 0);
-
-  const totalQ = filtered.reduce((sum, e) => sum + e.items.length, 0);
-
-  faqView.innerHTML = `
-    <div class="faq-header-bar">
-      <div class="faq-header-icon">❓</div>
-      <div>
-        <div class="faq-header-title">Frequently Asked Questions</div>
-        <div class="faq-header-sub">${totalQ} pertanyaan di ${filtered.length} kategori</div>
-      </div>
-      <div class="faq-search-wrap">
-        <span class="faq-search-icon">🔍</span>
-        <input class="faq-search" placeholder="Cari pertanyaan..." value="${faqSearch}" oninput="faqSearch=this.value;renderFAQ()" />
-      </div>
-    </div>
-    ${filtered.length === 0 ? `<div class="no-results"><div class="no-results-emoji">🔎</div><div>Tidak ada FAQ yang sesuai</div></div>` : ""}
-    ${filtered.map((e, ci) => {
-      const col = catColors[e.cat] || "#6366f1";
-      return `
-        <div class="faq-cat-block" id="faqBlock${ci}">
-          <div class="faq-cat-header" onclick="toggleFAQCat(${ci})">
-            <div class="faq-cat-dot" style="background:${col}"></div>
-            <div class="faq-cat-name">${e.cat}</div>
-            <div class="faq-cat-count">${e.items.length} FAQ</div>
-            <div class="faq-cat-chevron">▼</div>
-          </div>
-          <div class="faq-items">
-            ${e.items.map((item, qi) => `
-              <div class="faq-item" id="faqItem${ci}_${qi}">
-                <div class="faq-q" onclick="toggleFAQItem(${ci},${qi})">
-                  <div class="faq-q-icon" style="background:${col}">Q</div>
-                  <div class="faq-q-text">${highlight(item.q, q)}</div>
-                  <div class="faq-q-arrow">▼</div>
-                </div>
-                <div class="faq-a">${highlight(item.a, q)}</div>
-              </div>
-            `).join("")}
-          </div>
-        </div>`;
-    }).join("")}
-  `;
-
-  if (q) {
-    filtered.forEach((_, ci) => {
-      const block = document.getElementById(`faqBlock${ci}`);
-      if (block) block.classList.add("open");
-    });
-  }
+function copyMessage() {
+  const text = document.getElementById("csMessageBody").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.innerText = "Berhasil Disalin!";
+    setTimeout(() => { btn.innerText = "Salin Teks"; }, 2000);
+  });
 }
 
-function highlight(text, q) {
-  if (!q) return text;
-  const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark style="background:#fef08a;border-radius:3px;padding:0 2px;">$1</mark>');
+function downloadExcel() {
+  const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
+  const fields = FIELDS[compareProds[0].category] || [];
+  let csv = "Spesifikasi," + compareProds.map(p => p.sku).join(",") + "\n";
+  fields.forEach(f => {
+    csv += f + "," + compareProds.map(p => `"${p.specs?.[f] || "-"}"`).join(",") + "\n";
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Perbandingan_Simplus.csv";
+  a.click();
 }
 
-function toggleFAQCat(ci) {
-  const block = document.getElementById(`faqBlock${ci}`);
-  if (block) block.classList.toggle("open");
-}
-
-function toggleFAQItem(ci, qi) {
-  const item = document.getElementById(`faqItem${ci}_${qi}`);
-  if (item) item.classList.toggle("open");
-}
-
-// --- RENDER MASTER ---
 function render() {
   renderSidebar();
   renderHeader();
-
-  const searchWrap = document.getElementById("searchWrap");
-  const compareSection = document.getElementById("compareSection");
-  const resultInfo = document.getElementById("resultInfo");
-  const grid = document.getElementById("grid");
-  const noResults = document.getElementById("noResults");
+  const q = document.getElementById("searchInput").value.toLowerCase();
   const faqView = document.getElementById("faqView");
+  const grid = document.getElementById("grid");
 
   if (viewMode === "faq") {
-    searchWrap.style.display = "none";
-    compareSection.innerHTML = "";
-    resultInfo.innerHTML = "";
-    grid.innerHTML = "";
-    noResults.style.display = "none";
+    grid.style.display = "none";
     faqView.style.display = "block";
     renderFAQ();
   } else {
-    searchWrap.style.display = "block";
+    grid.style.display = "grid";
     faqView.style.display = "none";
-    const q = document.getElementById("searchInput").value.trim().toLowerCase();
     const filtered = products.filter(p => {
       const matchCat = activeCat === "Semua" || p.category === activeCat;
-      const matchQ = !q || p.sku.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || (p.karakteristik || "").toLowerCase().includes(q);
+      const matchQ = p.sku.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || (p.karakteristik||"").toLowerCase().includes(q);
       return matchCat && matchQ;
     });
     renderCompare();
-    resultInfo.innerHTML = `${filtered.length} produk ditemukan${activeCat !== "Semua" ? ` dalam <strong>${activeCat}</strong>` : ""}
-      ${selected.length > 0 ? `<span class="compare-hint">· ${selected.length} produk dipilih — pilih minimal 2 untuk compare</span>` : `<span style="color:#94a3b8;margin-left:8px;">· Klik kartu produk untuk membandingkan (maks. 4)</span>`}`;
     renderGrid(filtered);
   }
 }
 
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-function downloadExcel() {
-  const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
-  if (compareProds.length < 1) return;
-
-  const fields = FIELDS[compareProds[0].category] || [];
-  let csvContent = "Spesifikasi," + compareProds.map(p => p.sku).join(",") + "\n";
-  csvContent += "Karakteristik," + compareProds.map(p => `"${p.karakteristik || '-'}"`).join(",") + "\n";
-  
-  fields.forEach(f => {
-    let row = f + ",";
-    row += compareProds.map(p => {
-      const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "-");
-      return `"${val}"`;
-    }).join(",");
-    csvContent += row + "\n";
-  });
-
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.setAttribute("href", url);
-  link.setAttribute("download", `Bandingan_Simplus_${compareProds[0].sku}.csv`);
-  link.click();
-}
-// INISIALISASI
+// Start App
 render();
 </script>
 </body>
