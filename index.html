@@ -1325,7 +1325,37 @@ const modalEls = {
   specsList  : document.getElementById("modalSpecsList"),
   modal      : document.getElementById("modal"),
 };
-
+// --- FUNGSI PILIH PRODUK UNTUK PERBANDINGAN ---
+function toggleSelect(sku) {
+  const index = selected.indexOf(sku);
+  
+  if (index > -1) {
+    // Jika sudah ada, hapus dari pilihan
+    selected.splice(index, 1);
+  } else {
+    // Jika belum ada, cek batas maksimal (4 produk)
+    if (selected.length >= 4) {
+      alert("Maksimal hanya bisa membandingkan 4 produk sekaligus.");
+      return;
+    }
+    
+    // Cek apakah kategori produk yang dipilih sama dengan yang sudah ada
+    // (Penting agar tabel perbandingan tidak berantakan)
+    if (selected.length > 0) {
+      const firstProd = products.find(p => p.sku === selected[0]);
+      const newProd = products.find(p => p.sku === sku);
+      if (firstProd.category !== newProd.category) {
+        alert("Hanya bisa membandingkan produk dalam kategori yang sama.");
+        return;
+      }
+    }
+    
+    selected.push(sku);
+  }
+  
+  // Render ulang untuk memperbarui tampilan centang dan tabel
+  render();
+}
 // ============================================================
 // RENDER GRID
 // ============================================================
@@ -1550,7 +1580,40 @@ function openModal(sku) {
 function closeModal() {
   modalEls.modal.style.display = "none";
 }
+function toggleSelect(sku) {
+  const index = selected.indexOf(sku);
+  if (index > -1) {
+    selected.splice(index, 1);
+  } else {
+    if (selected.length >= 4) {
+      alert("Maksimal hanya bisa membandingkan 4 produk sekaligus.");
+      return;
+    }
+    if (selected.length > 0) {
+      const firstProd = products.find(p => p.sku === selected[0]);
+      const newProd = products.find(p => p.sku === sku);
+      if (firstProd.category !== newProd.category) {
+        alert("Hanya bisa membandingkan produk dalam kategori yang sama.");
+        return;
+      }
+    }
+    selected.push(sku);
+  }
+  render();
+}
 
+function copyMessage() {
+  const text = document.getElementById("csMessageBody").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copyBtn");
+    btn.innerText = "✅ Tersalin!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.innerText = "📋 Copy Teks";
+      btn.classList.remove("copied");
+    }, 2000);
+  });
+}
 // --- FAQ FUNCTIONS ---
 function renderFAQ() {
   const faqView = document.getElementById("faqView");
