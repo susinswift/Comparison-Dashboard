@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="referrer" content="no-referrer"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <title>Simplus Product Database</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
@@ -1529,21 +1530,46 @@ function renderCompare() {
     </div>`;
 }
 
-// Tambahkan fungsi ini agar tidak error saat tombol download diklik
 function downloadTableAsImage() {
-  alert("Fungsi download gambar memerlukan library tambahan seperti html2canvas.");
-}
+  const element = document.getElementById("compareCaptureArea");
+  if (!element) {
+    alert("Area perbandingan tidak ditemukan.");
+    return;
+  }
+
+  const btn = document.getElementById("downloadImgBtn");
+  const originalText = btn.textContent;
   
-function copyMessage() {
-  const text = document.getElementById("csMessageBody").innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById("copyBtn");
-    btn.textContent = "✅ Copied!";
-    btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = "📋 Copy Teks"; btn.classList.remove("copied"); }, 2000);
+  // Memberi feedback visual saat proses pengolahan
+  btn.textContent = "⌛ Memproses...";
+  btn.style.opacity = "0.7";
+  btn.disabled = true;
+
+  html2canvas(element, {
+    useCORS: true,      // Wajib diaktifkan agar gambar dari domain Shopline bisa terbaca
+    scale: 2,           // Meningkatkan resolusi gambar (High Definition)
+    backgroundColor: "#f0f4ff", // Menentukan warna latar belakang gambar
+    logging: false      // Mematikan log di konsol browser
+  }).then(canvas => {
+    const link = document.createElement("a");
+    const timestamp = new Date().getTime();
+    
+    link.download = `Simplus-Comparison-${timestamp}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+    // Reset tombol
+    btn.textContent = originalText;
+    btn.style.opacity = "1";
+    btn.disabled = false;
+  }).catch(err => {
+    console.error("Gagal mengambil gambar:", err);
+    alert("Maaf, terjadi kesalahan saat mendownload gambar.");
+    btn.textContent = originalText;
+    btn.style.opacity = "1";
+    btn.disabled = false;
   });
 }
-
 function renderGrid(filtered) {
   const grid = document.getElementById("grid");
   const noResults = document.getElementById("noResults");
