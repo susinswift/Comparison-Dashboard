@@ -294,32 +294,32 @@ const catColors={
 "Massager":"#E11D48" // Tadi di sini kurang koma kak
 };
 
-const FIELDS={
-"Vacuum Cleaner":["metode","filter","dustbin","daya","suction","kebisingan","kabel","ukuran","berat"],
-"Garment Steamer / Iron":["tipe","daya","kapasitas","waktu_pemanasan","jumlah_uap","ukuran","berat"],
-"Dehumidifier":["mode_kontrol","kapasitas_tangki","dehumidifikasi","kebisingan","ukuran","berat","daya"],
-"Humidifier":["tipe","kapasitas","melembabkan","daya_baterai","kebisingan","ukuran","berat","daya"],
-"Air Purifier":["cara_kontrol","cadr","filter","daya","kebisingan","cocok_untuk","ukuran","berat"],
-"Dust Mite Vacuum":["tipe","dustbin","sterilisasi_uv","fungsi_lainnya","filter","daya","kabel","aksesori","berat","suction","getaran","ukuran","kebisingan"],
-"Vacuum Mop":["pengaturan","suction","tangki_kotor","tangki_bersih","daya","waktu_cas","waktu_pakai","berat"],
-"Carpet & Upholstery":["cara_kontrol","pengaturan","suction","tangki_kotor","tangki_bersih","daya","kabel","berat"],
-"Electric Fan":["tipe","pengaturan","daya","kebisingan","ukuran","berat"],
-"Air Cooler":["kapasitas","pengaturan","daya","kebisingan","ukuran","berat"],
-"Air Fryer (Digital)":["rentang_suhu","waktu","daya","kapasitas","jendela","ukuran","berat"],
-"Air Fryer (Knob)":["rentang_suhu","waktu","daya","kapasitas","jendela","ukuran","berat"],
-"Electric Cooker":["bahan","kapasitas","daya","ukuran","berat"],
-"Electric Steamer":["kapasitas","tier","jadwal","daya","ukuran","berat"],
-"Drip Coffee Machine":["kapasitas_tangki","kapasitas_gelas","daya","waktu","ukuran","berat"],
-"Semi-auto Espresso":["tekanan","kapasitas_tangki","batang_uap","daya","waktu_pemanasan","ukuran","berat"],
-"Capsule Coffee":["tekanan","kapasitas_tangki","batang_uap","daya","waktu_pemanasan","ukuran","berat"],
-"Electric Chopper":["pengaturan","kapasitas","pisau","daya","ukuran","berat"],
-"Blender / Juicer":["kapasitas","pisau","daya","ukuran","berat"],
-"Hair Dryer":["motor","ion_negatif","daya","kebisingan","kecepatan","panjang_kabel","ukuran","berat"],
-"Hair Straightener":["pengaturan","suhu","daya","waktu_panas","lapisan","ukuran","berat"],
-"Hair Curler":["diameter","suhu","daya","waktu_panas","ukuran","berat"],
-"Hair Dryer Brush":["pengaturan","kecepatan","ion_negatif","kepala_lepas","daya","panjang_kabel","ukuran","berat"],
-"Body Scale":["kapasitas","baterai","display","fitur_ekstra"], 
-"Massager":["pengaturan","kepala_pijat","baterai","berat"] 
+const FIELDS = {
+  "Vacuum Cleaner": ["Metode", "Filter", "Debu", "Daya", "Suction", "Kebisingan", "Kabel", "Berat"],
+  "Garment Steamer / Iron": ["Tipe", "Daya", "Kapasitas", "Panas", "Uap", "Berat"],
+  "Dehumidifier": ["Kontrol", "Tangki", "Kapasitas", "Daya", "Kebisingan"],
+  "Humidifier": ["Kapasitas", "Output", "Baterai", "Daya", "Kebisingan"],
+  "Air Purifier": ["Kontrol", "CADR", "Filter", "Daya", "Area", "Berat"],
+  "Dust Mite Vacuum": ["Filter", "UV", "Fitur", "Daya", "Suction", "Getaran"],
+  "Vacuum Mop": ["Suction", "Tangki", "Daya", "Cas", "Pakai"],
+  "Carpet & Upholstery": ["Suction", "Tangki", "Daya", "Kabel", "Berat"],
+  "Electric Fan": ["Tipe", "Mode", "Daya", "Berat"],
+  "Air Cooler": ["Tangki", "Mode", "Daya", "Berat"],
+  "Air Fryer (Digital)": ["Suhu", "Waktu", "Daya", "Kapasitas", "Jendela"],
+  "Air Fryer (Knob)": ["Suhu", "Waktu", "Daya", "Kapasitas", "Jendela"],
+  "Electric Cooker": ["Bahan", "Kapasitas", "Daya", "Berat"],
+  "Electric Steamer": ["Kapasitas", "Tier", "Jadwal", "Daya"],
+  "Drip Coffee Machine": ["Tangki", "Gelas", "Daya", "Waktu"],
+  "Semi-auto Espresso": ["Tekanan", "Tangki", "Uap", "Daya", "Panas"],
+  "Capsule Coffee": ["Tekanan", "Tangki", "Daya", "Panas"],
+  "Electric Chopper": ["Kapasitas", "Pisau", "Daya", "Berat"],
+  "Blender / Juicer": ["Kapasitas", "Pisau", "Daya", "Berat"],
+  "Hair Dryer": ["Motor", "Ion", "Daya", "Speed", "Kabel"],
+  "Hair Straightener": ["Daya", "Suhu", "Mode", "Panas", "Lapisan", "Fitur"],
+  "Hair Curler": ["Diameter", "Suhu", "Daya", "Panas", "Berat"],
+  "Hair Dryer Brush": ["Speed", "Ion", "Kepala", "Daya", "Kabel"],
+  "Body Scale": ["Kapasitas", "Baterai", "Display", "Fitur"],
+  "Massager": ["Speed", "Kepala", "Baterai", "Berat"]
 };
 
 const LABELS={
@@ -639,153 +639,189 @@ const faqs = {
 };
 
 const rawProducts = [
-{sku:"XCQH002",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Ringan, harga terjangkau",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.35 L",daya:"400 W",suction:"13000 PA",kebisingan:"82 dBA",kabel:"4 m",ukuran:"9×22×109 cm",berat:"1.1 kg"},
-{sku:"XCQH008",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Model dasar",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.5 L",daya:"500 W",suction:"16000 PA",kebisingan:"< 75 dBA",kabel:"4 m",ukuran:"26×28.8×118 cm",berat:"1.57 kg"},
-{sku:"XCQH011",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Model hemat energi",metode:"Berkabel",filter:"HEPA F8",dustbin:"0.5 L",daya:"500 W",suction:"18000 PA",kebisingan:"82 dBA",kabel:"4 m",ukuran:"26×28.8×104 cm",berat:"1.39 kg"},
-{sku:"XCQH014",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Gagang Ergonomis",metode:"Berkabel",filter:"HEPA F6",dustbin:"1 L",daya:"600 W",suction:"18000 PA",kebisingan:"77 dBA",kabel:"4.5 m",ukuran:"25.5×15×114 cm",berat:"1.6 kg"},
-{sku:"XCQH015",name:"Corded Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Tangki Debu Upgraded",metode:"Berkabel",filter:"HEPA F8",dustbin:"1.2 L",daya:"1200 W",suction:"22000 PA",kebisingan:"77.1 dBA",kabel:"4.5 m",ukuran:"55×25.3×110 cm",berat:"3.3 kg"},
-{sku:"XCQH009",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Peningkatan penghilangan debu",metode:"Tidak berkabel",filter:"HEPA F9 + Saringan logam",dustbin:"0.6 L",daya:"150 W",suction:"12000 PA",kebisingan:"78 dBA",kabel:"×",ukuran:"24×14.5×116 cm",berat:"1.6 kg"},
-{sku:"XCQH010",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Desain layar sentuh, Pembaruan cerdas",metode:"Tidak berkabel",filter:"HEPA F9 + Saringan logam",dustbin:"0.7 L",daya:"150 W",suction:"16000 PA",kebisingan:"≤75 dBA",kabel:"×",ukuran:"22×34×109 cm",berat:"2.8 kg"},
-{sku:"XCQH012",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Ringan, harga terjangkau",metode:"Tidak berkabel",filter:"HEPA F8",dustbin:"0.35 L",daya:"60 W",suction:"8000 PA",kebisingan:"≤65 dBA",kabel:"×",ukuran:"9×24×109 cm",berat:"0.85 kg"},
-{sku:"XCQH013",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Daya Hisap Upgraded, Filtrasi Tingkat Tinggi",metode:"Tidak berkabel",filter:"HEPA H12 + Saringan logam",dustbin:"0.5 L",daya:"250 W",suction:"24000 PA",kebisingan:"82 dBA",kabel:"×",ukuran:"25×20×117 cm",berat:"2.05 kg"},
-{sku:"XCQH017",name:"Cordless Vacuum Cleaner",category:"Vacuum Cleaner",karakteristik:"Hemat biaya, Penampung debu besar",metode:"Tidak berkabel",filter:"HEPA F9 + Saringan logam",dustbin:"0.7 L",daya:"150 W",suction:"16000 PA",kebisingan:"72.2 dBA",kabel:"×",ukuran:"24.3×22.7×113 cm",berat:"2.25 kg"},
-{sku:"GTJH008",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Model pemula",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"120 ml",waktu_pemanasan:"5 s",jumlah_uap:"15-20 g/min",ukuran:"19.2×9.6×10 cm",berat:"0.76 kg"},
-{sku:"GTJH010",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Tangki Air Diperbesar",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"250 ml",waktu_pemanasan:"5 s",jumlah_uap:"23 g/min",ukuran:"10×12.7×22 cm",berat:"0.75 kg"},
-{sku:"GTJH011",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Fenting, Dibawa Saat Travel",tipe:"Setrika Uap Tangan",daya:"800/1200 W",kapasitas:"170 ml",waktu_pemanasan:"5 s",jumlah_uap:"20 g/min",ukuran:"17.2×7.6×19.1 cm",berat:"0.72 kg"},
-{sku:"GTJH016",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Hemat energi, ringan",tipe:"Setrika Uap Tangan",daya:"800 W",kapasitas:"210 ml",waktu_pemanasan:"10 s",jumlah_uap:"18 g/min",ukuran:"20.4×7.3×7.6 cm",berat:"0.65 kg"},
-{sku:"GTJH017",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Upgrade Lubang Uap, Volume Uap Lebih Besar",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"170 ml",waktu_pemanasan:"5 s",jumlah_uap:"20.26-22 g/min",ukuran:"20.7×9.7×10.3 cm",berat:"0.77 kg"},
-{sku:"GTJH019",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Tangki Air Diperbesar",tipe:"Setrika Uap Tangan",daya:"1200 W",kapasitas:"280 ml",waktu_pemanasan:"30 s",jumlah_uap:"23 g/min",ukuran:"23.2×10×11.5 cm",berat:"0.74 kg"},
-{sku:"GTJH020",name:"Setrika Uap Tangan",category:"Garment Steamer / Iron",karakteristik:"Fenting, Travel",tipe:"Setrika Uap Tangan",daya:"800 W",kapasitas:"180 ml",waktu_pemanasan:"30 s",jumlah_uap:"20 g/min",ukuran:"17.2×7.6×19.1 cm",berat:"0.72 kg"},
-{sku:"GTJH009",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"Daya Besar, Desain Roda",tipe:"Stand Steamer",daya:"2000 W",kapasitas:"1800 ml",waktu_pemanasan:"10 s",jumlah_uap:"34 g/min",ukuran:"30×22×149 cm",berat:"5.25 kg"},
-{sku:"GTJH014",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"3 in 1",tipe:"Stand Steamer",daya:"850 W",kapasitas:"1800 ml",waktu_pemanasan:"20 s",jumlah_uap:"32 g/min",ukuran:"32×23×155 cm",berat:"3.2 kg"},
-{sku:"GTJH018",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"Tripan Setrika Dapat Dilipat",tipe:"Stand Steamer",daya:"1580 W",kapasitas:"1500 ml",waktu_pemanasan:"20 s",jumlah_uap:"38 g/min",ukuran:"35.8×31.5×170 cm",berat:"4.7 kg"},
-{sku:"GTJH023",name:"Stand Garment Steamer",category:"Garment Steamer / Iron",karakteristik:"Tangkat dapat diperbesar",tipe:"Stand Steamer",daya:"850 W",kapasitas:"2100 ml",waktu_pemanasan:"40 s",jumlah_uap:"34 g/min",ukuran:"41×32×145 cm",berat:"3.2 kg"},
-{sku:"CUSH001",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"Portabel",mode_kontrol:"Layar sentuh",kapasitas_tangki:"0.6 L",dehumidifikasi:"380 mL/hari",kebisingan:"35 dBA",ukuran:"14.6×14.6×22.7 cm",berat:"0.86 kg",daya:"23 W"},
-{sku:"CUSH002",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"2 in 1: Dehumidifikasi & Aromaterapi",mode_kontrol:"Layar sentuh",kapasitas_tangki:"2.5 L",dehumidifikasi:"380 mL/hari",kebisingan:"< 35 dBA",ukuran:"23×14×36 cm",berat:"2 kg",daya:"65 W"},
-{sku:"CUSH004",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"Hemat energi",mode_kontrol:"Layar sentuh",kapasitas_tangki:"1 L",dehumidifikasi:"500 mL/hari",kebisingan:"< 46.5 dBA",ukuran:"18.1×12.5×27 cm",berat:"1.60 kg",daya:"30 W"},
-{sku:"CUSH005",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"2 in 1: Humidifikasi & Membersihkan",mode_kontrol:"Tombol putar",kapasitas_tangki:"1.5 L",dehumidifikasi:"750 mL/hari",kebisingan:"45 dBA",ukuran:"22×13.8×30.8 cm",berat:"2.60 kg",daya:"40 W"},
-{sku:"CUSH006",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"Teknologi pintar, Ditingkatkan",mode_kontrol:"Layar sentuh",kapasitas_tangki:"2 L",dehumidifikasi:"1200 mL/hari",kebisingan:"48.4 dBA",ukuran:"25.5×22×44.5 cm",berat:"9.80 kg",daya:"200 W"},
-{sku:"CUSH007",name:"Dehumidifier",category:"Dehumidifier",karakteristik:"2 in 1: Dehumidifikasi & Aromaterapi",mode_kontrol:"Layar sentuh",kapasitas_tangki:"2.5 L",dehumidifikasi:"400 mL/hari",kebisingan:"35 dBA",ukuran:"26×14×35.6 cm",berat:"2 kg",daya:"65 W"},
-{sku:"JASH002",name:"Humidifier",category:"Humidifier",karakteristik:"Melembabkan seharian",tipe:"Tanpa kabel",kapasitas:"4000 ml",melembabkan:"Max 350 ml/h",daya_baterai:"24 h",kebisingan:"36 dBA",ukuran:"18.7×18.7×30 cm",berat:"1.25 kg",daya:"23 W"},
-{sku:"JASH003",name:"Humidifier",category:"Humidifier",karakteristik:"Portabel, Untuk kendaraan",tipe:"Berkabel",kapasitas:"300 ml",melembabkan:"35 ml/h",daya_baterai:"4h ~ 8h",kebisingan:"< 35 dBA",ukuran:"7.7×7.7×16.5 cm",berat:"0.21 kg",daya:"5 W"},
-{sku:"JASH004",name:"Humidifier",category:"Humidifier",karakteristik:"Penggunaan di atas meja",tipe:"Berkabel",kapasitas:"500 ml",melembabkan:"25-51 ml/h",daya_baterai:"1.5h ~ 6h",kebisingan:"< 35 dBA",ukuran:"16.5×7.2×10.5 cm",berat:"0.33 kg",daya:"5 W"},
-{sku:"JASH005",name:"Humidifier",category:"Humidifier",karakteristik:"Portabel",tipe:"Berkabel",kapasitas:"250 ml",melembabkan:"40 ml/h",daya_baterai:"14 h",kebisingan:"< 35 dBA",ukuran:"8×8×12.4 cm",berat:"0.15 kg",daya:"2.5 W"},
-{sku:"JASH006",name:"Humidifier",category:"Humidifier",karakteristik:"Ditingkatkan, Tangki Air Besar",tipe:"Tanpa kabel",kapasitas:"4500 ml",melembabkan:"Max 300 ml/h",daya_baterai:"26 h",kebisingan:"35 dBA",ukuran:"18.5×18.5×30.8 cm",berat:"1.03 kg",daya:"23 W"},
-{sku:"KQJH004",name:"Air Purifier",category:"Air Purifier",karakteristik:"Model hemat energi",cara_kontrol:"Layar sentuh",cadr:"300 m³/jam",filter:"HEPA H11",daya:"30 W",kebisingan:"28~45 dBA",cocok_untuk:"25~35 m²",ukuran:"25×37 cm",berat:"3.15 kg"},
-{sku:"KQJH005",name:"Air Purifier",category:"Air Purifier",karakteristik:"Model dasar",cara_kontrol:"Tombol / APP",cadr:"150 m³/jam",filter:"HEPA H13",daya:"23 W",kebisingan:"45~82 dBA",cocok_untuk:"15~20 m²",ukuran:"21×39 cm",berat:"2 kg"},
-{sku:"KQJH006",name:"Air Purifier",category:"Air Purifier",karakteristik:"Teknologi pintar, Ditingkatkan",cara_kontrol:"Layar sentuh / APP",cadr:"500 m³/jam",filter:"HEPA H11",daya:"50 W",kebisingan:"30~60 dBA",cocok_untuk:"50~70 m²",ukuran:"25×54.5 cm",berat:"5 kg"},
-{sku:"KQJH007",name:"Air Purifier",category:"Air Purifier",karakteristik:"Penyesuaian otomatis ditingkatkan",cara_kontrol:"Layar sentuh",cadr:"330 m³/jam",filter:"HEPA H13",daya:"40 W",kebisingan:"35~71 dBA",cocok_untuk:"30~40 m²",ukuran:"23.8×23.8×41.2 cm",berat:"3.3 kg"},
-{sku:"CMYH004",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Hemat biaya",tipe:"Berkabel",dustbin:"0.45 L",sterilisasi_uv:"×",fungsi_lainnya:"×",filter:"HEPA F9 + SUS304 Filter Logam",daya:"300 W",kabel:"4 m",aksesori:"×",berat:"1.25 kg",suction:"14000 Pa",getaran:"8500 kali/menit",ukuran:"23×23.1×13.7 cm",kebisingan:"75 dBA"},
-{sku:"CMYH005",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Model hemat energi",tipe:"Berkabel",dustbin:"0.45 L",sterilisasi_uv:"GY00:× / GY01:✓",fungsi_lainnya:"×",filter:"HEPA F9 + SUS304 Filter Logam",daya:"300 W",kabel:"4 m",aksesori:"×",berat:"1.25 kg",suction:"14000 Pa",getaran:"10000 kali/menit",ukuran:"24.6×29×15.5 cm",kebisingan:"75 dBA"},
-{sku:"CMYH006",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Bantuan panas",tipe:"Berkabel",dustbin:"0.3 L + 0.2 L",sterilisasi_uv:"✓",fungsi_lainnya:"Pengering panas",filter:"HEPA F9 + SUS304 Filter Logam",daya:"400 W",kabel:"4 m",aksesori:"×",berat:"1.65 kg",suction:"16000 Pa",getaran:"14000 kali/menit",ukuran:"30.5×24.5×19.5 cm",kebisingan:"83 dBA"},
-{sku:"CMYH007",name:"Dust Mite Vacuum Cleaner",category:"Dust Mite Vacuum",karakteristik:"Efisiensi Ditingkatkan",tipe:"Berkabel",dustbin:"0.35 L + 0.25 L",sterilisasi_uv:"✓",fungsi_lainnya:"Fungsi aroma",filter:"HEPA F9 + SUS304 Filter Logam",daya:"350 W",kabel:"4 m",aksesori:"Tablet aroma ×1",berat:"1.5 kg",suction:"18000 Pa",getaran:"96000 kali/menit",ukuran:"30×23.5×18.5 cm",kebisingan:"82 dBA"},
-{sku:"XDJH001",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Model dasar",pengaturan:"3",suction:"17000 PA",berat:"3.8 kg",tangki_kotor:"~800 ml",tangki_bersih:"~600 ml",daya:"200 W",waktu_cas:"3~4 jam",waktu_pakai:"15~40 menit"},
-{sku:"XDJH002",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Model dasar, Kepala sikat lebar",pengaturan:"2",suction:"19000 PA",berat:"4 kg",tangki_kotor:"~800 ml",tangki_bersih:"~600 ml",daya:"200 W",waktu_cas:"3~4 jam",waktu_pakai:"25~40 menit"},
-{sku:"XDJH003",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Efisiensi biaya",pengaturan:"2",suction:"12000 PA",berat:"2.8 kg",tangki_kotor:"~360 ml",tangki_bersih:"~400 ml",daya:"150 W",waktu_cas:"2~3 jam",waktu_pakai:"21~32 menit"},
-{sku:"XDJH004",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"Teknologi pintar, Ditingkatkan",pengaturan:"3",suction:"20000 PA",berat:"4.5 kg",tangki_kotor:"~1130 ml",tangki_bersih:"~810 ml",daya:"200 W",waktu_cas:"3.5~4.5 jam",waktu_pakai:"24~41 menit"},
-{sku:"XDJH005",name:"Wet Dry Vacuum (Mop)",category:"Vacuum Mop",karakteristik:"LCD, 180° Lie-Flat, Hot Air Drying, Silver Ion Sterilization",pengaturan:"3 (Wash/Vacuum/Disinfect, 2 level masing-masing)",suction:"21000 PA",berat:"4.4 kg",tangki_kotor:"~500 ml",tangki_bersih:"~550 ml",daya:"150 W",waktu_cas:"4.5 jam",waktu_pakai:"30~50 menit"},
-{sku:"BYJH001",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Versi upgrade",cara_kontrol:"Layar sentuh",pengaturan:"2",suction:"16000 PA",tangki_kotor:"900 ml",tangki_bersih:"1500 ml",daya:"1200 W",kabel:"5 m",berat:"4.5 kg"},
-{sku:"BYJH002",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Model hemat energi",cara_kontrol:"Tombol",pengaturan:"1",suction:"16000 PA",tangki_kotor:"1280 ml",tangki_bersih:"1660 ml",daya:"500 W",kabel:"5 m",berat:"3.9 kg"},
-{sku:"BYJH003",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Kapasitas air ditingkatkan, Lampiran serbaguna",cara_kontrol:"Tombol",pengaturan:"4",suction:"18000 PA",tangki_kotor:"1400 ml",tangki_bersih:"2300 ml",daya:"1800 W",kabel:"3 m",berat:"4.6 kg"},
-{sku:"BYJH004",name:"Carpet & Upholstery Cleaner",category:"Carpet & Upholstery",karakteristik:"Ukuran ringkas",cara_kontrol:"Tombol",pengaturan:"1",suction:"12000 PA",tangki_kotor:"500~700 ml",tangki_bersih:"1100 ml",daya:"330 W",kabel:"3 m",berat:"2.5 kg"},
-{sku:"DFSH007",name:"USB Fan (Handheld)",category:"Electric Fan",karakteristik:"Desain Keamanan Ditingkatkan",tipe:"Kipas USB",pengaturan:"2",daya:"2.5 W",kebisingan:"35 dBA",ukuran:"5.8×6×19.2 cm",berat:"0.12 kg"},
-{sku:"DFSH010",name:"USB Fan (Table)",category:"Electric Fan",karakteristik:"Model dasar",tipe:"Kipas USB",pengaturan:"3",daya:"8 W",kebisingan:"46.4 dBA",ukuran:"9×4.1×17.2 cm",berat:"0.16 kg"},
-{sku:"DFSH011",name:"USB Fan",category:"Electric Fan",karakteristik:"3 in 1, Baling-baling dari karet",tipe:"Kipas USB",pengaturan:"3",daya:"10 W",kebisingan:"45 dBA",ukuran:"13.5×4.6×3.7 cm",berat:"0.17 kg"},
-{sku:"DFSH012",name:"USB Fan",category:"Electric Fan",karakteristik:"3 in 1, Teknologi canggih",tipe:"Kipas USB",pengaturan:"2",daya:"5 W",kebisingan:"38.5 dBA",ukuran:"4×3.6×12 cm",berat:"0.12 kg"},
-{sku:"DFSH013",name:"USB Fan",category:"Electric Fan",karakteristik:"Angin ditingkatkan",tipe:"Kipas USB",pengaturan:"100 tingkat + 1 pendingin",daya:"10.2 W",kebisingan:"44.6~64.6 dBA",ukuran:"5.1×6.2×16.6 cm",berat:"0.23 kg"},
-{sku:"DFSH014",name:"Desk Fan",category:"Electric Fan",karakteristik:"Tanpa kabel",tipe:"Kipas desktop",pengaturan:"Bebas",daya:"6.5 W",kebisingan:"39.8~61.1 dBA",ukuran:"16.9×12×23.6 cm",berat:"0.46 kg"},
-{sku:"DFSH015",name:"USB Fan (Mini)",category:"Electric Fan",karakteristik:"Mini",tipe:"Kipas USB",pengaturan:"3",daya:"2.22 W",kebisingan:"40.7~55.7 dBA",ukuran:"8×4.5×10.8 cm",berat:"0.08 kg"},
-{sku:"LFSH002",name:"Air Cooler",category:"Air Cooler",karakteristik:"Hemat energi, dapat dikendalikan jarak jauh",kapasitas:"10 L",pengaturan:"3",daya:"65 W",kebisingan:"62 dBA",ukuran:"25.7×28×61.8 cm",berat:"3.7 kg"},
-{sku:"LFSH003",name:"Air Cooler",category:"Air Cooler",karakteristik:"Dua model kontrol, Tangki air besar",kapasitas:"40 L",pengaturan:"3",daya:"220 W",kebisingan:"75 dBA",ukuran:"45×36×106 cm",berat:"9.8 kg"},
-{sku:"LFSH004",name:"Air Cooler",category:"Air Cooler",karakteristik:"Kecil, hemat energi",kapasitas:"10 L",pengaturan:"3",daya:"80 W",kebisingan:"40.6 dBA",ukuran:"24×28×60 cm",berat:"4.2 kg"},
-{sku:"LFSH005",name:"Air Cooler",category:"Air Cooler",karakteristik:"Pendinginan cepat",kapasitas:"40 L",pengaturan:"3",daya:"120 W",kebisingan:"42.5 dBA",ukuran:"43.5×35×95 cm",berat:"7.5 kg"},
-{sku:"KQZG015",name:"Air Fryer Digital",category:"Air Fryer (Digital)",karakteristik:"Tampilan futuristik, Kontrol presisi",rentang_suhu:"80-200°C",waktu:"0-60 menit",daya:"1450 W",kapasitas:"5 L",jendela:"✓",ukuran:"33.6×25.5×29.3 cm",berat:"3.33 kg"},
-{sku:"KQZG017",name:"Air Fryer Digital",category:"Air Fryer (Digital)",karakteristik:"Pintar, Desain minimalis",rentang_suhu:"80-200°C",waktu:"1-60 menit",daya:"650~800 W",kapasitas:"3.5 L",jendela:"✓",ukuran:"33×24.2×30.8 cm",berat:"3.4 kg"},
-{sku:"KQZG018",name:"Air Fryer Digital",category:"Air Fryer (Digital)",karakteristik:"Kapasitas besar, Hemat daya",rentang_suhu:"80-200°C",waktu:"1-60 menit",daya:"800 W",kapasitas:"6.5 L",jendela:"✓",ukuran:"36.7×28.5×25.5 cm",berat:"4 kg"},
-{sku:"KQZG020",name:"Air Fryer Digital (Dual Basket)",category:"Air Fryer (Digital)",karakteristik:"Kapasitas besar, Desain dua keranjang",rentang_suhu:"80-200°C",waktu:"10-60 menit",daya:"1800 W",kapasitas:"6L + 4L",jendela:"✓",ukuran:"43.6×37.9×31.4 cm",berat:"7.86 kg"},
-{sku:"KQZG007",name:"Air Fryer Knob",category:"Air Fryer (Knob)",karakteristik:"Hemat biaya",rentang_suhu:"80-200°C",waktu:"5-30 menit",daya:"650 W",kapasitas:"4 L",jendela:"×",ukuran:"30.9×24.5×29.5 cm",berat:"3.05 kg"},
-{sku:"KQZG013",name:"Air Fryer Knob",category:"Air Fryer (Knob)",karakteristik:"Kontrol pintar",rentang_suhu:"80-200°C",waktu:"0-60 menit",daya:"1400 W",kapasitas:"5 L",jendela:"×",ukuran:"33.6×25.5×30.6 cm",berat:"3.15 kg"},
-{sku:"KQZG014",name:"Air Fryer Knob (Window)",category:"Air Fryer (Knob)",karakteristik:"Kontrol pintar, Masak terlihat",rentang_suhu:"80-200°C",waktu:"0-60 menit",daya:"1450 W",kapasitas:"5 L",jendela:"✓",ukuran:"33.6×25.5×30.6 cm",berat:"3.33 kg"},
-{sku:"KQZG021",name:"Air Fryer Knob (Mini)",category:"Air Fryer (Knob)",karakteristik:"Cepat panas, Cocok untuk lajang",rentang_suhu:"200°C",waktu:"1-60 menit",daya:"500 W",kapasitas:"2.5 L",jendela:"×",ukuran:"27.9×20.4×25.2 cm",berat:"1.98 kg"},
-{sku:"DZGH003",name:"Electric Cooker",category:"Electric Cooker",karakteristik:"Hemat energi, ringan, mudah disimpan",bahan:"SUS 410 + Lapisan glasir keramik",kapasitas:"1.5 L (1~3 orang)",daya:"630 W",ukuran:"25×21×16 cm",berat:"0.97 kg"},
-{sku:"DZGH010",name:"Electric Cooker",category:"Electric Cooker",karakteristik:"Model keluarga, pemanasan super cepat",bahan:"Panci aluminium + Lapisan glasir keramik",kapasitas:"3 L (4~5 orang)",daya:"1000 W",ukuran:"28.5×28.5×19 cm",berat:"1.11 kg"},
-{sku:"DZEG001",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Model hemat energi",kapasitas:"> 3 orang, Total 12L",tier:"3",jadwal:"✓",daya:"800 W",ukuran:"29.5×28×37 cm",berat:"2.03 kg"},
-{sku:"DZEG002",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Mengukus dan Merebus, Model Dasar",kapasitas:"2~3 orang, Total 12L",tier:"2",jadwal:"✓",daya:"1200 W",ukuran:"29.6×28.1×38 cm",berat:"1.93 kg"},
-{sku:"DZEG003",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Model Dasar",kapasitas:"> 2 orang, Total 9~14L",tier:"1",jadwal:"✓",daya:"800 W",ukuran:"27.8×27.8×29.5 cm",berat:"2.6 kg"},
-{sku:"DZEG004",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Ukuran kecil, Pilihan keluarga kecil",kapasitas:"2~3 orang, Total 11L",tier:"2",jadwal:"✓",daya:"800 W",ukuran:"29.8×25.3×29.5 cm",berat:"1.8 kg"},
-{sku:"DZEG005",name:"Electric Steamer",category:"Electric Steamer",karakteristik:"Upgrade kapasitas",kapasitas:"> 3 orang, Total 21L",tier:"3",jadwal:"✓",daya:"1300 W",ukuran:"40×30.5×45 cm",berat:"3.5 kg"},
-{sku:"KFJH006",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Mudah Disimpan",kapasitas_tangki:"0.3 L",kapasitas_gelas:"0~300 ml (~3 gelas)",daya:"450 W",waktu:"1 min",ukuran:"18×16.5×22 cm",berat:"0.6 kg"},
-{sku:"KFJH009",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Hemat Biaya",kapasitas_tangki:"0.7 L",kapasitas_gelas:"0~600 ml (~6 gelas)",daya:"650 W",waktu:"5 min",ukuran:"22.5×16×24 cm",berat:"0.76 kg"},
-{sku:"KFJH011",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Model Klasik",kapasitas_tangki:"0.75 L",kapasitas_gelas:"0~750 ml (~7 gelas)",daya:"600 W",waktu:"6-8 min",ukuran:"18.5×14.7×26 cm",berat:"0.89 kg"},
-{sku:"KFJH012",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Dua Fungsi, Kapasitas Besar",kapasitas_tangki:"1.25 L",kapasitas_gelas:"0~1250 ml (~12 gelas)",daya:"750 W",waktu:"6-8 min",ukuran:"28×17×28.6 cm",berat:"1.15 kg"},
-{sku:"KFJH013",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"Model Hemat Daya",kapasitas_tangki:"0.25 L",kapasitas_gelas:"0~250 ml (~2 gelas)",daya:"370-450 W",waktu:"3 min",ukuran:"15.4×14×20 cm",berat:"0.53 kg"},
-{sku:"KFJH018",name:"Drip Coffee Maker",category:"Drip Coffee Machine",karakteristik:"2 Saluran, Ukuran Kecil",kapasitas_tangki:"0.3 L",kapasitas_gelas:"0~300 ml (~3 gelas)",daya:"370-450 W",waktu:"4 min",ukuran:"15×18×23.8 cm",berat:"0.63 kg"},
-{sku:"KFJH007",name:"Semi-auto Espresso",category:"Semi-auto Espresso",karakteristik:"Model Pemula",tekanan:"20 bar",kapasitas_tangki:"1.4 L",batang_uap:"✓",daya:"1230-1465 W",ukuran:"32.8×15.4×32.1 cm",berat:"3.2 kg",waktu_pemanasan:"30 s"},
-{sku:"KFJH014",name:"Semi-auto Espresso",category:"Semi-auto Espresso",karakteristik:"Ahli Pembuat Kopi",tekanan:"15 bar",kapasitas_tangki:"1.2 L",batang_uap:"✓",daya:"1230-1465 W",ukuran:"30.6×15.7×30.8 cm",berat:"2.9 kg",waktu_pemanasan:"40 s"},
-{sku:"KFJH017",name:"Semi-auto Espresso",category:"Semi-auto Espresso",karakteristik:"Ukuran Kecil",tekanan:"5 bar",kapasitas_tangki:"0.30 L",batang_uap:"✓",daya:"800 W",ukuran:"15.2×32.2×30 cm",berat:"1.53 kg",waktu_pemanasan:"—"},
-{sku:"KFJH008",name:"Capsule Coffee Machine",category:"Capsule Coffee",karakteristik:"Model Pemula",tekanan:"20 bar",kapasitas_tangki:"0.90 L",batang_uap:"×",daya:"1400 W",ukuran:"35×11.2×24.1 cm",berat:"2.30 kg",waktu_pemanasan:"35 s"},
-{sku:"KFJH019",name:"Capsule Coffee Machine",category:"Capsule Coffee",karakteristik:"Portabel",tekanan:"20 bar",kapasitas_tangki:"0.60 L",batang_uap:"×",daya:"1200 W",ukuran:"8.3×31×20.2 cm",berat:"2.25 kg",waktu_pemanasan:"30 s"},
-{sku:"DDJR003",name:"Electric Chopper",category:"Electric Chopper",karakteristik:"Model klasik, Bodi stainless steel",pengaturan:"2",kapasitas:"2000 ml (~3-6 orang)",pisau:"4 pcs SUS 420",daya:"300 W",ukuran:"22×26 cm",berat:"1.68 kg"},
-{sku:"DDJR004",name:"Electric Chopper",category:"Electric Chopper",karakteristik:"Model pemula",pengaturan:"2",kapasitas:"2000 ml (~3-6 orang)",pisau:"4 pcs SUS 420",daya:"300 W",ukuran:"22×25 cm",berat:"1.63 kg"},
-{sku:"DDJR005",name:"Electric Chopper (Mini)",category:"Electric Chopper",karakteristik:"Portabel",pengaturan:"1",kapasitas:"300 ml (~1-2 orang)",pisau:"8 pcs SUS 304",daya:"200 W",ukuran:"19×10.2 cm",berat:"0.97 kg"},
-{sku:"DDJR006",name:"Electric Chopper",category:"Electric Chopper",karakteristik:"Mudah disimpan",pengaturan:"1",kapasitas:"750 ml max (~1-3 orang)",pisau:"2/4 pcs SUS 304 & SUS 420",daya:"200 W",ukuran:"12×14.5×36 cm",berat:"1.30 kg"},
-{sku:"LLJH004",name:"Blender",category:"Blender / Juicer",karakteristik:"Model pemula",kapasitas:"600 ml",pisau:"4 pcs SUS304",daya:"250 W",ukuran:"10.5×28.5 cm",berat:"1 kg"},
-{sku:"LLJH005",name:"Blender",category:"Blender / Juicer",karakteristik:"Dilengkapi aksesoris khusus",kapasitas:"600 ml",pisau:"2/2/4 pcs SUS304 & SUS420",daya:"380 W",ukuran:"18.5×36.2 cm",berat:"2.05 kg"},
-{sku:"LLJH007",name:"Blender (Ice Crusher)",category:"Blender / Juicer",karakteristik:"Pilihan terbaik (penghancuran es)",kapasitas:"800 ml",pisau:"6 pcs SUS304",daya:"400 W",ukuran:"12.4×31 cm",berat:"2.64 kg"},
-{sku:"LLJH010",name:"Blender (2 in 1 Bottle)",category:"Blender / Juicer",karakteristik:"Dua fungsi, dapat dijadikan botol portabel",kapasitas:"600 ml",pisau:"4 pcs SUS304",daya:"300 W",ukuran:"14.3×18.5×36.4 cm",berat:"1.62 kg"},
-{sku:"ZZJH006",name:"Portable Juicer",category:"Blender / Juicer",karakteristik:"Portabel, Model dasar",kapasitas:"400 ml",pisau:"10 pcs SUS304",daya:"80 W",ukuran:"9.4×9.4×20.4 cm",berat:"0.52 kg"},
-{sku:"ZZJH008",name:"Portable Juicer",category:"Blender / Juicer",karakteristik:"Portabel, Hemat energi",kapasitas:"340 ml",pisau:"10 pcs SUS304",daya:"55 W",ukuran:"9.4×8.6×21 cm",berat:"0.32 kg"},
-{sku:"ZZJH009",name:"Slow Juicer",category:"Blender / Juicer",karakteristik:"Bebas ampas",kapasitas:"Masukan 720ml / Jus 240ml",pisau:"2 pcs PC",daya:"200 W",ukuran:"18.5×16×39 cm",berat:"2.16 kg"},
-{sku:"CFJH001",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Model dasar",motor:"Motor bersikat",ion_negatif:"×",daya:"1250 W",kebisingan:"85 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.52 m",ukuran:"11.5×7.5×27 cm",berat:"0.243 kg"},
-{sku:"CFJH004",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Kecil, hemat energi",motor:"Motor bersikat",ion_negatif:"×",daya:"1000 W",kebisingan:"76.7 dBA",kecepatan:"12 m/s",panjang_kabel:"1.60 m",ukuran:"9.3×7.1×23 cm",berat:"0.269 kg"},
-{sku:"CFJH006",name:"Hair Dryer (Gift Box)",category:"Hair Dryer",karakteristik:"Kemasan kotak hadiah",motor:"Motor tanpa sikat DC",ion_negatif:"400 juta",daya:"1200 W",kebisingan:"76 dBA",kecepatan:"65.0 m/s",panjang_kabel:"1.75 m",ukuran:"9.8×7.6×27 cm",berat:"0.402 kg"},
-{sku:"CFJH007",name:"Hair Dryer (Foldable)",category:"Hair Dryer",karakteristik:"Lipat, portabel",motor:"Motor bersikat",ion_negatif:"50 juta",daya:"1400-1600 W",kebisingan:"78 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.70 m",ukuran:"16×7×21.2 cm",berat:"0.305 kg"},
-{sku:"CFJH008",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Hemat biaya",motor:"Motor bersikat",ion_negatif:"50 juta",daya:"1250 W",kebisingan:"80 dBA",kecepatan:"120.0 m/s",panjang_kabel:"1.50 m",ukuran:"15×7.5×22 cm",berat:"0.261 kg"},
-{sku:"CFJH009",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Nosel angin yang ditingkatkan",motor:"Motor tanpa sikat",ion_negatif:"400 juta",daya:"1600 W",kebisingan:"82.3 dBA",kecepatan:"65.0 m/s",panjang_kabel:"1.80 m",ukuran:"14×7.5×24 cm",berat:"0.346 kg"},
-{sku:"CFJH010",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Hemat biaya (high-speed)",motor:"Motor tanpa sikat",ion_negatif:"200 juta",daya:"1600 W",kebisingan:"68 dBA",kecepatan:"64.5 m/s",panjang_kabel:"1.80 m",ukuran:"24.3×9.5×7.3 cm",berat:"0.304 kg"},
-{sku:"CFJH011",name:"Hair Dryer",category:"Hair Dryer",karakteristik:"Bersuara rendah",motor:"Motor tanpa sikat",ion_negatif:"200 juta",daya:"1300 W",kebisingan:"59 dBA",kecepatan:"70.0 m/s",panjang_kabel:"1.80 m",ukuran:"10×7.7×20 cm",berat:"0.295 kg"},
-{sku:"ZFBA002",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Tipe Pemula",pengaturan:"1",suhu:"200°C",daya:"30 W",waktu_panas:"30 s",ukuran:"28×3.2×3.5 cm",berat:"0.27 kg",lapisan:"Cat tahan panas + Glasir keramik"},
-{sku:"ZFBA003",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Kontrol Suhu Presisi",pengaturan:"9",suhu:"110°C-230°C",daya:"45 W",waktu_panas:"10 s",ukuran:"33×3.08×3.24 cm",berat:"0.29 kg",lapisan:"Lapisan glasir keramik"},
-{sku:"ZFBA004",name:"Hair Straightener (Mini)",category:"Hair Straightener",karakteristik:"Mini, Portabel",pengaturan:"1",suhu:"180°C",daya:"17 W",waktu_panas:"10 s",ukuran:"17.5×2×2.5 cm",berat:"0.12 kg",lapisan:"Lapisan glasir keramik"},
-{sku:"ZFBA005",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Pelat Lebar, Cakupan Lebih Luas",pengaturan:"5",suhu:"140°C-220°C",daya:"59 W",waktu_panas:"30 s",ukuran:"30.5×4.5×3.9 cm",berat:"0.36 kg",lapisan:"Lapisan glasir keramik"},
-{sku:"ZFBA006",name:"Hair Straightener (Cordless)",category:"Hair Straightener",karakteristik:"Nirkabel, Tipe Dasar",pengaturan:"1",suhu:"180°C",daya:"10 W",waktu_panas:"10 s",ukuran:"21.2×4×3 cm",berat:"0.18 kg",lapisan:"Lapisan glasir keramik"},
-{sku:"ZFBA008",name:"Hair Straightener (Cordless)",category:"Hair Straightener",karakteristik:"Nirkabel, Versi Upgrade",pengaturan:"2",suhu:"180°C-200°C",daya:"25 W",waktu_panas:"30 s",ukuran:"20.1×3.3×3.6 cm",berat:"0.17 kg",lapisan:"Lapisan glasir keramik"},
-{sku:"ZFSH001",name:"Hair Straightener Brush",category:"Hair Straightener",karakteristik:"Tipe Sikat",pengaturan:"6",suhu:"100°C-200°C",daya:"30 W",waktu_panas:"10 s",ukuran:"33×4.7×4.6 cm",berat:"0.32 kg",lapisan:"Lapisan glasir keramik"},
-{sku:"JFBA004",name:"Hair Curler (2 in 1)",category:"Hair Curler",karakteristik:"2 fungsi lurus & keriting, Model pemula",diameter:"30 mm",suhu:"140°C-200°C",daya:"49 W",waktu_panas:"3 s",ukuran:"30×3 cm",berat:"0.38 kg"},
-{sku:"JFBA005",name:"Hair Curler",category:"Hair Curler",karakteristik:"Harus dimiliki gadis yang ingin terlihat anggun",diameter:"32 mm",suhu:"160°C-200°C",daya:"30 W",waktu_panas:"10 s",ukuran:"32×2.5 cm",berat:"0.36 kg"},
-{sku:"JFBA006",name:"Hair Curler (Cat Wave)",category:"Hair Curler",karakteristik:"Catokan keriting gelombang kucing",diameter:"32 mm",suhu:"170°C-230°C",daya:"42 W",waktu_panas:"20 s",ukuran:"22.5×8.5 cm",berat:"0.37 kg"},
-{sku:"JFBA007",name:"Hair Curler",category:"Hair Curler",karakteristik:"Model wajib untuk rambut panjang",diameter:"32 mm",suhu:"150°C-210°C",daya:"40-59 W",waktu_panas:"30 s",ukuran:"34×3 cm",berat:"0.32 kg"},
-{sku:"JFBA008",name:"Hair Curler (Wave)",category:"Hair Curler",karakteristik:"Model gelombang keriting pemula",diameter:"22 mm",suhu:"140°C-200°C",daya:"50 W",waktu_panas:"30 s",ukuran:"25.8×3 cm",berat:"0.48 kg"},
-{sku:"JFBA009",name:"Hair Curler (Portable)",category:"Hair Curler",karakteristik:"Yang paling portabel",diameter:"28 mm",suhu:"210°C",daya:"30 W",waktu_panas:"10 s",ukuran:"25×4 cm",berat:"0.20 kg"},
-{sku:"JFBA010",name:"Hair Curler (Auto)",category:"Hair Curler",karakteristik:"Harus dimiliki orang yang malas",diameter:"32 mm",suhu:"170°C-210°C",daya:"52 W",waktu_panas:"10 s",ukuran:"35×6 cm",berat:"0.37 kg"},
-{
-  sku:"ZFBA011",
-  name:"Hair Straightener Catokan Pelurus",
-  category:"Hair Straightener",
-  karakteristik:"Plat Keramik & Dual Voltage",
-  pengaturan:"1 (Constant)",
-  suhu:"200°C",
-  daya:"30 Watt",
-  waktu_panas:"30 s",
-  lapisan:"Ceramic Coating",
-  ukuran:"-",
-  berat:"-"
-},
-{sku:"RFSH001",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model dasar",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"✓",daya:"1100-1200 W",ukuran:"39.8×5.9×6.1 cm",berat:"0.47 kg",panjang_kabel:"1.8 m"},
-{sku:"RFSH002",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model pemula",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"×",daya:"1000-1200 W",ukuran:"38×7.7×10 cm",berat:"0.50 kg",panjang_kabel:"1.75 m"},
-{sku:"RFSH003",name:"Hair Dryer Brush (Multi)",category:"Hair Dryer Brush",karakteristik:"Multi-gaya",pengaturan:"2 speed, 3 suhu, 1 mode auto-bersih",kecepatan:"58 m/s",ion_negatif:"130 juta",kepala_lepas:"✓",daya:"1500 W",ukuran:"29.5×5×5 cm",berat:"0.86 kg",panjang_kabel:"1.8 m"}
-,{sku:"CFJH003",name:"Hair Dryer (1800W)",category:"Hair Dryer",karakteristik:"Model dasar 1800W, hemat daya",motor:"Motor bersikat",ion_negatif:"×",daya:"1800 W",kebisingan:"78 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.5 m",ukuran:"15×7.5×22 cm",berat:"0.45 kg"}
-,{sku:"CFJH005",name:"Ionic Hair Dryer",category:"Hair Dryer",karakteristik:"Desain minimalis, ringan & ionik",motor:"Motor bersikat",ion_negatif:"✓",daya:"1800 W",kebisingan:"78 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.5 m",ukuran:"14×7.5×22 cm",berat:"0.45 kg"}
-,{sku:"ZFBA001",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Layar LED, 6 level suhu",pengaturan:"6",suhu:"120°C-220°C",daya:"50 W",waktu_panas:"30 s",ukuran:"30×4 cm",berat:"0.35 kg",lapisan:"Lapisan keramik"}
-,{sku:"ZFBA007",name:"Hair Straightener (Mini)",category:"Hair Straightener",karakteristik:"Mini, ringan 120g, cocok untuk pria/wanita",pengaturan:"1",suhu:"180°C",daya:"17 W",waktu_panas:"10 s",ukuran:"17.5×2×2.5 cm",berat:"0.12 kg",lapisan:"Keramik Tourmaline"}
-,{sku:"ZFBA010",name:"Hair Straightener (Essential Oil)",category:"Hair Straightener",karakteristik:"Panel Keramik Minyak Esensial, Layar Digital",pengaturan:"5",suhu:"120°C-200°C",daya:"45 W",waktu_panas:"30 s",ukuran:"30×4 cm",berat:"0.35 kg",lapisan:"Ceramic Coated Panel"}
-,{sku:"ZFSH004",name:"Cooling Hair Straightener Brush",category:"Hair Straightener",karakteristik:"Catokan sisir dengan mode udara dingin (Cool Shot)",pengaturan:"5",suhu:"120°C-200°C",daya:"45 W",waktu_panas:"30 s",ukuran:"30×5 cm",berat:"0.40 kg",lapisan:"Lapisan glasir keramik"},{sku:"TZCH001",name:"Digital Body Scale",category:"Body Scale",karakteristik:"Timbangan kaca presisi dengan layar LED tersembunyi",kapasitas:"0.5 - 180 kg",baterai:"2x AAA",display:"LED",ukuran:"28×28 cm",berat:"1 kg"}
-,{sku:"TZCH002",name:"Smart Body Scale",category:"Body Scale",karakteristik:"Timbangan pintar dengan koneksi Tuya App (Body Composition)",kapasitas:"180 kg",baterai:"Rechargeable (USB)",display:"LED",fitur_ekstra:"Analisis massa tubuh via App",ukuran:"28×28 cm",berat:"1.2 kg"}
-,{sku:"JMQH001",name:"Massager Gun",category:"Massager",karakteristik:"Alat pijat portabel untuk relaksasi otot mendalam",pengaturan:"4 tingkat kecepatan",kepala_pijat:"4 jenis kepala tukar",baterai:"Rechargeable (5V/2A Type-C)",berat:"0.8 kg"}
-,{sku:"JFBA011",name:"Hair Curler (Wand)",category:"Hair Curler",karakteristik:"Desain ergonomis, pemanasan merata & cepat",diameter:"28 mm",suhu:"160°C-200°C",daya:"45 W",waktu_panas:"30 s",ukuran:"32×3 cm",berat:"0.35 kg"}
-,{sku:"RFSH004",name:"Mini Hot Air Styler (3-in-1)",category:"Hair Dryer Brush",karakteristik:"Desain mini portabel, 3-in-1 (kering, keriting, lurus), kabel putar 360°",pengaturan:"3 (Cool, Low, High)",ion_negatif:"×",kepala_lepas:"×",daya:"600 W",panjang_kabel:"Kabel Putar 360°",ukuran:"-",berat:"0.3 kg"}
-,{sku:"RFSH005",name:"Hair Dryer Brush (Oval)",category:"Hair Dryer Brush",karakteristik:"Sikat oval untuk volume ekstra, filter udara bisa dilepas",pengaturan:"3 (Cool, Warm, Hot)",ion_negatif:"×",kepala_lepas:"✓",daya:"1000-1200 W",panjang_kabel:"Kabel Putar 360°",ukuran:"-",berat:"0.45 kg"}
-,{sku:"KFJH021",name:"Semi-auto Espresso (Compact)",category:"Semi-auto Espresso",karakteristik:"Model ringkas dengan portafilter 51mm dan pembuih susu (Steam Wand)",tekanan:"5 bar",kapasitas_tangki:"0.24 L",batang_uap:"✓",daya:"800 W",waktu_pemanasan:"60 s",ukuran:"-",berat:"-"}
+  // --- VACUUM CLEANER ---
+  { sku:"XCQH002", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Ringan, harga terjangkau", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"0.35 L","Daya":"400 W","Suction":"13000 PA","Kebisingan":"82 dBA","Kabel":"4 m","Berat":"1.1 kg"}, sellingPoints:["Desain ringan mudah dioperasikan","Daya hisap stabil dengan kabel","Sistem filtrasi HEPA F8"] },
+  { sku:"XCQH008", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Model dasar", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"0.5 L","Daya":"500 W","Suction":"16000 PA","Kebisingan":"< 75 dBA","Kabel":"4 m","Berat":"1.57 kg"}, sellingPoints:["Hisapan kuat 16000 PA","Tangki debu 0.5 liter","Suara mesin halus"] },
+  { sku:"XCQH011", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Model hemat energi", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"0.5 L","Daya":"500 W","Suction":"18000 PA","Kebisingan":"82 dBA","Kabel":"4 m","Berat":"1.39 kg"}, sellingPoints:["Efisiensi energi tinggi","Daya hisap 18000 PA","Filtrasi HEPA efektif"] },
+  { sku:"XCQH014", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Gagang Ergonomis", specs:{"Metode":"Berkabel","Filter":"HEPA F6","Debu":"1 L","Daya":"600 W","Suction":"18000 PA","Kebisingan":"77 dBA","Kabel":"4.5 m","Berat":"1.6 kg"}, sellingPoints:["Gagang ergonomis nyaman","Kapasitas besar 1 liter","Kabel jangkauan luas"] },
+  { sku:"XCQH015", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Tangki Debu Upgraded", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"1.2 L","Daya":"1200 W","Suction":"22000 PA","Kebisingan":"77.1 dBA","Kabel":"4.5 m","Berat":"3.3 kg"}, sellingPoints:["Daya motor 1200 W","Hisapan maksimal 22000 PA","Tangki ekstra besar"] },
+  { sku:"XCQH009", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Peningkatan penghilangan debu", specs:{"Metode":"Tidak berkabel","Filter":"HEPA F9","Debu":"0.6 L","Daya":"150 W","Suction":"12000 PA","Kebisingan":"78 dBA","Berat":"1.6 kg"}, sellingPoints:["Bebas kabel fleksibel","Saringan logam tambahan","Filtrasi HEPA F9"] },
+  { sku:"XCQH010", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Desain layar sentuh", specs:{"Metode":"Tidak berkabel","Filter":"HEPA F9","Debu":"0.7 L","Daya":"150 W","Suction":"16000 PA","Kebisingan":"≤75 dBA","Berat":"2.8 kg"}, sellingPoints:["Kontrol layar sentuh cerdas","Indikator baterai real-time","Lampu LED kepala sikat"] },
+  { sku:"XCQH012", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Ringan, harga terjangkau", specs:{"Metode":"Tidak berkabel","Filter":"HEPA F8","Debu":"0.35 L","Daya":"60 W","Suction":"8000 PA","Kebisingan":"≤65 dBA","Berat":"0.85 kg"}, sellingPoints:["Sangat ringan 0.85 kg","Suara mesin sangat senyap","Praktis untuk harian"] },
+  { sku:"XCQH013", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Filtrasi Tingkat Tinggi", specs:{"Metode":"Tidak berkabel","Filter":"HEPA H12","Debu":"0.5 L","Daya":"250 W","Suction":"24000 PA","Kebisingan":"82 dBA","Berat":"2.05 kg"}, sellingPoints:["Hisapan nirkabel 24000 PA","Filter HEPA H12 premium","Motor bertenaga tinggi"] },
+  { sku:"XCQH017", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Penampung debu besar", specs:{"Metode":"Tidak berkabel","Filter":"HEPA F9","Debu":"0.7 L","Daya":"150 W","Suction":"16000 PA","Kebisingan":"72.2 dBA","Berat":"2.25 kg"}, sellingPoints:["Tangki debu besar 0.7 L","Keseimbangan performa harga","Baterai tahan lama"] },
+
+  // --- GARMENT STEAMER / IRON ---
+  { sku:"GTJH008", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Model pemula", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"120 ml","Panas":"5 s","Uap":"15-20 g/min","Berat":"0.76 kg"}, sellingPoints:["Panas instan 5 detik","Desain kompak travel-friendly","Merapikan pakaian cepat"] },
+  { sku:"GTJH010", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Tangki Air Diperbesar", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"250 ml","Panas":"5 s","Uap":"23 g/min","Berat":"0.75 kg"}, sellingPoints:["Tangki kapasitas 250 ml","Semburan uap lebih kuat","Bisa vertikal & horizontal"] },
+  { sku:"GTJH011", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Lipat, Travel", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"170 ml","Panas":"5 s","Uap":"20 g/min","Berat":"0.72 kg"}, sellingPoints:["Gagang bisa dilipat","Kapasitas tangki 170 ml","Ideal untuk bepergian"] },
+  { sku:"GTJH016", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Hemat energi, ringan", specs:{"Tipe":"Handheld","Daya":"800 W","Kapasitas":"210 ml","Panas":"10 s","Uap":"18 g/min","Berat":"0.65 kg"}, sellingPoints:["Daya hemat 800 W","Bobot sangat ringan","Uap stabil kontinu"] },
+  { sku:"GTJH017", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Upgrade Lubang Uap", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"170 ml","Panas":"5 s","Uap":"22 g/min","Berat":"0.77 kg"}, sellingPoints:["Output uap lebih merata","Desain ergonomis terbaru","Pemanasan sangat cepat"] },
+  { sku:"GTJH019", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Tangki Air Diperbesar", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"280 ml","Panas":"30 s","Uap":"23 g/min","Berat":"0.74 kg"}, sellingPoints:["Tangki air terbesar 280 ml","Pegangan nyaman mantap","Efektif hilangkan kusut"] },
+  { sku:"GTJH020", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Travel Friendly", specs:{"Tipe":"Handheld","Daya":"800 W","Kapasitas":"180 ml","Panas":"30 s","Uap":"20 g/min","Berat":"0.72 kg"}, sellingPoints:["Ringkas untuk dibawa","Konsumsi daya rendah","Mudah digunakan"] },
+  { sku:"GTJH009", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"Daya Besar, Roda", specs:{"Tipe":"Stand Steamer","Daya":"2000 W","Kapasitas":"1800 ml","Panas":"10 s","Uap":"34 g/min","Berat":"5.25 kg"}, sellingPoints:["Daya uap profesional 2000 W","Tangki 1.8 liter untuk banyak baju","Dilengkapi roda mudah pindah"] },
+  { sku:"GTJH014", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"3 in 1 System", specs:{"Tipe":"Stand Steamer","Daya":"850 W","Kapasitas":"1800 ml","Panas":"20 s","Uap":"32 g/min","Berat":"3.2 kg"}, sellingPoints:["Multifungsi 3 in 1","Pengaturan uap bertingkat","Tiang penyangga kokoh"] },
+  { sku:"GTJH018", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"Papan Setrika Lipat", specs:{"Tipe":"Stand Steamer","Daya":"1580 W","Kapasitas":"1500 ml","Panas":"20 s","Uap":"38 g/min","Berat":"4.7 kg"}, sellingPoints:["Papan setrika terintegrasi","Hasil setrika lebih rapi","Output uap sangat deras"] },
+  { sku:"GTJH023", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"Tangki Diperbesar", specs:{"Tipe":"Stand Steamer","Daya":"850 W","Kapasitas":"2100 ml","Panas":"40 s","Uap":"34 g/min","Berat":"3.2 kg"}, sellingPoints:["Tangki air raksasa 2.1 liter","Tiang teleskopik adjustable","Uap stabil tahan lama"] },
+
+  // --- DEHUMIDIFIER ---
+  { sku:"CUSH001", name:"Dehumidifier Portabel", category:"Dehumidifier", karakteristik:"Portabel", specs:{"Kontrol":"Layar sentuh","Tangki":"0.6 L","Kapasitas":"380 mL/hari","Daya":"23 W","Kebisingan":"35 dBA"}, sellingPoints:["Ukuran mini hemat ruang","Operasi sangat senyap","Kontrol sentuh modern"] },
+  { sku:"CUSH002", name:"Dehumidifier Aroma", category:"Dehumidifier", karakteristik:"Dehumidifikasi & Aromaterapi", specs:{"Kontrol":"Layar sentuh","Tangki":"2.5 L","Kapasitas":"380 mL/hari","Daya":"65 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Bonus fungsi aromaterapi","Tangki air kapasitas 2.5 liter","Menjaga ruangan tetap kering"] },
+  { sku:"CUSH004", name:"Dehumidifier Hemat", category:"Dehumidifier", karakteristik:"Hemat energi", specs:{"Kontrol":"Layar sentuh","Tangki":"1 L","Kapasitas":"500 mL/hari","Daya":"30 W","Kebisingan":"< 46.5 dBA"}, sellingPoints:["Konsumsi daya sangat rendah","Efektif serap lembab harian","Desain minimalis stylish"] },
+  { sku:"CUSH005", name:"Dehumidifier Humid", category:"Dehumidifier", karakteristik:"Humidifikasi & Membersihkan", specs:{"Kontrol":"Tombol putar","Tangki":"1.5 L","Kapasitas":"750 mL/hari","Daya":"40 W","Kebisingan":"45 dBA"}, sellingPoints:["Fungsi ganda cerdas","Kapasitas serap tinggi","Mudah dioperasikan"] },
+  { sku:"CUSH006", name:"Dehumidifier Pintar", category:"Dehumidifier", karakteristik:"Teknologi pintar", specs:{"Kontrol":"Layar sentuh","Tangki":"2 L","Kapasitas":"1200 mL/hari","Daya":"200 W","Kebisingan":"48.4 dBA"}, sellingPoints:["Performa industri 1.2 L per hari","Sistem kontrol otomatis","Awet untuk penggunaan lama"] },
+  { sku:"CUSH007", name:"Dehumidifier Aroma V2", category:"Dehumidifier", karakteristik:"Dehumidifikasi & Aromaterapi", specs:{"Kontrol":"Layar sentuh","Tangki":"2.5 L","Kapasitas":"400 mL/hari","Daya":"65 W","Kebisingan":"35 dBA"}, sellingPoints:["Optimasi serap kelembaban","Tangki besar 2.5 liter","Slot aroma khusus tersedia"] },
+
+  // --- HUMIDIFIER ---
+  { sku:"JASH002", name:"Humidifier Seharian", category:"Humidifier", karakteristik:"Melembabkan seharian", specs:{"Kapasitas":"4000 ml","Output":"350 ml/h","Baterai":"24 h","Daya":"23 W","Kebisingan":"36 dBA"}, sellingPoints:["Tangki raksasa 4 liter","Tahan hingga 24 jam nonstop","Output kabut sangat halus"] },
+  { sku:"JASH003", name:"Humidifier Mobil", category:"Humidifier", karakteristik:"Untuk kendaraan", specs:{"Kapasitas":"300 ml","Output":"35 ml/h","Baterai":"4h-8h","Daya":"5 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Pas di cup holder mobil","Koneksi kabel USB praktis","Mencegah udara kering di AC"] },
+  { sku:"JASH004", name:"Humidifier Meja", category:"Humidifier", karakteristik:"Meja kerja", specs:{"Kapasitas":"500 ml","Output":"51 ml/h","Baterai":"6h","Daya":"5 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Desain estetik untuk meja","Meningkatkan kelembapan kulit","Sangat senyap tidak ganggu"] },
+  { sku:"JASH005", name:"Humidifier Portabel", category:"Humidifier", karakteristik:"Portabel", specs:{"Kapasitas":"250 ml","Output":"40 ml/h","Baterai":"14 h","Daya":"2.5 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Kecil bisa dibawa tas","Daya sangat hemat 2.5 W","Tahan hingga 14 jam"] },
+  { sku:"JASH006", name:"Humidifier Besar", category:"Humidifier", karakteristik:"Tangki Air Besar", specs:{"Kapasitas":"4500 ml","Output":"300 ml/h","Baterai":"26 h","Daya":"23 W","Kebisingan":"35 dBA"}, sellingPoints:["Kapasitas terbesar 4.5 liter","Tahan operasional 26 jam","Cocok untuk ruangan luas"] },
+
+  // --- AIR PURIFIER ---
+  { sku:"KQJH004", name:"Air Purifier Hemat", category:"Air Purifier", karakteristik:"Model hemat energi", specs:{"Kontrol":"Layar sentuh","CADR":"300 m³/jam","Filter":"HEPA H11","Daya":"30 W","Area":"25~35 m²"}, sellingPoints:["CADR 300 membersihkan cepat","Layar sentuh indikator udara","Filter HEPA H11 berkualitas"] },
+  { sku:"KQJH005", name:"Air Purifier Dasar", category:"Air Purifier", karakteristik:"Model dasar", specs:{"Kontrol":"Tombol/APP","CADR":"150 m³/jam","Filter":"HEPA H13","Daya":"23 W","Area":"15~20 m²"}, sellingPoints:["Filter HEPA H13 medis","Kontrol via aplikasi smartphone","Ideal untuk kamar tidur"] },
+  { sku:"KQJH006", name:"Air Purifier Pro", category:"Air Purifier", karakteristik:"Teknologi pintar", specs:{"Kontrol":"Layar sentuh/APP","CADR":"500 m³/jam","Filter":"HEPA H11","Daya":"50 W","Area":"50~70 m²"}, sellingPoints:["CADR 500 tenaga maksimal","Cakupan luas hingga 70 m²","Sistem filtrasi berlapis"] },
+  { sku:"KQJH007", name:"Air Purifier Auto", category:"Air Purifier", karakteristik:"Penyesuaian otomatis", specs:{"Kontrol":"Layar sentuh","CADR":"330 m³/jam","Filter":"HEPA H13","Daya":"40 W","Area":"30~40 m²"}, sellingPoints:["Sensor kualitas udara otomatis","Filter HEPA H13 proteksi tinggi","Layar indikator warna PM2.5"] },
+
+  // --- DUST MITE VACUUM ---
+  { sku:"CMYH004", name:"Dust Mite Vacuum", category:"Dust Mite Vacuum", karakteristik:"Hemat biaya", specs:{"Filter":"HEPA F9","Daya":"300 W","Kabel":"4 m","Suction":"14000 Pa","Getaran":"8500 bpm"}, sellingPoints:["Hisapan 14000 PA angkat tungau","Filter logam SUS304 awet","Kabel panjang 4 meter"] },
+  { sku:"CMYH005", name:"Dust Mite Vacuum UV", category:"Dust Mite Vacuum", karakteristik:"Model hemat energi", specs:{"UV":"Tersedia","Daya":"300 W","Kabel":"4 m","Suction":"14000 Pa","Getaran":"10000 bpm"}, sellingPoints:["Dilengkapi lampu UV sterilizer","Getaran tinggi 10000 kali per menit","Efektif bersihkan kasur"] },
+  { sku:"CMYH006", name:"Dust Mite Vacuum Heat", category:"Dust Mite Vacuum", karakteristik:"Bantuan panas", specs:{"UV":"Tersedia","Fitur":"Pengering panas","Daya":"400 W","Suction":"16000 Pa","Getaran":"14000 bpm"}, sellingPoints:["Pengering panas hingga 50 derajat","Hisapan ekstra kuat 16000 PA","Double tank system modern"] },
+  { sku:"CMYH007", name:"Dust Mite Vacuum Aroma", category:"Dust Mite Vacuum", karakteristik:"Fungsi aroma", specs:{"UV":"Tersedia","Fitur":"Aromaterapi","Daya":"350 W","Suction":"18000 Pa","Getaran":"96000 bpm"}, sellingPoints:["Bonus tablet aroma wangi","Getaran ultra frekuensi tinggi","Hisapan terkuat 18000 PA"] },
+
+  // --- VACUUM MOP ---
+  { sku:"XDJH001", name:"Wet Dry Vacuum V1", category:"Vacuum Mop", karakteristik:"Model dasar", specs:{"Suction":"17000 PA","Tangki":"600/800 ml","Daya":"200 W","Cas":"3-4 jam","Pakai":"15-40 min"}, sellingPoints:["Ngepel & nyedot sekaligus","Sistem tangki ganda bersih kotor","Membersihkan noda tumpahan"] },
+  { sku:"XDJH002", name:"Wet Dry Vacuum Wide", category:"Vacuum Mop", karakteristik:"Kepala sikat lebar", specs:{"Suction":"19000 PA","Tangki":"600/800 ml","Daya":"200 W","Cas":"3-4 jam","Pakai":"25-40 min"}, sellingPoints:["Kepala sikat ekstra lebar","Hisapan ditingkatkan 19000 PA","Hemat waktu pembersihan"] },
+  { sku:"XDJH003", name:"Wet Dry Vacuum Eco", category:"Vacuum Mop", karakteristik:"Efisiensi biaya", specs:{"Suction":"12000 PA","Tangki":"360/400 ml","Daya":"150 W","Cas":"2-3 jam","Pakai":"21-32 min"}, sellingPoints:["Bobot ringan mudah manuver","Harga paling ekonomis","Praktis untuk lantai kecil"] },
+  { sku:"XDJH004", name:"Wet Dry Vacuum Smart", category:"Vacuum Mop", karakteristik:"Teknologi pintar", specs:{"Suction":"20000 PA","Tangki":"810/1130 ml","Daya":"200 W","Cas":"4 jam","Pakai":"24-41 min"}, sellingPoints:["Kapasitas tangki air raksasa","Hisapan sangat kuat 20000 PA","Indikator LED status kerja"] },
+  { sku:"XDJH005", name:"Wet Dry Vacuum Lie-Flat", category:"Vacuum Mop", karakteristik:"180° Lie-Flat", specs:{"Suction":"21000 PA","Fitur":"Hot Air Drying","Daya":"150 W","Cas":"4.5 jam","Pakai":"30-50 min"}, sellingPoints:["Bisa rebah 180 derajat kolong","Pengering sikat udara panas","Sterilisasi ion perak alami"] },
+
+  // --- CARPET & UPHOLSTERY ---
+  { sku:"BYJH001", name:"Spot Cleaner Upgrade", category:"Carpet & Upholstery", karakteristik:"Versi upgrade", specs:{"Suction":"16000 PA","Tangki":"1.5 L","Daya":"1200 W","Kabel":"5 m","Berat":"4.5 kg"}, sellingPoints:["Membersihkan noda sofa & karpet","Daya hisap kuat 16000 PA","Kabel 5 meter jangkauan luas"] },
+  { sku:"BYJH002", name:"Spot Cleaner Eco", category:"Carpet & Upholstery", karakteristik:"Hemat energi", specs:{"Suction":"16000 PA","Tangki":"1.6 L","Daya":"500 W","Kabel":"5 m","Berat":"3.9 kg"}, sellingPoints:["Konsumsi daya hanya 500 W","Tangki air kapasitas besar","Ringan mudah dibawa"] },
+  { sku:"BYJH003", name:"Spot Cleaner Pro", category:"Carpet & Upholstery", karakteristik:"Kapasitas ditingkatkan", specs:{"Suction":"18000 PA","Tangki":"2.3 L","Daya":"1800 W","Kabel":"3 m","Berat":"4.6 kg"}, sellingPoints:["Pembersihan noda membandel Pro","Output air tekanan tinggi","Paling bertenaga 1800 W"] },
+  { sku:"BYJH004", name:"Spot Cleaner Mini", category:"Carpet & Upholstery", karakteristik:"Ukuran ringkas", specs:{"Suction":"12000 PA","Tangki":"1.1 L","Daya":"330 W","Kabel":"3 m","Berat":"2.5 kg"}, sellingPoints:["Sangat ringkas mudah simpan","Ideal untuk tumpahan harian","Hemat listrik 330 W"] },
+
+  // --- ELECTRIC FAN ---
+  { sku:"DFSH007", name:"Handheld Fan", category:"Electric Fan", karakteristik:"Keamanan Ditingkatkan", specs:{"Tipe":"USB","Mode":"2 Speed","Daya":"2.5 W","Berat":"0.12 kg"}, sellingPoints:["Genggam praktis masuk saku","Keamanan jari ekstra terjamin","Daya tahan baterai lama"] },
+  { sku:"DFSH010", name:"Table Fan", category:"Electric Fan", karakteristik:"Model dasar", specs:{"Tipe":"USB","Mode":"3 Speed","Daya":"8 W","Berat":"0.16 kg"}, sellingPoints:["Bisa ditaruh meja atau jepit","Angin kencang 3 percepatan","Kabel USB fleksibel"] },
+  { sku:"DFSH011", name:"Kipas USB 3in1", category:"Electric Fan", karakteristik:"Baling karet", specs:{"Tipe":"USB","Mode":"3 Speed","Daya":"10 W","Berat":"0.17 kg"}, sellingPoints:["Baling-baling karet aman","Bisa jadi senter & powerbank","Lipat portabel simpan mudah"] },
+  { sku:"DFSH012", name:"Kipas Lipat 3in1", category:"Electric Fan", karakteristik:"Teknologi canggih", specs:{"Tipe":"USB","Mode":"2 Speed","Daya":"5 W","Berat":"0.12 kg"}, sellingPoints:["Sangat kecil masuk saku","Fungsi 3in1 serbaguna","Angin senyap tidak berisik"] },
+  { sku:"DFSH013", name:"Super Fan 100", category:"Electric Fan", karakteristik:"Angin ditingkatkan", specs:{"Tipe":"USB","Mode":"100 Speed","Daya":"10.2 W","Berat":"0.23 kg"}, sellingPoints:["100 level pengaturan angin","Fitur pendingin logam dingin","Layar digital persentase"] },
+  { sku:"DFSH014", name:"Desk Fan Wireless", category:"Electric Fan", karakteristik:"Tanpa kabel", specs:{"Tipe":"Desktop","Mode":"Infinite","Daya":"6.5 W","Berat":"0.46 kg"}, sellingPoints:["Tanpa kabel baterai besar","Osilasi kiri kanan otomatis","Angin sejuk alami merata"] },
+  { sku:"DFSH015", name:"Mini USB Fan", category:"Electric Fan", karakteristik:"Mini", specs:{"Tipe":"USB","Mode":"3 Speed","Daya":"2.22 W","Berat":"0.08 kg"}, sellingPoints:["Sangat ringan 80 gram","Gantungan kunci atau lanyard","Angin kencang di ukuran mini"] },
+
+  // --- AIR COOLER ---
+  { sku:"LFSH002", name:"Air Cooler Remote", category:"Air Cooler", karakteristik:"Kendali jarak jauh", specs:{"Tangki":"10 L","Mode":"3 Speed","Daya":"65 W","Berat":"3.7 kg"}, sellingPoints:["Pakai remote tidak perlu bangun","Tangki 10 liter awet semalam","Hemat daya hanya 65 Watt"] },
+  { sku:"LFSH003", name:"Air Cooler Industrial", category:"Air Cooler", karakteristik:"Tangki air besar", specs:{"Tangki":"40 L","Mode":"3 Speed","Daya":"220 W","Berat":"9.8 kg"}, sellingPoints:["Tangki raksasa 40 liter","Dingin maksimal area luas","Body kokoh tahan banting"] },
+  { sku:"LFSH004", name:"Air Cooler Compact", category:"Air Cooler", karakteristik:"Hemat energi", specs:{"Tangki":"10 L","Mode":"3 Speed","Daya":"80 W","Berat":"4.2 kg"}, sellingPoints:["Pendinginan cepat instan","Mudah dipindah dengan roda","Suara operasional senyap"] },
+  { sku:"LFSH005", name:"Air Cooler Pro", category:"Air Cooler", karakteristik:"Pendinginan cepat", specs:{"Tangki":"40 L","Mode":"3 Speed","Daya":"120 W","Berat":"7.5 kg"}, sellingPoints:["Angin kencang jangkauan jauh","Tangki 40 liter anti ribet","Desain slim modern"] },
+
+  // --- AIR FRYER DIGITAL ---
+  { sku:"KQZG015", name:"Air Fryer Future", category:"Air Fryer (Digital)", karakteristik:"Tampilan futuristik", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1450 W","Kapasitas":"5 L","Jendela":"✓"}, sellingPoints:["Layar sentuh digital futuristik","Jendela pantau masakan","Kapasitas 5 liter standar keluarga"] },
+  { sku:"KQZG017", name:"Air Fryer Minimalist", category:"Air Fryer (Digital)", karakteristik:"Desain minimalis", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"800 W","Kapasitas":"3.5 L","Jendela":"✓"}, sellingPoints:["Sangat hemat listrik 800 W","Desain estetik minimalis","Mudah dibersihkan anti lengket"] },
+  { sku:"KQZG018", name:"Air Fryer Jumbo", category:"Air Fryer (Digital)", karakteristik:"Kapasitas besar", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"800 W","Kapasitas":"6.5 L","Jendela":"✓"}, sellingPoints:["Kapasitas ekstra besar 6.5 L","Masak ayam utuh sekeluarga","Panel sentuh intuitif"] },
+  { sku:"KQZG020", name:"Air Fryer Dual", category:"Air Fryer (Digital)", karakteristik:"Dua keranjang", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1800 W","Kapasitas":"6L+4L","Jendela":"✓"}, sellingPoints:["Dua keranjang masak terpisah","Total kapasitas 10 liter","Masak dua menu sekaligus"] },
+
+  // --- AIR FRYER KNOB ---
+  { sku:"KQZG007", name:"Air Fryer Classic", category:"Air Fryer (Knob)", karakteristik:"Hemat biaya", specs:{"Suhu":"80-200°C","Waktu":"30 min","Daya":"650 W","Kapasitas":"4 L"}, sellingPoints:["Operasi simpel putar knob","Harga paling bersaing","Konsumsi daya sangat rendah"] },
+  { sku:"KQZG013", name:"Air Fryer Smart Knob", category:"Air Fryer (Knob)", karakteristik:"Kontrol pintar", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1400 W","Kapasitas":"5 L"}, sellingPoints:["Knob presisi kontrol waktu","Pemanasan merata 360 derajat","Material food grade aman"] },
+  { sku:"KQZG014", name:"Air Fryer Window Knob", category:"Air Fryer (Knob)", karakteristik:"Masak terlihat", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1450 W","Kapasitas":"5 L","Jendela":"✓"}, sellingPoints:["Jendela pantau kaca tebal","Body anti panas aman sentuh","Mudah digunakan pemula"] },
+  { sku:"KQZG021", name:"Air Fryer Mini", category:"Air Fryer (Knob)", karakteristik:"Cepat panas", specs:{"Suhu":"200°C","Waktu":"60 min","Daya":"500 W","Kapasitas":"2.5 L"}, sellingPoints:["Pas untuk anak kos/lajang","Daya sangat kecil 500 W","Penyimpanan sangat praktis"] },
+
+  // --- ELECTRIC COOKER ---
+  { sku:"DZGH003", name:"Panci Elektrik Eco", category:"Electric Cooker", karakteristik:"Hemat energi", specs:{"Bahan":"Keramik Glasir","Kapasitas":"1.5 L","Daya":"630 W","Berat":"0.97 kg"}, sellingPoints:["Lapisan keramik anti lengket","Mudah dibersihkan bilas saja","Cocok untuk mie dan hotpot"] },
+  { sku:"DZGH010", name:"Panci Elektrik Family", category:"Electric Cooker", karakteristik:"Model keluarga", specs:{"Bahan":"Aluminium Keramik","Kapasitas":"3 L","Daya":"1000 W","Berat":"1.11 kg"}, sellingPoints:["Kapasitas besar 3 liter","Pemanasan sangat cepat","Cocok untuk masak porsi besar"] },
+
+  // --- ELECTRIC STEAMER ---
+  { sku:"DZEG001", name:"Pengukus 3 Tier", category:"Electric Steamer", karakteristik:"Model hemat energi", specs:{"Kapasitas":"12 L","Tier":"3","Jadwal":"✓","Daya":"800 W"}, sellingPoints:["Kukus 3 susun sekaligus","Bisa dijadwal masak otomatis","Kapasitas besar untuk keluarga"] },
+  { sku:"DZEG002", name:"Pengukus 2 Tier", category:"Electric Steamer", karakteristik:"Mengukus Merebus", specs:{"Kapasitas":"12 L","Tier":"2","Jadwal":"✓","Daya":"1200 W"}, sellingPoints:["Bisa kukus dan rebus bawah","Power besar masak lebih cepat","Kapasitas lega 12 liter"] },
+  { sku:"DZEG003", name:"Pengukus Pro", category:"Electric Steamer", karakteristik:"Model Dasar Pro", specs:{"Kapasitas":"14 L","Tier":"1","Jadwal":"✓","Daya":"800 W"}, sellingPoints:["Tangki uap sangat stabil","Penjadwalan presisi tinggi","Material premium tahan panas"] },
+  { sku:"DZEG004", name:"Pengukus Compact", category:"Electric Steamer", karakteristik:"Keluarga kecil", specs:{"Kapasitas":"11 L","Tier":"2","Jadwal":"✓","Daya":"800 W"}, sellingPoints:["Ukuran compact hemat meja","Praktis untuk sarapan harian","Sistem auto-off aman"] },
+  { sku:"DZEG005", name:"Pengukus Raksasa", category:"Electric Steamer", karakteristik:"Upgrade kapasitas", specs:{"Kapasitas":"21 L","Tier":"3","Jadwal":"✓","Daya":"1300 W"}, sellingPoints:["Kapasitas terbesar 21 liter","Muat ikan utuh besar","Daya uap sangat kencang"] },
+
+  // --- DRIP COFFEE MACHINE ---
+  { sku:"KFJH006", name:"Coffee Maker Mini", category:"Drip Coffee Machine", karakteristik:"Mudah Disimpan", specs:{"Tangki":"0.3 L","Gelas":"3 Gelas","Daya":"450 W","Waktu":"1 min"}, sellingPoints:["Kopi siap dalam 1 menit","Sangat kecil masuk kabinet","Hemat listrik pemakaian harian"] },
+  { sku:"KFJH009", name:"Coffee Maker Eco", category:"Drip Coffee Machine", karakteristik:"Hemat Biaya", specs:{"Tangki":"0.7 L","Gelas":"6 Gelas","Daya":"650 W","Waktu":"5 min"}, sellingPoints:["Kapasitas pas 6 gelas","Harga sangat terjangkau","Filter permanen tanpa kertas"] },
+  { sku:"KFJH011", name:"Coffee Maker Classic", category:"Drip Coffee Machine", karakteristik:"Model Klasik", specs:{"Tangki":"0.75 L","Gelas":"7 Gelas","Daya":"600 W","Waktu":"6-8 min"}, sellingPoints:["Desain klasik retro","Plat pemanas jaga kopi hangat","Kapasitas sedang ideal rumah"] },
+  { sku:"KFJH012", name:"Coffee Maker Large", category:"Drip Coffee Machine", karakteristik:"Kapasitas Besar", specs:{"Tangki":"1.25 L","Gelas":"12 Gelas","Daya":"750 W","Waktu":"6-8 min"}, sellingPoints:["Muat banyak 12 gelas","Cocok untuk kantor/arisan","Tangki air transparan jelas"] },
+  { sku:"KFJH013", name:"Coffee Maker Solo", category:"Drip Coffee Machine", karakteristik:"Model Hemat Daya", specs:{"Tangki":"0.25 L","Gelas":"2 Gelas","Daya":"450 W","Waktu":"3 min"}, sellingPoints:["Daya sangat rendah 450 W","Ideal untuk personal use","Mudah dibawa-bawa"] },
+  { sku:"KFJH018", name:"Coffee Maker Dual", category:"Drip Coffee Machine", karakteristik:"2 Saluran Keluar", specs:{"Tangki":"0.3 L","Gelas":"3 Gelas","Daya":"450 W","Waktu":"4 min"}, sellingPoints:["Tuang kopi ke 2 gelas sekaligus","Desain modern minimalis","Ekstraksi aroma maksimal"] },
+
+  // --- SEMI-AUTO ESPRESSO ---
+  { sku:"KFJH007", name:"Espresso Pro 20 Bar", category:"Semi-auto Espresso", karakteristik:"Model Pemula Pro", specs:{"Tekanan":"20 bar","Tangki":"1.4 L","Daya":"1465 W","Panas":"30 s"}, sellingPoints:["Tekanan 20 bar rasa kafe","Steam wand foam susu lembut","Tangki air besar 1.4 liter"] },
+  { sku:"KFJH014", name:"Espresso Expert", category:"Semi-auto Espresso", karakteristik:"Ahli Pembuat Kopi", specs:{"Tekanan":"15 bar","Tangki":"1.2 L","Daya":"1465 W","Panas":"40 s"}, sellingPoints:["Ekstraksi rasa kopi otentik","Kontrol manual brewing Pro","Material stainless steel elegan"] },
+  { sku:"KFJH017", name:"Espresso Mini", category:"Semi-auto Espresso", karakteristik:"Ukuran Kecil", specs:{"Tekanan":"5 bar","Tangki":"0.30 L","Daya":"800 W","Berat":"1.53 kg"}, sellingPoints:["Sangat praktis dan ringan","Bisa buat espresso & latte","Harga sangat terjangkau"] },
+
+  // --- CAPSULE COFFEE ---
+  { sku:"KFJH008", name:"Capsule Machine Pro", category:"Capsule Coffee", karakteristik:"Model Pemula", specs:{"Tekanan":"20 bar","Tangki":"0.90 L","Daya":"1400 W","Panas":"35 s"}, sellingPoints:["Kompatibel kapsul Nespresso","Tekanan 20 bar crema tebal","Auto-off hemat energi"] },
+  { sku:"KFJH019", name:"Capsule Machine Mini", category:"Capsule Coffee", karakteristik:"Portabel Travel", specs:{"Tekanan":"20 bar","Tangki":"0.60 L","Daya":"1200 W","Panas":"30 s"}, sellingPoints:["Body ramping lebar 8 cm","Siap brew dalam 30 detik","Desain modern minimalis"] },
+
+  // --- ELECTRIC CHOPPER ---
+  { sku:"DDJR003", name:"Chopper Stainless", category:"Electric Chopper", karakteristik:"Bodi stainless steel", specs:{"Kapasitas":"2 L","Pisau":"4 SUS420","Daya":"300 W","Berat":"1.68 kg"}, sellingPoints:["Wadah stainless anti pecah","Mencincang daging sangat halus","4 mata pisau tajam presisi"] },
+  { sku:"DDJR004", name:"Chopper Glass", category:"Electric Chopper", karakteristik:"Model pemula", specs:{"Kapasitas":"2 L","Pisau":"4 SUS420","Daya":"300 W","Berat":"1.63 kg"}, sellingPoints:["Wadah kaca tebal food grade","Pantau hasil cacahan jelas","Operasi simpel satu tombol"] },
+  { sku:"DDJR005", name:"Chopper MPASI", category:"Electric Chopper", karakteristik:"Portabel Mini", specs:{"Kapasitas":"300 ml","Pisau":"8 SUS304","Daya":"200 W","Berat":"0.97 kg"}, sellingPoints:["8 mata pisau cacah sangat halus","Sangat cocok untuk MPASI","Bisa dibawa traveling"] },
+  { sku:"DDJR006", name:"Chopper Slim", category:"Electric Chopper", karakteristik:"Mudah disimpan", specs:{"Kapasitas":"750 ml","Pisau":"4 SUS304","Daya":"200 W","Berat":"1.30 kg"}, sellingPoints:["Body ramping hemat tempat","Kapasitas pas harian rumah","BPA Free aman kesehatan"] },
+
+  // --- BLENDER / JUICER ---
+  { sku:"LLJH004", name:"Blender Basic", category:"Blender / Juicer", karakteristik:"Model pemula", specs:{"Kapasitas":"600 ml","Pisau":"4 SUS304","Daya":"250 W","Berat":"1 kg"}, sellingPoints:["Blender personal praktis","Gelas food grade transparan","Mudah dilepas dan dicuci"] },
+  { sku:"LLJH005", name:"Blender 3in1", category:"Blender / Juicer", karakteristik:"Aksesoris khusus", specs:{"Kapasitas":"600 ml","Pisau":"Multiset","Daya":"380 W","Berat":"2.05 kg"}, sellingPoints:["Lengkap aksesoris bumbu","Motor bertenaga stabil","Material tahan benturan"] },
+  { sku:"LLJH007", name:"Ice Crusher Pro", category:"Blender / Juicer", karakteristik:"Penghancuran es", specs:{"Kapasitas":"800 ml","Pisau":"6 SUS304","Daya":"400 W","Berat":"2.64 kg"}, sellingPoints:["Hancurkan es batu sangat cepat","6 mata pisau vortex system","Wadah kaca ekstra tebal"] },
+  { sku:"LLJH010", name:"Blender Bottle", category:"Blender / Juicer", karakteristik:"Gelas Botol 2in1", specs:{"Kapasitas":"600 ml","Pisau":"4 SUS304","Daya":"300 W","Berat":"1.62 kg"}, sellingPoints:["Gelas bisa jadi botol minum","Langsung bawa setelah blender","Tutup botol anti bocor"] },
+  { sku:"ZZJH006", name:"Portable Juicer Pro", category:"Blender / Juicer", karakteristik:"Portabel Dasar", specs:{"Kapasitas":"400 ml","Pisau":"10 SUS304","Daya":"80 W","Berat":"0.52 kg"}, sellingPoints:["Baterai cas USB tahan lama","10 mata pisau giling halus","Mudah dicuci bilas saja"] },
+  { sku:"ZZJH008", name:"Portable Juicer Eco", category:"Blender / Juicer", karakteristik:"Hemat energi", specs:{"Kapasitas":"340 ml","Pisau":"10 SUS304","Daya":"55 W","Berat":"0.32 kg"}, sellingPoints:["Bobot sangat ringan","Bahan tritan aman kesehatan","Baterai awet 15x pemakaian"] },
+  { sku:"ZZJH009", name:"Slow Juicer", category:"Blender / Juicer", karakteristik:"Bebas ampas", specs:{"Kapasitas":"720 ml","Bahan":"PC Food Grade","Daya":"200 W","Berat":"2.16 kg"}, sellingPoints:["Sari buah murni tanpa ampas","Nutrisi buah terjaga maksimal","Suara mesin sangat halus"] },
+
+  // --- HAIR DRYER ---
+  { sku:"CFJH001", name:"Hair Dryer Basic", category:"Hair Dryer", karakteristik:"Model dasar", specs:{"Motor":"Bersikat","Daya":"1250 W","Speed":"20 m/s","Kabel":"1.52 m","Berat":"0.24 kg"}, sellingPoints:["Ringan tidak buat pegal","Daya tiup stabil","Harga sangat ekonomis"] },
+  { sku:"CFJH004", name:"Hair Dryer Mini", category:"Hair Dryer", karakteristik:"Hemat energi", specs:{"Motor":"Bersikat","Daya":"1000 W","Speed":"12 m/s","Kabel":"1.6 m","Berat":"0.26 kg"}, sellingPoints:["Konsumsi daya rendah 1000W","Ukuran kecil mudah simpan","Angin sejuk tersedia"] },
+  { sku:"CFJH006", name:"Hair Dryer Gift", category:"Hair Dryer", karakteristik:"High Speed Pro", specs:{"Motor":"Brushless DC","Ion":"400 Juta","Daya":"1200 W","Speed":"65 m/s","Kabel":"1.75 m"}, sellingPoints:["400 juta ion negatif rambut halus","Motor brushless awet & kencang","Box premium cocok untuk kado"] },
+  { sku:"CFJH007", name:"Hair Dryer Fold", category:"Hair Dryer", karakteristik:"Lipat portabel", specs:{"Motor":"Bersikat","Ion":"50 Juta","Daya":"1600 W","Speed":"20 m/s","Kabel":"1.7 m"}, sellingPoints:["Bisa dilipat simpan ringkas","Power besar 1600W cepat kering","Ion negatif kurangi frizz"] },
+  { sku:"CFJH008", name:"Hair Dryer Pro", category:"Hair Dryer", karakteristik:"Hemat biaya", specs:{"Motor":"Bersikat","Ion":"50 Juta","Daya":"1250 W","Speed":"120 m/s","Kabel":"1.5 m"}, sellingPoints:["Kecepatan angin tinggi 120m/s","Nilai performa harga terbaik","Desain modern genggaman mantap"] },
+  { sku:"CFJH009", name:"Hair Dryer Pro V2", category:"Hair Dryer", karakteristik:"Nosel ditingkatkan", specs:{"Motor":"Brushless","Ion":"400 Juta","Daya":"1600 W","Speed":"65 m/s","Kabel":"1.8 m"}, sellingPoints:["Nozzle konsentrator magnetik","Power maksimal 1600W","Rambut berkilau tidak kaku"] },
+  { sku:"CFJH010", name:"Hair Dryer Speed", category:"Hair Dryer", karakteristik:"High-speed hemat", specs:{"Motor":"Brushless","Ion":"200 Juta","Daya":"1600 W","Speed":"64 m/s","Kabel":"1.8 m"}, sellingPoints:["Pengeringan kilat motor kencang","Suara mesin lebih senyap","Body ringan nyaman dipakai"] },
+  { sku:"CFJH011", name:"Hair Dryer Quiet", category:"Hair Dryer", karakteristik:"Bersuara rendah", specs:{"Motor":"Brushless","Ion":"200 Juta","Daya":"1300 W","Speed":"70 m/s","Kabel":"1.8 m"}, sellingPoints:["Teknologi reduksi kebisingan","Kecepatan angin 70m/s Pro","Pilihan suhu udara cerdas"] },
+  { sku:"CFJH003", name:"Hair Dryer 1800W", category:"Hair Dryer", karakteristik:"Dasar 1800W", specs:{"Motor":"Bersikat","Daya":"1800 W","Speed":"20 m/s","Kabel":"1.5 m","Berat":"0.45 kg"}, sellingPoints:["Power sangat besar 1800W","Cepat keringkan rambut tebal","Sangat awet untuk harian"] },
+  { sku:"CFJH005", name:"Ionic Hair Dryer", category:"Hair Dryer", karakteristik:"Desain minimalis", specs:{"Motor":"Bersikat","Ion":"Tersedia","Daya":"1800 W","Speed":"20 m/s","Kabel":"1.5 m"}, sellingPoints:["Fitur ionik kurangi rambut kaku","Model ramping minimalis","Pilihan panas dingin mudah"] },
+
+  // --- HAIR STRAIGHTENER ---
+  { sku:"ZFBA002", name:"Catokan Basic", category:"Hair Straightener", karakteristik:"Tipe Pemula", specs:{"Suhu":"200°C","Daya":"30 W","Panas":"30 s","Lapisan":"Keramik"}, sellingPoints:["Simpel satu tombol operasional","Lapisan keramik licin di rambut","Pas untuk pemakaian harian"] },
+  { sku:"ZFBA003", name:"Catokan Digital", category:"Hair Straightener", karakteristik:"Kontrol Presisi", specs:{"Suhu":"110-230°C","Mode":"9 Level","Daya":"45 W","Panas":"10 s","Lapisan":"Keramik"}, sellingPoints:["9 level suhu sesuai rambut","Layar digital indikator panas","Panas instan hanya 10 detik"] },
+  { sku:"ZFBA004", name:"Catokan Mini", category:"Hair Straightener", karakteristik:"Mini Portabel", specs:{"Suhu":"180°C","Daya":"17 W","Panas":"10 s","Lapisan":"Keramik","Berat":"0.12 kg"}, sellingPoints:["Ukuran mini masuk tas rias","Sangat ringan dibawa travel","Cepat panas praktis digunakan"] },
+  { sku:"ZFBA005", name:"Catokan Lebar", category:"Hair Straightener", karakteristik:"Pelat Lebar", specs:{"Suhu":"140-220°C","Mode":"5 Level","Daya":"59 W","Panas":"30 s","Lapisan":"Keramik"}, sellingPoints:["Plat lebar cakup rambut banyak","Styling lebih cepat selesai","Ideal untuk rambut tebal"] },
+  { sku:"ZFBA006", name:"Catokan Wireless", category:"Hair Straightener", karakteristik:"Nirkabel Dasar", specs:{"Suhu":"180°C","Daya":"10 W","Panas":"10 s","Lapisan":"Keramik","Berat":"0.18 kg"}, sellingPoints:["Tanpa kabel bebas bergerak","Bisa cas via kabel USB","Pas untuk touch-up di luar"] },
+  { sku:"ZFBA008", name:"Catokan Wireless Pro", category:"Hair Straightener", karakteristik:"Nirkabel Upgrade", specs:{"Suhu":"180-200°C","Mode":"2 Level","Daya":"25 W","Panas":"30 s","Lapisan":"Keramik"}, sellingPoints:["Power lebih besar dari V1","Baterai tahan lebih lama","Plat pemanas kualitas premium"] },
+  { sku:"ZFSH001", name:"Sisir Catok", category:"Hair Straightener", karakteristik:"Tipe Sikat", specs:{"Suhu":"100-200°C","Mode":"6 Level","Daya":"30 W","Panas":"10 s","Lapisan":"Keramik"}, sellingPoints:["Sisir & catok sekaligus","Meluruskan rambut sangat alami","Anti melepuh aman di kepala"] },
+  { sku:"ZFBA011", name:"Catokan Mist SPA", category:"Hair Straightener", karakteristik:"Teknologi Uap Dingin", specs:{"Suhu":"150-230°C","Daya":"70 W","Fitur":"Cold Mist SPA","Panas":"10 s","Lapisan":"Nano Ceramic"}, sellingPoints:["Uap dingin hidrasi rambut","Rambut berkilau tidak kering","Ekstra nutrisi caviar oil"] },
+  { sku:"ZFBA001", name:"Catokan LED", category:"Hair Straightener", karakteristik:"Layar LED Suhu", specs:{"Suhu":"120-220°C","Mode":"6 Level","Daya":"50 W","Panas":"30 s","Lapisan":"Keramik"}, sellingPoints:["Indikator suhu LED modern","6 pengaturan level panas","Plat keramik licin tidak seret"] },
+  { sku:"ZFBA007", name:"Catokan Mini V2", category:"Hair Straightener", karakteristik:"Mini Ringan", specs:{"Suhu":"180°C","Daya":"17 W","Panas":"10 s","Lapisan":"Tourmaline","Berat":"0.12 kg"}, sellingPoints:["Plat Tourmaline rambut kilau","Ringan hanya 120 gram","Cocok untuk pria & wanita"] },
+  { sku:"ZFBA010", name:"Catokan Essential", category:"Hair Straightener", karakteristik:"Minyak Esensial", specs:{"Suhu":"120-200°C","Mode":"5 Level","Daya":"45 W","Panas":"30 s","Lapisan":"Minyak Esensial"}, sellingPoints:["Lapisan panel minyak esensial","Menyehatkan rambut saat catok","Layar digital suhu presisi"] },
+  { sku:"ZFSH004", name:"Sisir Catok Cool", category:"Hair Straightener", karakteristik:"Mode Cool Shot", specs:{"Suhu":"120-200°C","Mode":"5 Level","Daya":"45 W","Panas":"30 s","Fitur":"Cool Shot"}, sellingPoints:["Mode angin dingin kunci gaya","Meluruskan rambut lebih tahan lama","Mengurangi sensasi panas kepala"] },
+
+  // --- HAIR CURLER ---
+  { sku:"JFBA004", name:"Curler 2in1", category:"Hair Curler", karakteristik:"Lurus & Keriting", specs:{"Diameter":"30 mm","Suhu":"140-200°C","Daya":"49 W","Panas":"3 s","Berat":"0.38 kg"}, sellingPoints:["Bisa catok lurus & curly","Pemanasan kilat 3 detik","Ideal untuk berbagai gaya"] },
+  { sku:"JFBA005", name:"Curler Anggun", category:"Hair Curler", karakteristik:"Model Anggun", specs:{"Diameter":"32 mm","Suhu":"160-200°C","Daya":"30 W","Panas":"10 s","Berat":"0.36 kg"}, sellingPoints:["Diameter 32 mm curly natural","Hasil tahan lama sepanjang hari","Plat tidak merusak rambut"] },
+  { sku:"JFBA006", name:"Catokan Wave Kucing", category:"Hair Curler", karakteristik:"Wave Kucing", specs:{"Diameter":"32 mm","Suhu":"170-230°C","Daya":"42 W","Panas":"20 s","Berat":"0.37 kg"}, sellingPoints:["Hasil keriting gelombang kucing","Gaya rambut kekinian","Sangat mudah digunakan"] },
+  { sku:"JFBA007", name:"Curler Long Hair", category:"Hair Curler", karakteristik:"Rambut Panjang", specs:{"Diameter":"32 mm","Suhu":"150-210°C","Daya":"59 W","Panas":"30 s","Berat":"0.32 kg"}, sellingPoints:["Barrel panjang untuk rambut lebar","Suhu stabil panas merata","Kabel putar 360 derajat"] },
+  { sku:"JFBA008", name:"Curler Wave Basic", category:"Hair Curler", karakteristik:"Wave Dasar", specs:{"Diameter":"22 mm","Suhu":"140-200°C","Daya":"50 W","Panas":"30 s","Berat":"0.48 kg"}, sellingPoints:["Diameter 22 mm curly rapat","Awet untuk gaya wave kencang","Material tahan panas tinggi"] },
+  { sku:"JFBA009", name:"Curler Portabel", category:"Hair Curler", karakteristik:"Paling Portabel", specs:{"Diameter":"28 mm","Suhu":"210°C","Daya":"30 W","Panas":"10 s","Berat":"0.20 kg"}, sellingPoints:["Body ramping masuk tas travel","Panas maksimal hasil cetar","Sangat ringan dibawa-bawa"] },
+  { sku:"JFBA010", name:"Auto Curler", category:"Hair Curler", karakteristik:"Otomatis", specs:{"Diameter":"32 mm","Suhu":"170-210°C","Daya":"52 W","Panas":"10 s","Berat":"0.37 kg"}, sellingPoints:["Keriting otomatis tinggal masukin","Anti ribet untuk pemula","Hasil salon dalam sekejap"] },
+  { sku:"JFBA011", name:"Curler Wand", category:"Hair Curler", karakteristik:"Desain Ergonomis", specs:{"Diameter":"28 mm","Suhu":"160-200°C","Daya":"45 W","Panas":"30 s","Berat":"0.35 kg"}, sellingPoints:["Pegangan ergonomis nyaman","Pemanasan merata dan cepat","Curly yang indah berkilau"] },
+
+  // --- HAIR DRYER BRUSH ---
+  { sku:"RFSH001", name:"Styler Brush Basic", category:"Hair Dryer Brush", karakteristik:"Model dasar", specs:{"Speed":"3 Level","Ion":"×","Kepala":"✓","Daya":"1200 W","Kabel":"1.8 m"}, sellingPoints:["Kepala sisir bisa dilepas","Keringkan & sisir sekaligus","Kabel putar bebas hambatan"] },
+  { sku:"RFSH002", name:"Styler Brush Eco", category:"Hair Dryer Brush", karakteristik:"Model pemula", specs:{"Speed":"3 Level","Ion":"×","Kepala":"×","Daya":"1200 W","Kabel":"1.75 m"}, sellingPoints:["Harga sangat terjangkau","Angin kencang mudah styling","Material kokoh tahan panas"] },
+  { sku:"RFSH003", name:"Styler Brush Multi", category:"Hair Dryer Brush", karakteristik:"Multi-gaya", specs:{"Speed":"Multi","Ion":"130 Juta","Kepala":"✓","Daya":"1500 W","Kabel":"1.8 m"}, sellingPoints:["Ion negatif hilangkan frizz","Fitur auto-bersih praktis","Kepala ganti-ganti serbaguna"] },
+  { sku:"RFSH004", name:"Mini Air Styler", category:"Hair Dryer Brush", karakteristik:"Mini Portabel", specs:{"Speed":"3 Level","Ion":"×","Daya":"600 W","Berat":"0.3 kg"}, sellingPoints:["Desain mini 3in1 praktis","Kabel putar 360 derajat","Cocok untuk traveling"] },
+  { sku:"RFSH005", name:"Oval Air Brush", category:"Hair Dryer Brush", karakteristik:"Volume Ekstra", specs:{"Speed":"3 Level","Ion":"×","Kepala":"✓","Daya":"1200 W","Berat":"0.45 kg"}, sellingPoints:["Sikat oval beri volume rambut","Filter udara bisa dilepas","Hasil blow salon di rumah"] },
+
+  // --- BODY CARE & OTHERS ---
+  { sku:"TZCH001", name:"Timbangan Digital", category:"Body Scale", karakteristik:"LED Tersembunyi", specs:{"Kapasitas":"180 kg","Baterai":"AAA","Display":"LED","Ukuran":"28×28 cm"}, sellingPoints:["Akurasi tinggi sensor presisi","Kaca tempered sangat kuat","Layar LED menyala otomatis"] },
+  { sku:"TZCH002", name:"Timbangan Smart", category:"Body Scale", karakteristik:"Tuya App", specs:{"Kapasitas":"180 kg","Baterai":"USB Cas","Fitur":"Analisis App","Ukuran":"28×28 cm"}, sellingPoints:["Analisis massa tubuh lewat App","Bisa dicas pakai kabel USB","Data kesehatan real-time"] },
+  { sku:"JMQH001", name:"Massager Gun Pro", category:"Massager", karakteristik:"Relaksasi Otot", specs:{"Speed":"4 Speed","Kepala":"4 Jenis","Baterai":"USB-C","Berat":"0.8 kg"}, sellingPoints:["Meredakan nyeri otot dalam","4 tingkat kecepatan pijat","Mudah dicas via USB-C"] },
+  { sku:"KFJH021", name:"Espresso Compact V2", category:"Semi-auto Espresso", karakteristik:"Model Ringkas", specs:{"Tekanan":"5 bar","Tangki":"0.24 L","Uap":"✓","Daya":"800 W","Panas":"60 s"}, sellingPoints:["Desain ramping hemat tempat","Dilengkapi steam wand susu","Kapasitas pas harian"] }
 ];
 
 const imageOverrides = {
@@ -1431,12 +1467,20 @@ function renderSidebar() {
 
 function renderCompare() {
   const section = document.getElementById("compareSection");
+  // Mencari data produk berdasarkan SKU yang dipilih
   const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
-  if (compareProds.length < 2) { section.innerHTML = ""; return; }
   
+  // Jika produk yang dipilih kurang dari 2, sembunyikan tabel
+  if (compareProds.length < 2) { 
+    section.innerHTML = ""; 
+    return; 
+  }
+  
+  // Ambil daftar field/spek berdasarkan kategori produk pertama
   const fields = FIELDS[compareProds[0].category] || [];
-  let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
   
+  // Header Tabel (Gambar & SKU)
+  let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
   compareProds.forEach(p => {
     const col = catColors[p.category] || "#64748b";
     headCells += `<th>
@@ -1448,10 +1492,51 @@ function renderCompare() {
     </th>`;
   });
   
-  let rows = `<tr><td class="spec-label">Karakteristik</td>${compareProds.map(p=>`<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}</tr>`;
+  // Baris Karakteristik
+  let rows = `<tr>
+    <td class="spec-label">Karakteristik</td>
+    ${compareProds.map(p => `<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}
+  </tr>`;
+
+  // Baris Spesifikasi (Looping dari FIELDS)
   fields.forEach(f => {
-    rows += `<tr><td class="spec-label">${LABELS[f]||f}</td>${compareProds.map(p=>`<td>${p[f]||"—"}</td>`).join("")}</tr>`;
+    rows += `<tr>
+      <td class="spec-label">${f}</td>
+      ${compareProds.map(p => {
+        // Logika baru: Cek di folder specs, jika tidak ada (untuk SKU lama) cek di root
+        const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
+        return `<td>${val}</td>`;
+      }).join("")}
+    </tr>`;
   });
+
+  // Baris Tombol Aksi (Copy Info & Detail)
+  rows += `<tr>
+    <td></td>
+    ${compareProds.map(p => `
+      <td style="text-align:center;padding:15px 5px;">
+        <button onclick="copyCSMessage('${p.sku}')" style="background:#6366f1;color:white;border:none;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;margin-bottom:5px;width:100%;">Copy Info</button>
+        <button onclick="openModal('${p.sku}')" style="background:white;color:#64748b;border:1px solid #e2e8f0;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;width:100%;">Detail</button>
+      </td>
+    `).join("")}
+  </tr>`;
+
+  // Masukkan semua ke dalam HTML
+  section.innerHTML = `
+    <div style="background:white;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
+      <div style="padding:15px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
+        <h3 style="margin:0;font-size:14px;color:#1e293b;">Perbandingan Produk</h3>
+        <button onclick="generateAllMessage()" style="background:#10b981;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;">Copy Perbandingan (CS)</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead><tr>${headCells}</tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
   
 const csMsg = generateCSMessage(compareProds);
   section.innerHTML = `
