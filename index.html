@@ -291,7 +291,7 @@ const catColors={
 "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
 "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
 "Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", 
-"Massager":"#E11D48" // Tadi di sini kurang koma kak
+"Massager":"#E11D48"
 };
 
 const FIELDS = {
@@ -1003,12 +1003,12 @@ function generateCSMessage(compareProds) {
   // Safety check: Cegah error kalau CS membandingkan produk dari kategori yang berbeda
   const allSameCat = compareProds.every(p => p.category === compareProds[0].category);
   if (!allSameCat) {
-    msg += "━━━━━━━━━━━━━━━━\n💡 Rekomendasi Singkat:\nSemua produk di atas punya keunggulan masing-masing karena fungsinya berbeda ya kak! Bisa disesuaikan dengan kebutuhan kakak 😊\n\nKalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya! 🙏";
+    msg += "━━━━━━━━━━━━━━━━\n Rekomendasi Singkat:\nSemua produk di atas punya keunggulan masing-masing karena fungsinya berbeda ya kak! Bisa disesuaikan dengan kebutuhan kakak 😊\n\nKalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya! 🙏";
     return msg;
   }
 
   msg += "━━━━━━━━━━━━━━━━\n";
-  msg += "💡 Rekomendasi Singkat:\n";
+  msg += "Rekomendasi Singkat:\n";
 
   const cat = compareProds[0].category;
   let rekomendasi = "";
@@ -1467,20 +1467,16 @@ function renderSidebar() {
 
 function renderCompare() {
   const section = document.getElementById("compareSection");
-  // Mencari data produk berdasarkan SKU yang dipilih
   const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
   
-  // Jika produk yang dipilih kurang dari 2, sembunyikan tabel
   if (compareProds.length < 2) { 
     section.innerHTML = ""; 
     return; 
   }
   
-  // Ambil daftar field/spek berdasarkan kategori produk pertama
   const fields = FIELDS[compareProds[0].category] || [];
-  
-  // Header Tabel (Gambar & SKU)
   let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
+  
   compareProds.forEach(p => {
     const col = catColors[p.category] || "#64748b";
     headCells += `<th>
@@ -1492,50 +1488,39 @@ function renderCompare() {
     </th>`;
   });
   
-  // Baris Karakteristik
-  let rows = `<tr>
-    <td class="spec-label">Karakteristik</td>
-    ${compareProds.map(p => `<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}
-  </tr>`;
-
-  // Baris Spesifikasi (Looping dari FIELDS)
+  let rows = `<tr><td class="spec-label">Karakteristik</td>${compareProds.map(p=>`<td class="char-val" style="color:${catColors[p.category]||'#6366f1'}">${p.karakteristik||"—"}</td>`).join("")}</tr>`;
+  
   fields.forEach(f => {
     rows += `<tr>
       <td class="spec-label">${f}</td>
       ${compareProds.map(p => {
-        // Logika baru: Cek di folder specs, jika tidak ada (untuk SKU lama) cek di root
         const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
         return `<td>${val}</td>`;
       }).join("")}
     </tr>`;
   });
 
-  // Baris Tombol Aksi (Copy Info & Detail)
-  rows += `<tr>
-    <td></td>
-    ${compareProds.map(p => `
-      <td style="text-align:center;padding:15px 5px;">
-        <button onclick="copyCSMessage('${p.sku}')" style="background:#6366f1;color:white;border:none;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;margin-bottom:5px;width:100%;">Copy Info</button>
-        <button onclick="openModal('${p.sku}')" style="background:white;color:#64748b;border:1px solid #e2e8f0;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;width:100%;">Detail</button>
-      </td>
-    `).join("")}
-  </tr>`;
+  const csMsg = generateCSMessage(compareProds);
 
-  // Masukkan semua ke dalam HTML
   section.innerHTML = `
-    <div style="background:white;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
-      <div style="padding:15px;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
-        <h3 style="margin:0;font-size:14px;color:#1e293b;">Perbandingan Produk</h3>
-        <button onclick="generateAllMessage()" style="background:#10b981;color:white;border:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;">Copy Perbandingan (CS)</button>
+    <div class="compare-section" id="compareCaptureArea">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+        <div class="compare-title" style="margin-bottom:0;">⚖️ PERBANDINGAN PRODUK</div>
+        <div style="display:flex; gap:8px;">
+          <button onclick="downloadExcel()" style="background:#3b82f6; color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:11px; cursor:pointer; font-weight:700;">📥 Download Excel</button>
+          <button id="copyBtn" onclick="copyMessage()" style="background:#10b981; color:#fff; border:none; border-radius:8px; padding:6px 14px; font-size:11px; cursor:pointer; font-weight:700;">📋 Copy Teks</button>
+        </div>
       </div>
       <div style="overflow-x:auto;">
-        <table class="compare-table">
-          <thead><tr>${headCells}</tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
+        <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
       </div>
-    </div>
-  `;
+      <div class="cs-message-box">
+        <div class="cs-message-header" style="background:#f1f5f9; color:#475569;">
+          <div class="cs-message-header-left" style="color:#475569;"><span>💬</span> Preview Teks CS (Tanpa Emoticon)</div>
+        </div>
+        <div class="cs-message-body" id="csMessageBody">${csMsg}</div>
+      </div>
+    </div>`;
 }
   
 const csMsg = generateCSMessage(compareProds);
@@ -1577,19 +1562,22 @@ function renderGrid(filtered) {
   grid.innerHTML = filtered.map(p => {
     const col = catColors[p.category] || "#64748b";
     const isSel = selected.includes(p.sku);
-    const fields = (FIELDS[p.category] || []).slice(0, 3).filter(f => p[f]);
-    const specRows = fields.map(f => `<div class="spec-row"><span class="spec-key">${LABELS[f]||f}</span><span class="spec-val">${p[f]}</span></div>`).join("");
+    
+    // AMBIL SPEK DARI SPECS (Ambil 3 saja untuk di kartu)
+    const fieldKeys = FIELDS[p.category] || [];
+    const specRows = fieldKeys.slice(0, 3).map(f => {
+      const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
+      return `<div class="spec-row"><span class="spec-key">${f}</span><span class="spec-val">${val}</span></div>`;
+    }).join("");
     
     return `
-      <div class="card ${isSel ? "selected" : ""}"
+      <div class="card ${isSel ? "selected" : ""}" 
         style="border-color:${isSel ? col : "#f1f5f9"};${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
         onclick="toggleSelect('${p.sku}')">
         ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
-        
         <div class="card-img-wrap">
           <img src="${p.image}" class="card-img" onerror="this.src='https://placehold.co/400x400/f8fafc/94a3b8?text=${p.sku}'">
         </div>
-        
         <div class="card-top">
           <span class="card-sku" style="background:${col}18;border:1px solid ${col}35;color:${col}">${p.sku}</span>
           <span class="card-cat">${p.category}</span>
@@ -1597,26 +1585,8 @@ function renderGrid(filtered) {
         <div class="card-name">${p.name}</div>
         <div class="card-char" style="color:${col}">${p.karakteristik||""}</div>
         <div class="card-specs">${specRows}</div>
-        
         <div style="display:flex;gap:6px;margin-top:10px;">
-          <button class="detail-btn" style="color:${col};margin-top:0;flex:1"
-            onmouseover="this.style.background='${col}';this.style.color='#fff'"
-            onmouseout="this.style.background='#fafbff';this.style.color='${col}'"
-            onclick="event.stopPropagation();openModal('${p.sku}')">Detail →</button>
-          
-          ${manualUrls[p.sku] ? `<a href="${manualUrls[p.sku]}" target="_blank" rel="noopener"
-            onclick="event.stopPropagation()"
-            style="display:flex;align-items:center;justify-content:center;gap:4px;
-              flex:1;border:1.5px solid ${col}35;border-radius:10px;padding:7px;
-              font-size:11px;font-weight:600;color:${col};background:#fafbff;
-              text-decoration:none;transition:all 0.2s;"
-            onmouseover="this.style.background='${col}';this.style.color='#fff';this.style.borderColor='${col}'"
-            onmouseout="this.style.background='#fafbff';this.style.color='${col}';this.style.borderColor='${col}35'">
-            📖 Manual
-          </a>` : `<button disabled style="flex:1;border:1.5px solid #e2e8f0;border-radius:10px;padding:7px;
-              font-size:11px;font-weight:600;color:#cbd5e1;background:#fafbff;cursor:default;">
-            📖 N/A
-          </button>`}
+          <button class="detail-btn" style="color:${col};margin-top:0;flex:1" onclick="event.stopPropagation();openModal('${p.sku}')">Detail →</button>
         </div>
       </div>`;
   }).join("");
@@ -1629,41 +1599,77 @@ function toggleSelect(sku) {
 }
 
 function openModal(sku) {
-  const p = products.find(x => x.sku === sku); if (!p) return;
+  const p = products.find(x => x.sku === sku); 
+  if (!p) return;
   const col = catColors[p.category] || "#6366f1";
-  const fields = FIELDS[p.category] || Object.keys(LABELS);
   
+  // Update Header Modal
   document.getElementById("modalHeaderBar").style.background = `linear-gradient(135deg, ${col}, ${col}cc)`;
-  document.getElementById("modalSkuRow").innerHTML = `<span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span><span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>`;
+  document.getElementById("modalSkuRow").innerHTML = `
+    <span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span>
+    <span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>
+  `;
   document.getElementById("modalName").textContent = p.name;
   document.getElementById("modalChar").textContent = p.karakteristik || "";
-  
-  let specsList = fields.filter(f => p[f]).map(f => `<div class="modal-spec-row"><span class="modal-spec-key">${LABELS[f]||f}</span><span class="modal-spec-val">${p[f]}</span></div>`).join("");
-  const catRow = `<div class="modal-spec-row"><span class="modal-spec-key">Kategori</span><span class="modal-spec-val" style="color:${col};font-weight:700">${p.category}</span></div>`;
-  
-  const sp = generateSellingPoint(p);
-  const spHTML = sp.length > 0 ? `<div style="margin-bottom:16px;background:${col}08;border-radius:10px;padding:12px;border:1px solid ${col}20;"><div style="font-size:10px;font-weight:700;color:${col};letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">🌟 Keunggulan Produk</div>${sp.map(s=>`<div style="font-size:12.5px;color:#334155;margin-bottom:5px;">${s}</div>`).join("")}</div>` : "";
-  
-  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:200px; max-height:200px; border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);" onerror="this.style.display='none'"></div>`;
-  
-  const manualLink = manualUrls[p.sku];
-  const manualHTML = manualLink ? `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;"><a href="${manualLink}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(135deg,${col},${col}cc);box-shadow:0 4px 14px ${col}40;transition:all 0.2s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">📖 Lihat User Manual Full</a></div>` : `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9; text-align:center;font-size:12px;color:#94a3b8;">User manual belum tersedia</div>`;
 
-  // --- BAGIAN BARU: PANDUAN & TROUBLESHOOT ---
+  // 1. Bagian Spesifikasi (Logika Baru untuk Folder Specs)
+  let specsList = "";
+  if (p.specs) {
+    // Mengambil data dari folder specs
+    specsList = Object.entries(p.specs).map(([key, val]) => `
+      <div class="modal-spec-row">
+        <span class="modal-spec-key">${key}</span>
+        <span class="modal-spec-val">${val}</span>
+      </div>
+    `).join("");
+  } else {
+    // Cadangan jika masih ada data format lama
+    const fields = FIELDS[p.category] || Object.keys(LABELS);
+    specsList = fields.filter(f => p[f]).map(f => `
+      <div class="modal-spec-row">
+        <span class="modal-spec-key">${LABELS[f]||f}</span>
+        <span class="modal-spec-val">${p[f]}</span>
+      </div>
+    `).join("");
+  }
+
+  const catRow = `<div class="modal-spec-row"><span class="modal-spec-key">Kategori</span><span class="modal-spec-val" style="color:${col};font-weight:700">${p.category}</span></div>`;
+
+  // 2. Bagian Keunggulan (Mengambil dari sellingPoints yang kita buat tadi)
+  const sp = p.sellingPoints || [];
+  const spHTML = sp.length > 0 ? `
+    <div style="margin-bottom:16px;background:${col}08;border-radius:10px;padding:12px;border:1px solid ${col}20;">
+      <div style="font-size:10px;font-weight:700;color:${col};letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">🌟 Keunggulan Produk</div>
+      ${sp.map(s => `<div style="font-size:12.5px;color:#334155;margin-bottom:5px;">• ${s}</div>`).join("")}
+    </div>` : "";
+
+  // 3. Gambar & Manual
+  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:200px; max-height:200px; border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);" onerror="this.style.display='none'"></div>`;
+  const manualLink = manualUrls[p.sku];
+  const manualHTML = manualLink ? `
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;">
+      <a href="${manualLink}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;background:linear-gradient(135deg,${col},${col}cc);box-shadow:0 4px 14px ${col}40;transition:all 0.2s;">📖 Lihat User Manual Full</a>
+    </div>` : `<div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9; text-align:center;font-size:12px;color:#94a3b8;">User manual belum tersedia</div>`;
+
+  // 4. FAQ / Tips
   let tipsHTML = "";
   if (faqs[p.category]) {
-    // Ambil 3 pertanyaan/jawaban pertama dari FAQ kategori ini untuk ditampilkan
-    tipsHTML = `<div style="margin-top:20px;background:#f8fafc;border-radius:12px;padding:16px;border:1px solid #e2e8f0;">
-      <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span>🛠️</span> Panduan Pakai & Perawatan</div>
-      ${faqs[p.category].slice(0, 3).map(faq => `
-        <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #cbd5e1;">
-          <div style="font-size:11.5px;font-weight:700;color:#334155;margin-bottom:4px;">Tanya: ${faq.q}</div>
-          <div style="font-size:11.5px;color:#64748b;line-height:1.5;">Jawab: ${faq.a}</div>
-        </div>
-      `).join("")}
-      <div style="font-size:11px;text-align:center;color:${col};font-weight:700;cursor:pointer;margin-top:4px;" onclick="closeModal(); document.querySelector('.faq-sidebar-btn').click();">Lihat Semua FAQ →</div>
-    </div>`;
+    tipsHTML = `
+      <div style="margin-top:20px;background:#f8fafc;border-radius:12px;padding:16px;border:1px solid #e2e8f0;">
+        <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:12px;display:flex;align-items:center;gap:6px;"><span>🛠️</span> Panduan Pakai & Perawatan</div>
+        ${faqs[p.category].slice(0, 3).map(faq => `
+          <div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed #cbd5e1;">
+            <div style="font-size:11.5px;font-weight:700;color:#334155;margin-bottom:4px;">Tanya: ${faq.q}</div>
+            <div style="font-size:11.5px;color:#64748b;line-height:1.5;">Jawab: ${faq.a}</div>
+          </div>
+        `).join("")}
+        <div style="font-size:11px;text-align:center;color:${col};font-weight:700;cursor:pointer;margin-top:4px;" onclick="closeModal(); document.querySelector('.faq-sidebar-btn').click();">Lihat Semua FAQ →</div>
+      </div>`;
   }
+
+  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + tipsHTML + manualHTML;
+  document.getElementById("modal").style.display = "flex";
+}
   // ----------------------------------------
 
   document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + catRow + tipsHTML + manualHTML;
@@ -1784,7 +1790,30 @@ function render() {
 }
 
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+function downloadExcel() {
+  const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
+  if (compareProds.length < 1) return;
 
+  const fields = FIELDS[compareProds[0].category] || [];
+  let csvContent = "Spesifikasi," + compareProds.map(p => p.sku).join(",") + "\n";
+  csvContent += "Karakteristik," + compareProds.map(p => `"${p.karakteristik || '-'}"`).join(",") + "\n";
+  
+  fields.forEach(f => {
+    let row = f + ",";
+    row += compareProds.map(p => {
+      const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "-");
+      return `"${val}"`;
+    }).join(",");
+    csvContent += row + "\n";
+  });
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", `Bandingan_Simplus_${compareProds[0].sku}.csv`);
+  link.click();
+}
 // INISIALISASI
 render();
 </script>
