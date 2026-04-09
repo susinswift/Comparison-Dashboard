@@ -291,6 +291,7 @@ const catColors={
 "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
 "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
 "Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", "Massager":"#E11D48"
+"Hair Straightener": "#0d9488", // Warna hijau toska yang fresh
 };
 
 const FIELDS={
@@ -756,7 +757,25 @@ const rawProducts = [
 {sku:"JFBA008",name:"Hair Curler (Wave)",category:"Hair Curler",karakteristik:"Model gelombang keriting pemula",diameter:"22 mm",suhu:"140°C-200°C",daya:"50 W",waktu_panas:"30 s",ukuran:"25.8×3 cm",berat:"0.48 kg"},
 {sku:"JFBA009",name:"Hair Curler (Portable)",category:"Hair Curler",karakteristik:"Yang paling portabel",diameter:"28 mm",suhu:"210°C",daya:"30 W",waktu_panas:"10 s",ukuran:"25×4 cm",berat:"0.20 kg"},
 {sku:"JFBA010",name:"Hair Curler (Auto)",category:"Hair Curler",karakteristik:"Harus dimiliki orang yang malas",diameter:"32 mm",suhu:"170°C-210°C",daya:"52 W",waktu_panas:"10 s",ukuran:"35×6 cm",berat:"0.37 kg"},
-{sku: "ZFBA011", name: "Simplus Hair Straightener Catokan Pelurus Rambut", category: "Hair Care" },
+{
+  sku: "ZFBA011",
+  name: "Simplus Hair Straightener Catokan Pelurus Rambut",
+  category: "Hair Straightener",
+  specs: {
+    "Daya": "30 Watt",
+    "Suhu Maksimal": "200°C (Constant)",
+    "Bahan Plat": "Ceramic Coating",
+    "Voltase": "110-240V (Dual Voltage)",
+    "Panjang Kabel": "1.5 Meter"
+  },
+  sellingPoints: [
+    "Plat Keramik: Panas merata, licin, dan tidak menjambak rambut.",
+    "Travel Friendly: Desain slim dan ringan, mudah dibawa ke mana saja.",
+    "Dual Voltage: Aman dipakai di luar negeri (110-240V).",
+    "Fast Heating: Panas instan dalam 30 detik, hemat waktu dandan.",
+    "Kabel Putar 360°: Kabel fleksibel, tidak mudah kusut saat digunakan."
+  ]
+},
 {sku:"RFSH001",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model dasar",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"✓",daya:"1100-1200 W",ukuran:"39.8×5.9×6.1 cm",berat:"0.47 kg",panjang_kabel:"1.8 m"},
 {sku:"RFSH002",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model pemula",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"×",daya:"1000-1200 W",ukuran:"38×7.7×10 cm",berat:"0.50 kg",panjang_kabel:"1.75 m"},
 {sku:"RFSH003",name:"Hair Dryer Brush (Multi)",category:"Hair Dryer Brush",karakteristik:"Multi-gaya",pengaturan:"2 speed, 3 suhu, 1 mode auto-bersih",kecepatan:"58 m/s",ion_negatif:"130 juta",kepala_lepas:"✓",daya:"1500 W",ukuran:"29.5×5×5 cm",berat:"0.86 kg",panjang_kabel:"1.8 m"}
