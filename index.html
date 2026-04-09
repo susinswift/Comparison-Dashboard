@@ -170,6 +170,25 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;min-height:100v
   border:1px solid #e0e7ff;
 }
 .card-specs{border-top:1px solid #f1f5f9;padding-top:10px;flex-grow:1;}
+  /* Style Selling Point agar lebih menonjol */
+.card-sp-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 70px;
+}
+.sp-badge {
+  font-size: 11px;
+  background: #f8fafc;
+  color: #334155;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border-left: 4px solid var(--cat-color, #6366f1);
+  font-weight: 700;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
 .spec-row{display:flex;justify-content:space-between;margin-bottom:4px;gap:8px;}
 .spec-key{font-size:11px;color:#94a3b8;font-weight:500;white-space:nowrap;}
 .spec-val{font-size:11px;color:#475569;text-align:right;font-weight:600;}
@@ -1284,158 +1303,252 @@ function downloadTableAsImage() {
     btn.style.opacity = "1";
     btn.disabled = false;
   });
+}// ============================================================
+// UTILITY
+// ============================================================
+function escapeHTML(str) {
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
+
+// Cache elemen modal supaya tidak querySelector tiap kali
+const modalEls = {
+  headerBar  : document.getElementById("modalHeaderBar"),
+  skuRow     : document.getElementById("modalSkuRow"),
+  name       : document.getElementById("modalName"),
+  char       : document.getElementById("modalChar"),
+  specsList  : document.getElementById("modalSpecsList"),
+  modal      : document.getElementById("modal"),
+};
+
+// ============================================================
+// RENDER GRID
+// ============================================================
 function renderGrid(filtered) {
-  const grid = document.getElementById("grid");
+  const grid      = document.getElementById("grid");
   const noResults = document.getElementById("noResults");
-  
-  if (filtered.length === 0) { 
-    grid.innerHTML = ""; 
-    noResults.style.display = "block"; 
-    return; 
+
+  if (filtered.length === 0) {
+    grid.innerHTML          = "";
+    noResults.style.display = "block";
+    return;
   }
-  
+
   noResults.style.display = "none";
-  
+
   grid.innerHTML = filtered.map(p => {
-    const col = catColors[p.category] || "#64748b";
+    const col   = catColors[p.category] || "#64748b";
     const isSel = selected.includes(p.sku);
-    
-    // 1. FIX: Ambil 3 field spesifikasi dari p.specs
-    const fields = (FIELDS[p.category] || []).slice(0, 3);
+
+    // Ambil 3 spesifikasi utama
+    const fields   = (FIELDS[p.category] || []).slice(0, 3);
     const specRows = fields.map(f => {
-      const val = (p.specs && p.specs[f]) ? p.specs[f] : "—";
-      return `<div class="spec-row">
-                <span class="spec-key">${LABELS[f] || f}</span>
-                <span class="spec-val">${val}</span>
-              </div>`;
+      const val = p.specs?.[f] ?? "—";
+      return `
+        <div class="spec-row">
+          <span class="spec-key">${escapeHTML(LABELS[f] || f)}</span>
+          <span class="spec-val">${escapeHTML(val)}</span>
+        </div>`;
     }).join("");
 
-    // 2. AMBIL SELLING POINT (KEUNGGULAN)
-    const sp = generateSellingPoint(p);
-    
+    const sp       = generateSellingPoint(p);
+    const spBadges = sp.map(s =>
+      `<div class="sp-badge" style="--cat-color:${col}">${escapeHTML(s)}</div>`
+    ).join("");
+
+    const safeSku  = escapeHTML(p.sku);
+    const safeName = escapeHTML(p.name);
+    const safeCat  = escapeHTML(p.category);
+    const safeImg  = escapeHTML(p.image);
+
+    const manualBtn = manualUrls[p.sku]
+      ? `<a href="${escapeHTML(manualUrls[p.sku])}"
+            target="_blank"
+            rel="noopener"
+            onclick="event.stopPropagation()"
+            style="display:flex; align-items:center; justify-content:center; gap:4px;
+                   flex:1; border:1.5px solid ${col}35; border-radius:10px; padding:7px;
+                   font-size:11px; font-weight:600; color:${col}; background:#fafbff;
+                   text-decoration:none; transition:all 0.2s;">
+           Manual
+         </a>`
+      : `<button disabled
+           style="flex:1; border:1.5px solid #e2e8f0; border-radius:10px; padding:7px;
+                  font-size:11px; font-weight:600; color:#cbd5e1; background:#fafbff;
+                  cursor:default;">
+           N/A
+         </button>`;
+
     return `
       <div class="card ${isSel ? "selected" : ""}"
-        style="border-color:${isSel ? col : "#f1f5f9"}; ${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
-        onclick="toggleSelect('${p.sku}')">
-        
+           style="border-color:${isSel ? col : "#f1f5f9"};
+                  ${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
+           data-sku="${safeSku}">
+
         ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
-        
+
         <div class="card-img-wrap">
-          <img src="${p.image}" class="card-img" onerror="this.src='https://placehold.co/400x400/f8fafc/94a3b8?text=${p.sku}'">
+          <img src="${safeImg}"
+               class="card-img"
+               onerror="this.src='https://placehold.co/400x400/f8fafc/94a3b8?text=${safeSku}'">
         </div>
-        
+
         <div class="card-top">
-          <span class="card-sku" style="background:${col}18; border:1px solid ${col}35; color:${col}">${p.sku}</span>
-          <span class="card-cat">${p.category}</span>
+          <span class="card-sku"
+                style="background:${col}18; border:1px solid ${col}35; color:${col}">
+            ${safeSku}
+          </span>
+          <span class="card-cat">${safeCat}</span>
         </div>
 
-        <div class="card-name">${p.name}</div>
+        <div class="card-name">${safeName}</div>
 
-        <div class="card-sp-container">
-          ${sp.map(s => `<div class="sp-badge" style="--cat-color: ${col}">${s}</div>`).join("")}
-        </div>
-        
-        <div class="card-specs" style="margin-top:12px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+        <div class="card-sp-container">${spBadges}</div>
+
+        <div class="card-specs"
+             style="margin-top:12px; border-top:1px solid #f1f5f9; padding-top:10px;">
           ${specRows}
         </div>
-        
+
         <div style="display:flex; gap:6px; margin-top:10px;">
-          <button class="detail-btn" style="color:${col}; margin-top:0; flex:1"
-            onmouseover="this.style.background='${col}'; this.style.color='#fff'"
-            onmouseout="this.style.background='#fafbff'; this.style.color='${col}'"
-            onclick="event.stopPropagation(); openModal('${p.sku}')">Detail →</button>
-          
-          ${manualUrls[p.sku] ? `
-            <a href="${manualUrls[p.sku]}" target="_blank" rel="noopener"
-              onclick="event.stopPropagation()"
-              style="display:flex; align-items:center; justify-content:center; gap:4px;
-                flex:1; border:1.5px solid ${col}35; border-radius:10px; padding:7px;
-                font-size:11px; font-weight:600; color:${col}; background:#fafbff;
-                text-decoration:none; transition:all 0.2s;"
-              onmouseover="this.style.background='${col}'; this.style.color='#fff'; this.style.borderColor='${col}'"
-              onmouseout="this.style.background='#fafbff'; this.style.color='${col}'; this.style.borderColor='${col}35'">
-              📖 Manual
-            </a>` : `
-            <button disabled style="flex:1; border:1.5px solid #e2e8f0; border-radius:10px; padding:7px;
-              font-size:11px; font-weight:600; color:#cbd5e1; background:#fafbff; cursor:default;">
-              📖 N/A
-            </button>`}
+          <button class="detail-btn open-modal-btn"
+                  data-sku="${safeSku}"
+                  style="color:${col}; margin-top:0; flex:1"
+                  onmouseover="this.style.background='${col}'; this.style.color='#fff'"
+                  onmouseout="this.style.background='#fafbff'; this.style.color='${col}'">
+            Detail ->
+          </button>
+          ${manualBtn}
         </div>
       </div>`;
   }).join("");
+
+  // ── Pasang event listener setelah HTML di-inject ──────────
+  grid.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => toggleSelect(card.dataset.sku));
+  });
+
+  grid.querySelectorAll(".open-modal-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      openModal(btn.dataset.sku);
+    });
+  });
 }
 
-function toggleSelect(sku) {
-  if (selected.includes(sku)) selected = selected.filter(s => s !== sku);
-  else if (selected.length < 4) selected.push(sku);
-  render();
-}
-
+// ============================================================
+// OPEN MODAL
+// ============================================================
 function openModal(sku) {
-  const p = products.find(x => x.sku === sku); 
+  const p = products.find(x => x.sku === sku);
   if (!p) return;
 
-  const col = catColors[p.category] || "#6366f1";
-  const fields = FIELDS[p.category] || []; // Mengambil list field sesuai kategori
+  const col    = catColors[p.category] || "#6366f1";
+  const fields = FIELDS[p.category]   || [];
 
-  // 1. HEADER MODAL
-  document.getElementById("modalHeaderBar").style.background = `linear-gradient(135deg, ${col}, ${col}cc)`;
-  document.getElementById("modalSkuRow").innerHTML = `
-    <span style="background:rgba(255,255,255,0.25);border:1px solid rgba(255,255,255,0.4);border-radius:7px;padding:3px 10px;font-size:11px;color:#fff;font-weight:800;">${p.sku}</span>
-    <span style="background:rgba(255,255,255,0.15);border-radius:6px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.85);">${p.category}</span>
-  `;
-  document.getElementById("modalName").textContent = p.name;
-  document.getElementById("modalChar").textContent = p.karakteristik || "";
+  // ── Header ────────────────────────────────────────────────
+  modalEls.headerBar.style.background =
+    `linear-gradient(135deg, ${col}, ${col}cc)`;
 
-  // 2. GAMBAR PRODUK
-  const imgHTML = `<div style="text-align:center; margin-bottom: 20px;"><img src="${p.image}" style="max-width:180px; max-height:180px; object-fit:contain;" onerror="this.style.display='none'"></div>`;
+  modalEls.skuRow.innerHTML = `
+    <span style="background:rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.4);
+                 border-radius:7px; padding:3px 10px; font-size:11px;
+                 color:#fff; font-weight:800;">
+      ${escapeHTML(p.sku)}
+    </span>
+    <span style="background:rgba(255,255,255,0.15); border-radius:6px;
+                 padding:3px 8px; font-size:10px; color:rgba(255,255,255,0.85);">
+      ${escapeHTML(p.category)}
+    </span>`;
 
-  // 3. SELLING POINT (KEUNGGULAN) - Tanpa Emoji
-  const sp = generateSellingPoint(p);
-  const spHTML = sp.length > 0 ? `
-    <div style="margin-bottom:16px;background:${col}08;border-radius:10px;padding:12px;border:1px solid ${col}20;">
-      <div style="font-size:10px;font-weight:700;color:${col};letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Keunggulan Produk</div>
-      ${sp.map(s => `<div style="font-size:12px;color:#334155;margin-bottom:4px;font-weight:500;">- ${s}</div>`).join("")}
-    </div>` : "";
+  modalEls.name.textContent = p.name          || "";
+  modalEls.char.textContent = p.karakteristik || "";
 
-  // 4. LIST SPESIFIKASI (FIX: Mengambil dari p.specs)
-  let specsList = fields.map(f => {
-    const val = (p.specs && p.specs[f]) ? p.specs[f] : "—";
+  // ── Gambar ────────────────────────────────────────────────
+  const imgHTML = `
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="${escapeHTML(p.image)}"
+           style="max-width:180px; max-height:180px; object-fit:contain;"
+           onerror="this.style.display='none'">
+    </div>`;
+
+  // ── Selling point ─────────────────────────────────────────
+  const sp     = generateSellingPoint(p);
+  const spHTML = sp.length > 0
+    ? `<div style="margin-bottom:16px; background:${col}08; border-radius:10px;
+                   padding:12px; border:1px solid ${col}20;">
+         <div style="font-size:10px; font-weight:700; color:${col};
+                     letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;">
+           Keunggulan Produk
+         </div>
+         ${sp.map(s =>
+           `<div style="font-size:12px; color:#334155; margin-bottom:4px; font-weight:600;">
+              - ${escapeHTML(s)}
+            </div>`
+         ).join("")}
+       </div>`
+    : "";
+
+  // ── Spesifikasi ───────────────────────────────────────────
+  const specsHTML = fields.map(f => {
+    const val = p.specs?.[f] ?? "-";
     return `
       <div class="modal-spec-row">
-        <span class="modal-spec-key">${LABELS[f] || f}</span>
-        <span class="modal-spec-val">${val}</span>
+        <span class="modal-spec-key">${escapeHTML(LABELS[f] || f)}</span>
+        <span class="modal-spec-val">${escapeHTML(val)}</span>
       </div>`;
   }).join("");
 
-  // 5. FAQ / TIPS & TRICKS
-  let tipsHTML = "";
-  if (faqs[p.category]) {
-    tipsHTML = `
-      <div style="margin-top:20px;background:#f8fafc;border-radius:12px;padding:16px;border:1px solid #e2e8f0;">
-        <div style="font-size:13px;font-weight:800;color:#1e293b;margin-bottom:12px;">Panduan & Perawatan</div>
-        ${faqs[p.category].slice(0, 2).map(faq => `
-          <div style="margin-bottom:10px;">
-            <div style="font-size:11px;font-weight:700;color:#475569;">${faq.q}</div>
-            <div style="font-size:11px;color:#64748b;">${faq.a}</div>
-          </div>
-        `).join("")}
-      </div>`;
-  }
+  // ── Tips / FAQ ────────────────────────────────────────────
+  const tipsHTML = faqs[p.category]
+    ? `<div style="margin-top:20px; background:#f8fafc; border-radius:12px;
+                   padding:16px; border:1px solid #e2e8f0;">
+         <div style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:12px;">
+           Panduan Penggunaan
+         </div>
+         ${faqs[p.category].slice(0, 2).map(faq => `
+           <div style="margin-bottom:10px;">
+             <div style="font-size:11px; font-weight:700; color:#475569;">
+               ${escapeHTML(faq.q)}
+             </div>
+             <div style="font-size:11px; color:#64748b;">
+               ${escapeHTML(faq.a)}
+             </div>
+           </div>`).join("")}
+       </div>`
+    : "";
 
-  // 6. TOMBOL MANUAL
-  const manualLink = manualUrls[p.sku];
-  const manualHTML = manualLink ? `
-    <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f1f5f9;">
-      <a href="${manualLink}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:100%;padding:11px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px;color:#fff;background:${col};">Lihat Manual Lengkap</a>
-    </div>` : "";
+  // ── Manual link ───────────────────────────────────────────
+  const manualHTML = manualUrls[p.sku]
+    ? `<div style="margin-top:16px; padding-top:16px; border-top:1px solid #f1f5f9;">
+         <a href="${escapeHTML(manualUrls[p.sku])}"
+            target="_blank"
+            rel="noopener"
+            style="display:flex; align-items:center; justify-content:center;
+                   width:100%; padding:11px; border-radius:12px; text-decoration:none;
+                   font-weight:700; font-size:13px; color:#fff; background:${col};">
+           Lihat Manual Lengkap
+         </a>
+       </div>`
+    : "";
 
-  // 7. RENDER SEMUA KE MODAL
-  document.getElementById("modalSpecsList").innerHTML = imgHTML + spHTML + specsList + tipsHTML + manualHTML;
-  document.getElementById("modal").style.display = "flex";
+  // ── Gabung semua ──────────────────────────────────────────
+  modalEls.specsList.innerHTML =
+    imgHTML + spHTML + specsHTML + tipsHTML + manualHTML;
+
+  modalEls.modal.style.display = "flex";
 }
-function closeModal() { document.getElementById("modal").style.display = "none"; }
+
+// ============================================================
+// CLOSE MODAL
+// ============================================================
+function closeModal() {
+  modalEls.modal.style.display = "none";
+}
 
 // --- FAQ FUNCTIONS ---
 function renderFAQ() {
