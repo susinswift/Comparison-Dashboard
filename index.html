@@ -290,8 +290,8 @@ const catColors={
 "Electric Cooker":"#D946EF","Electric Steamer":"#22C55E","Drip Coffee Machine":"#A16207",
 "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
 "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
-"Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", "Massager":"#E11D48"
-"Hair Straightener": "#0d9488", // Warna hijau toska yang fresh
+"Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", 
+"Massager":"#E11D48" // Tadi di sini kurang koma kak
 };
 
 const FIELDS={
@@ -318,7 +318,8 @@ const FIELDS={
 "Hair Straightener":["pengaturan","suhu","daya","waktu_panas","lapisan","ukuran","berat"],
 "Hair Curler":["diameter","suhu","daya","waktu_panas","ukuran","berat"],
 "Hair Dryer Brush":["pengaturan","kecepatan","ion_negatif","kepala_lepas","daya","panjang_kabel","ukuran","berat"],
-"Body Scale":["kapasitas","baterai","display","fitur_ekstra"], "Massager":["pengaturan","kepala_pijat","baterai","berat"]
+"Body Scale":["kapasitas","baterai","display","fitur_ekstra"], 
+"Massager":["pengaturan","kepala_pijat","baterai","berat"] 
 };
 
 const LABELS={
@@ -758,23 +759,17 @@ const rawProducts = [
 {sku:"JFBA009",name:"Hair Curler (Portable)",category:"Hair Curler",karakteristik:"Yang paling portabel",diameter:"28 mm",suhu:"210°C",daya:"30 W",waktu_panas:"10 s",ukuran:"25×4 cm",berat:"0.20 kg"},
 {sku:"JFBA010",name:"Hair Curler (Auto)",category:"Hair Curler",karakteristik:"Harus dimiliki orang yang malas",diameter:"32 mm",suhu:"170°C-210°C",daya:"52 W",waktu_panas:"10 s",ukuran:"35×6 cm",berat:"0.37 kg"},
 {
-  sku: "ZFBA011",
-  name: "Simplus Hair Straightener Catokan Pelurus Rambut",
-  category: "Hair Straightener",
-  specs: {
-    "Daya": "30 Watt",
-    "Suhu Maksimal": "200°C (Constant)",
-    "Bahan Plat": "Ceramic Coating",
-    "Voltase": "110-240V (Dual Voltage)",
-    "Panjang Kabel": "1.5 Meter"
-  },
-  sellingPoints: [
-    "Plat Keramik: Panas merata, licin, dan tidak menjambak rambut.",
-    "Travel Friendly: Desain slim dan ringan, mudah dibawa ke mana saja.",
-    "Dual Voltage: Aman dipakai di luar negeri (110-240V).",
-    "Fast Heating: Panas instan dalam 30 detik, hemat waktu dandan.",
-    "Kabel Putar 360°: Kabel fleksibel, tidak mudah kusut saat digunakan."
-  ]
+  sku:"ZFBA011",
+  name:"Hair Straightener Catokan Pelurus",
+  category:"Hair Straightener",
+  karakteristik:"Plat Keramik & Dual Voltage",
+  pengaturan:"1 (Constant)",
+  suhu:"200°C",
+  daya:"30 Watt",
+  waktu_panas:"30 s",
+  lapisan:"Ceramic Coating",
+  ukuran:"-",
+  berat:"-"
 },
 {sku:"RFSH001",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model dasar",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"✓",daya:"1100-1200 W",ukuran:"39.8×5.9×6.1 cm",berat:"0.47 kg",panjang_kabel:"1.8 m"},
 {sku:"RFSH002",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model pemula",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"×",daya:"1000-1200 W",ukuran:"38×7.7×10 cm",berat:"0.50 kg",panjang_kabel:"1.75 m"},
@@ -932,6 +927,11 @@ function generateSellingPoint(p) {
     if (p.ion_negatif && p.ion_negatif !== "×") points.push("✨ " + p.ion_negatif + " Ion Negatif — rambut lebih halus & tidak kering");
     if (p.kecepatan && parseInt(p.kecepatan) >= 50) points.push("💨 Kecepatan angin " + p.kecepatan + " — ngeringin rambut secepat kilat");
     if (p.karakteristik) points.push("✨ " + p.karakteristik);
+  } else if (cat === "Hair Straightener") {
+    points.push("✨ Lapisan Ceramic: Rambut tetap lembut & berkilau");
+    points.push("✈️ Dual Voltage: Aman dipakai saat traveling ke luar negeri");
+    points.push("⚡ Fast Heating: Siap dipakai hanya dalam 30 detik");
+    if (p.karakteristik) points.push("📌 " + p.karakteristik);
   } else if (cat === "Air Fryer (Digital)") {
     points.push("🍟 Menggoreng sehat minim minyak");
     if (p.jendela === "✓") points.push("👁️ Jendela transparan — pantau kematangan masakan tanpa buka tutup");
