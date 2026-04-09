@@ -280,7 +280,7 @@ let selected  = [];
 let viewMode  = "products"; 
 let faqSearch = "";
 
-const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush"];
+const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush", "Body Scale", "Massager"];
 
 const catColors={
 "Vacuum Cleaner":"#3B82F6","Garment Steamer / Iron":"#8B5CF6","Dehumidifier":"#06B6D4",
@@ -290,7 +290,7 @@ const catColors={
 "Electric Cooker":"#D946EF","Electric Steamer":"#22C55E","Drip Coffee Machine":"#A16207",
 "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
 "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
-"Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5"
+"Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", "Massager":"#E11D48"
 };
 
 const FIELDS={
@@ -316,7 +316,8 @@ const FIELDS={
 "Hair Dryer":["motor","ion_negatif","daya","kebisingan","kecepatan","panjang_kabel","ukuran","berat"],
 "Hair Straightener":["pengaturan","suhu","daya","waktu_panas","lapisan","ukuran","berat"],
 "Hair Curler":["diameter","suhu","daya","waktu_panas","ukuran","berat"],
-"Hair Dryer Brush":["pengaturan","kecepatan","ion_negatif","kepala_lepas","daya","panjang_kabel","ukuran","berat"]
+"Hair Dryer Brush":["pengaturan","kecepatan","ion_negatif","kepala_lepas","daya","panjang_kabel","ukuran","berat"],
+"Body Scale":["kapasitas","baterai","display","fitur_ekstra"], "Massager":["pengaturan","kepala_pijat","baterai","berat"]
 };
 
 const LABELS={
@@ -334,7 +335,7 @@ kapasitas_gelas:"Kapasitas Gelas",tekanan:"Tekanan Maks",batang_uap:"Batang Uap"
 pisau:"Mata Pisau",motor:"Motor",ion_negatif:"Ion Negatif",kecepatan:"Kecepatan Angin",
 panjang_kabel:"Panjang Kabel",suhu:"Suhu",waktu_panas:"Waktu Pemanasan",
 lapisan:"Lapisan Pelat",diameter:"Diameter Barrel",kepala_lepas:"Kepala Lepas-Pasang",
-fungsi_lainnya:"Fungsi Lainnya",aksesori:"Aksesori"
+fungsi_lainnya:"Fungsi Lainnya",aksesori:"Aksesori", baterai:"Tipe Baterai", display:"Layar", fitur_ekstra:"Fitur Tambahan", kepala_pijat:"Kepala Pijat"
 };
 
 const BASE = "https://pc.simplus.online/products/";
@@ -456,7 +457,16 @@ const manualUrls = {
   "JFBA008": BASE+"user-manual---hair-curler-jfba008",
   "JFBA009": BASE+"user-manual---2-in-1-hair-straightener-curler-jfba009",
   "RFSH001": BASE+"user-manual---hair-dryer-brush-rfsh001",
-  "RFSH002": BASE+"user-manual---hair-dryer-brush-rfsh002"
+  "RFSH002": BASE+"user-manual---hair-dryer-brush-rfsh002",
+  ,"CFJH003": "https://pc.simplus.online/pages/hair-dryer-cfjh003-user-manual-english-version"
+,"ZFBA001": "https://pc.simplus.online/pages/hair-straightener-zfba001-user-manual-english-version"
+,"ZFBA010": "https://pc.simplus.online/pages/simplus-hair-straightener-zfba010-user-manual"
+,"ZFSH004": "https://pc.simplus.online/pages/simplus-hair-straightener-brush-zfsh004"
+  "TZCH001": "https://pc.simplus.online/pages/user-manual-tzch001",
+  "TZCH002": "https://pc.simplus.online/pages/body-weight-scale-tzch002-user-manual-english-version",
+  "JMQH001": "https://pc.simplus.online/pages/massager-gun-jmqh001-user-manual",
+  "JFBA011": "https://pc.simplus.online/products/user-manual-hair-curler-jfba011"
+  
 };
 
 const faqs = {
@@ -746,6 +756,15 @@ const rawProducts = [
 {sku:"RFSH001",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model dasar",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"✓",daya:"1100-1200 W",ukuran:"39.8×5.9×6.1 cm",berat:"0.47 kg",panjang_kabel:"1.8 m"},
 {sku:"RFSH002",name:"Hair Dryer Brush",category:"Hair Dryer Brush",karakteristik:"Model pemula",pengaturan:"3",kecepatan:"10.7 m/s",ion_negatif:"×",kepala_lepas:"×",daya:"1000-1200 W",ukuran:"38×7.7×10 cm",berat:"0.50 kg",panjang_kabel:"1.75 m"},
 {sku:"RFSH003",name:"Hair Dryer Brush (Multi)",category:"Hair Dryer Brush",karakteristik:"Multi-gaya",pengaturan:"2 speed, 3 suhu, 1 mode auto-bersih",kecepatan:"58 m/s",ion_negatif:"130 juta",kepala_lepas:"✓",daya:"1500 W",ukuran:"29.5×5×5 cm",berat:"0.86 kg",panjang_kabel:"1.8 m"}
+,{sku:"CFJH003",name:"Hair Dryer (1800W)",category:"Hair Dryer",karakteristik:"Model dasar 1800W, hemat daya",motor:"Motor bersikat",ion_negatif:"×",daya:"1800 W",kebisingan:"78 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.5 m",ukuran:"15×7.5×22 cm",berat:"0.45 kg"}
+,{sku:"CFJH005",name:"Ionic Hair Dryer",category:"Hair Dryer",karakteristik:"Desain minimalis, ringan & ionik",motor:"Motor bersikat",ion_negatif:"✓",daya:"1800 W",kebisingan:"78 dBA",kecepatan:"20.0 m/s",panjang_kabel:"1.5 m",ukuran:"14×7.5×22 cm",berat:"0.45 kg"}
+,{sku:"ZFBA001",name:"Hair Straightener",category:"Hair Straightener",karakteristik:"Layar LED, 6 level suhu",pengaturan:"6",suhu:"120°C-220°C",daya:"50 W",waktu_panas:"30 s",ukuran:"30×4 cm",berat:"0.35 kg",lapisan:"Lapisan keramik"}
+,{sku:"ZFBA007",name:"Hair Straightener (Mini)",category:"Hair Straightener",karakteristik:"Mini, ringan 120g, cocok untuk pria/wanita",pengaturan:"1",suhu:"180°C",daya:"17 W",waktu_panas:"10 s",ukuran:"17.5×2×2.5 cm",berat:"0.12 kg",lapisan:"Keramik Tourmaline"}
+,{sku:"ZFBA010",name:"Hair Straightener (Essential Oil)",category:"Hair Straightener",karakteristik:"Panel Keramik Minyak Esensial, Layar Digital",pengaturan:"5",suhu:"120°C-200°C",daya:"45 W",waktu_panas:"30 s",ukuran:"30×4 cm",berat:"0.35 kg",lapisan:"Ceramic Coated Panel"}
+,{sku:"ZFSH004",name:"Cooling Hair Straightener Brush",category:"Hair Straightener",karakteristik:"Catokan sisir dengan mode udara dingin (Cool Shot)",pengaturan:"5",suhu:"120°C-200°C",daya:"45 W",waktu_panas:"30 s",ukuran:"30×5 cm",berat:"0.40 kg",lapisan:"Lapisan glasir keramik"},{sku:"TZCH001",name:"Digital Body Scale",category:"Body Scale",karakteristik:"Timbangan kaca presisi dengan layar LED tersembunyi",kapasitas:"0.5 - 180 kg",baterai:"2x AAA",display:"LED",ukuran:"28×28 cm",berat:"1 kg"}
+,{sku:"TZCH002",name:"Smart Body Scale",category:"Body Scale",karakteristik:"Timbangan pintar dengan koneksi Tuya App (Body Composition)",kapasitas:"180 kg",baterai:"Rechargeable (USB)",display:"LED",fitur_ekstra:"Analisis massa tubuh via App",ukuran:"28×28 cm",berat:"1.2 kg"}
+,{sku:"JMQH001",name:"Massager Gun",category:"Massager",karakteristik:"Alat pijat portabel untuk relaksasi otot mendalam",pengaturan:"4 tingkat kecepatan",kepala_pijat:"4 jenis kepala tukar",baterai:"Rechargeable (5V/2A Type-C)",berat:"0.8 kg"}
+,{sku:"JFBA011",name:"Hair Curler (Wand)",category:"Hair Curler",karakteristik:"Desain ergonomis, pemanasan merata & cepat",diameter:"28 mm",suhu:"160°C-200°C",daya:"45 W",waktu_panas:"30 s",ukuran:"32×3 cm",berat:"0.35 kg"}
 ];
 
 // 1. Buat daftar "Jalur Khusus" untuk produk yang gambarnya error/typo
