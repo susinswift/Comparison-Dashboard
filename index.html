@@ -861,8 +861,8 @@ const imageOverrides = {
   "RFSH001": "https://img.myshopline.com/image/store/1622516949344/RFSH001-1_900x.jpeg?w=400",
   "RFSH002": "https://img.myshopline.com/image/store/1622516949344/RFSH002-2.jpeg?w=1280&h=1280",
   "RFSH003": "https://img.myshopline.com/image/store/1622516949344/RFSH003-.jpeg?w=1200&h=1650",
-  "RFSH004": "
-
+  "RFSH004": "https://img.myshopline.com/image/store/1622516949344/RFSH004-.jpg?w=3500&h=3500"
+};
 // 2. Proses datanya
 const products = rawProducts.map(p => {
   const skuUp = p.sku.toUpperCase();
@@ -1431,10 +1431,15 @@ function renderCompare() {
     rows += `<tr><td class="spec-label">${LABELS[f]||f}</td>${compareProds.map(p=>`<td>${p[f]||"—"}</td>`).join("")}</tr>`;
   });
   
-  const csMsg = generateCSMessage(compareProds);
+const csMsg = generateCSMessage(compareProds);
   section.innerHTML = `
-    <div class="compare-section">
-      <div class="compare-title">⚖️ PERBANDINGAN PRODUK</div>
+    <div class="compare-section" id="compareCaptureArea" style="position:relative;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+        <div class="compare-title" style="margin-bottom:0;">⚖️ PERBANDINGAN PRODUK</div>
+        <button id="downloadImgBtn" onclick="downloadTableAsImage()" style="background:linear-gradient(135deg, #10b981, #059669); border:none; border-radius:8px; padding:6px 14px; font-size:11px; color:#fff; cursor:pointer; font-weight:700; font-family:'Inter',sans-serif; transition:all 0.2s; box-shadow:0 2px 8px rgba(16,185,129,0.3);">
+          📥 Download Gambar
+        </button>
+      </div>
       <table class="compare-table"><thead><tr>${headCells}</tr></thead><tbody>${rows}</tbody></table>
       <div class="cs-message-box">
         <div class="cs-message-header">
