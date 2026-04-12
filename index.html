@@ -1280,35 +1280,52 @@ const modalEls = {
 // RENDER GRID
 // ============================================================
 function renderGrid(filtered) {
-  const grid      = document.getElementById("grid");
+  const grid = document.getElementById("grid");
   const noResults = document.getElementById("noResults");
 
   if (filtered.length === 0) {
-    grid.innerHTML          = "";
+    grid.innerHTML = "";
     noResults.style.display = "block";
     return;
   }
 
   noResults.style.display = "none";
 
-grid.innerHTML = filtered.map(p => {
-  const isSel = selected.includes(p.sku);
-  const sp = generateSellingPoint(p);
-  return `
-    <div class="card ${isSel ? "selected" : ""}" onclick="toggleSelect('${p.sku}')">
-      ${isSel ? `<div class="check-mark" style="background:var(--apple-blue); position:absolute; top:12px; right:12px; color:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px;">✓</div>` : ""}
-      <div style="font-weight: 800; color: var(--apple-blue); font-size: 11px; margin-bottom: 6px;">${p.sku}</div>
-      <div style="font-weight: 700; font-size: 17px; margin-bottom: 12px; letter-spacing: -0.3px;">${p.name}</div>
-      <div style="min-height: 80px;">
-        ${sp.map(s => `<div class="sp-badge" style="font-size:12px; margin-bottom:4px; padding-left:10px;">${s}</div>`).join("")}
-      </div>
-      <div style="margin-top:15px; padding-top:15px; border-top:1px solid var(--separator); font-size:12px; color:var(--text-secondary);">
-        ${p.karakteristik}
-      </div>
-    </div>
-  `;
-}).join("");
+  grid.innerHTML = filtered.map(p => {
+    const isSel = selected.includes(p.sku);
+    const col = catColors[p.category] || "#6366f1";
+    const sp = generateSellingPoint(p);
+    
+    // Logic Manual Link bawaan file asli kamu
+    const manualBtn = manualUrls[p.sku]
+      ? `<a href="${escapeHTML(manualUrls[p.sku])}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="display:flex; align-items:center; justify-content:center; flex:1; border:1.5px solid ${col}35; border-radius:10px; padding:7px; font-size:11px; font-weight:600; color:${col}; background:#fff; text-decoration:none;">Manual</a>`
+      : `<button disabled style="flex:1; border:1.5px solid #e2e8f0; border-radius:10px; padding:7px; font-size:11px; font-weight:600; color:#cbd5e1; background:#fafbff;">N/A</button>`;
 
+    return `
+      <div class="card ${isSel ? "selected" : ""}" onclick="toggleSelect('${escapeHTML(p.sku)}')" style="display:flex; flex-direction:column; position:relative;">
+        ${isSel ? `<div class="check-mark" style="background:var(--apple-blue); position:absolute; top:12px; right:12px; color:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; z-index:10;">✓</div>` : ""}
+        
+        <div class="card-sku" style="font-weight: 800; color: var(--apple-blue); font-size: 11px; margin-bottom: 6px; letter-spacing: 0.5px;">${escapeHTML(p.sku)}</div>
+        <div class="card-name" style="font-weight: 700; font-size: 17px; margin-bottom: 12px; letter-spacing: -0.4px; line-height: 1.2;">${escapeHTML(p.name)}</div>
+        
+        <div style="min-height: 85px; flex:1;">
+          ${sp.map(s => `<div class="sp-badge" style="font-size:12px; margin-bottom:5px; padding-left:10px; border-left: 3px solid var(--apple-blue); color: var(--text-secondary); font-weight: 600;">${escapeHTML(s)}</div>`).join("")}
+        </div>
+
+        <div style="margin-top:10px; font-size: 12px; color: var(--text-tertiary); min-height: 35px; line-height: 1.4;">
+          ${escapeHTML(p.karakteristik)}
+        </div>
+
+        <div style="display:flex; gap:6px; margin-top:15px; border-top:1px solid var(--separator); padding-top:15px;">
+          <button class="open-modal-btn" style="flex:1; background:transparent; border:1.5px solid var(--separator); border-radius:10px; padding:7px; font-size:11px; font-weight:600; cursor:pointer;" onclick="event.stopPropagation(); openModal('${escapeHTML(p.sku)}')">
+            Detail
+          </button>
+          ${manualBtn}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
     const sp       = generateSellingPoint(p);
     const spBadges = sp.map(s =>
       `<div class="sp-badge" style="--cat-color:${col}">${escapeHTML(s)}</div>`
