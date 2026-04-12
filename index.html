@@ -4,831 +4,258 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="referrer" content="no-referrer"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <title>Simplus Product Database</title>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
-/* ─── APPLE DESIGN TOKENS ────────────────────────────── */
-:root {
-  --bg:              #f5f5f7;
-  --surface:         #ffffff;
-  --surface-raised:  #ffffff;
-  --sidebar-bg:      rgba(250,250,252,0.85);
-  --glass-bg:        rgba(255,255,255,0.72);
-  --text-primary:    #1d1d1f;
-  --text-secondary:  #6e6e73;
-  --text-tertiary:   #86868b;
-  --separator:       rgba(0,0,0,0.08);
-  --separator-light: rgba(0,0,0,0.05);
-  --shadow-sm:       0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md:       0 4px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
-  --shadow-lg:       0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
-  --shadow-hover:    0 20px 50px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
-  --radius-xs:       6px;
-  --radius-sm:       10px;
-  --radius-md:       14px;
-  --radius-lg:       18px;
-  --radius-xl:       22px;
-  --font:            'Figtree', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  --transition:      all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;min-height:100vh;color:#1e293b;}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);
+  padding:16px 28px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 20px rgba(99,102,241,0.3);
+  position:sticky;top:0;z-index:50;
 }
-
-/* ─── RESET ──────────────────────────────────────────── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  min-height: 100vh;
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.header-logo{
+  background:rgba(255,255,255,0.25);backdrop-filter:blur(10px);
+  width:40px;height:40px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:18px;color:#fff;flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.4);
 }
-
-/* ─── HEADER ─────────────────────────────────────────── */
-.header {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--separator);
-  padding: 0 28px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
+.header-title{font-weight:800;font-size:18px;color:#fff;letter-spacing:-0.3px;}
+.header-sub{font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;}
+.header-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.selected-badge{
+  background:rgba(255,255,255,0.2);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#fff;font-weight:600;
 }
-
-.header-logo {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: linear-gradient(145deg, #1d1d1f, #3d3d3f);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 15px;
-  color: #fff;
-  flex-shrink: 0;
-  letter-spacing: -0.5px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+.reset-btn{
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px;padding:5px 12px;font-size:11px;color:#fff;cursor:pointer;
+  font-weight:600;transition:all 0.2s;font-family:'Inter',sans-serif;
 }
+.reset-btn:hover{background:rgba(255,255,255,0.35);}
 
-.header-title {
-  font-weight: 700;
-  font-size: 16px;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
+/* LAYOUT */
+.layout{display:flex;height:calc(100vh - 73px);}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background:linear-gradient(180deg,#fff 0%,#f8f7ff 100%);
+  border-right:1px solid #e2e8f0;
+  overflow-y:auto;padding:14px 8px;flex-shrink:0;
+  box-shadow:2px 0 10px rgba(0,0,0,0.04);
 }
-
-.header-sub {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  margin-top: 1px;
-  font-weight: 500;
+.sidebar-title{
+  font-size:10px;font-weight:700;color:#94a3b8;
+  letter-spacing:1.2px;text-transform:uppercase;
+  padding:4px 10px 10px;
 }
-
-.header-right {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.cat-btn{
+  width:100%;text-align:left;padding:8px 10px;
+  border-radius:10px;border:none;background:transparent;
+  color:#64748b;cursor:pointer;margin-bottom:2px;
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-family:'Inter',sans-serif;
+  transition:all 0.15s;font-weight:500;
 }
+.cat-btn:hover{background:#f1f5f9;color:#334155;}
+.cat-btn.active{color:#fff;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cat-count{font-size:10px;padding:1px 6px;border-radius:20px;margin-left:auto;font-weight:700;}
+.cat-btn.active .cat-count{background:rgba(255,255,255,0.3);color:#fff;}
+.cat-btn:not(.active) .cat-count{background:#f1f5f9;color:#94a3b8;}
 
-.selected-badge {
-  background: rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 20px;
-  padding: 5px 13px;
-  font-size: 11.5px;
-  color: var(--text-secondary);
-  font-weight: 600;
+/* FAQ SIDEBAR BTN */
+.sidebar-divider{border:none;border-top:1px solid #e2e8f0;margin:10px 8px;}
+.faq-sidebar-btn{
+  width:100%;text-align:left;padding:9px 10px;
+  border-radius:10px;border:none;background:transparent;
+  cursor:pointer;margin-bottom:2px;display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-family:'Inter',sans-serif;
+  transition:all 0.15s;font-weight:600;color:#6366f1;
 }
+.faq-sidebar-btn:hover{background:#f1f5f9;}
+.faq-sidebar-btn.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,0.3);}
 
-.reset-btn {
-  background: rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 20px;
-  padding: 5px 13px;
-  font-size: 11.5px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-weight: 600;
-  transition: var(--transition);
-  font-family: var(--font);
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:20px 22px;}
+
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:16px;}
+.search-input{
+  width:100%;background:#fff;border:2px solid #e2e8f0;border-radius:14px;
+  padding:11px 16px 11px 44px;color:#1e293b;font-size:13px;outline:none;
+  box-sizing:border-box;font-family:'Inter',sans-serif;
+  transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.05);
 }
-.reset-btn:hover { background: rgba(0,0,0,0.10); }
+.search-input:focus{border-color:#6366f1;box-shadow:0 0 0 4px rgba(99,102,241,0.1);}
+.search-input::placeholder{color:#94a3b8;}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;}
 
-/* ─── LAYOUT ─────────────────────────────────────────── */
-.layout {
-  display: flex;
-  height: calc(100vh - 60px);
+/* COMPARE */
+.compare-section{
+  background:#fff;border-radius:16px;padding:20px;margin-bottom:18px;overflow-x:auto;
+  border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);
 }
-
-/* ─── SIDEBAR ────────────────────────────────────────── */
-.sidebar {
-  width: 220px;
-  background: var(--sidebar-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-right: 1px solid var(--separator);
-  overflow-y: auto;
-  padding: 12px 8px;
-  flex-shrink: 0;
+.compare-title{
+  font-weight:800;font-size:13px;margin-bottom:14px;letter-spacing:0.05em;
+  background:linear-gradient(135deg,#6366f1,#ec4899);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
+.compare-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.compare-table th{text-align:left;padding:9px 12px;border-bottom:2px solid #f1f5f9;font-weight:700;min-width:130px;color:#64748b;}
+.compare-table td{padding:8px 12px;border-bottom:1px solid #f8fafc;font-size:12px;color:#334155;vertical-align:top;}
+.compare-table tr:hover td{background:#fafbff;}
+.compare-table td.spec-label{color:#94a3b8;font-weight:500;}
+.compare-table td.char-val{font-weight:600;color:#6366f1;}
 
-.sidebar-title {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-tertiary);
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  padding: 6px 10px 8px;
+/* CS MESSAGE BOX */
+.cs-message-box{margin-top:18px;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;}
+.cs-message-header{background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.cs-message-header-left{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#fff;}
+.cs-message-header-left span{font-size:16px;}
+.copy-btn{
+  background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);
+  border-radius:8px;padding:5px 12px;font-size:11px;color:#fff;cursor:pointer;
+  font-weight:700;font-family:'Inter',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:5px;
 }
+.copy-btn:hover{background:rgba(255,255,255,0.35);}
+.copy-btn.copied{background:rgba(255,255,255,0.9);color:#6366f1;}
+.cs-message-body{background:#f8f9ff;padding:16px;font-size:13px;line-height:1.7;color:#334155;white-space:pre-wrap;font-family:'Inter',sans-serif;max-height:280px;overflow-y:auto;border-top:1px solid #e2e8f0;}
 
-.cat-btn {
-  width: 100%;
-  text-align: left;
-  padding: 7px 10px;
-  border-radius: var(--radius-sm);
-  border: none;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  margin-bottom: 1px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-family: var(--font);
-  transition: var(--transition);
-  font-weight: 500;
+/* RESULT INFO */
+.result-info{font-size:12px;color:#94a3b8;margin-bottom:12px;font-weight:500;}
+.compare-hint{color:#6366f1;margin-left:8px;font-weight:600;}
+
+/* GRID & CARD (DENGAN FOTO) */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px;}
+.card{
+  background:#fff;border:2px solid #f1f5f9;border-radius:16px;padding:16px;
+  cursor:pointer;transition:all 0.2s;position:relative;display:flex;flex-direction:column;
+  box-shadow:0 2px 12px rgba(0,0,0,0.05);
 }
-
-.cat-btn:hover {
-  background: rgba(0,0,0,0.04);
-  color: var(--text-primary);
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.1);}
+.card.selected{box-shadow:0 8px 25px rgba(99,102,241,0.15);}
+.card-img-wrap{
+  width:100%;height:160px;background:#f8fafc;border-radius:10px;
+  margin-bottom:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-
-.cat-btn.active {
-  color: #fff;
-  font-weight: 700;
+.card-img{width:100%;height:100%;object-fit:contain;transition:transform 0.3s;}
+.card:hover .card-img{transform:scale(1.05);}
+.check-mark{
+  position:absolute;top:12px;right:12px;border-radius:50%;width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;
+  font-weight:800;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:10;
 }
-
-.cat-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  opacity: 0.85;
+.card-stripe{height:4px;border-radius:4px;margin-bottom:12px;}
+.card-top{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.card-sku{border-radius:8px;padding:3px 9px;font-size:11px;font-weight:700;letter-spacing:0.3px;}
+.card-cat{font-size:10px;color:#94a3b8;background:#f8fafc;border-radius:6px;padding:3px 7px;font-weight:500;border:1px solid #e2e8f0;margin-left:auto;}
+.card-name{font-weight:700;font-size:14px;color:#1e293b;margin-bottom:3px;line-height:1.3;}
+.card-char{
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:12px;
+  color:#111827;
+  background:#eef2ff;
+  padding:8px 10px;
+  border-radius:10px;
+  line-height:1.4;
+  border:1px solid #e0e7ff;
 }
-
-.cat-count {
-  font-size: 10px;
-  padding: 1px 6px;
-  border-radius: 20px;
-  margin-left: auto;
-  font-weight: 700;
-}
-
-.cat-btn.active .cat-count {
-  background: rgba(255,255,255,0.25);
-  color: #fff;
-}
-
-.cat-btn:not(.active) .cat-count {
-  background: rgba(0,0,0,0.05);
-  color: var(--text-tertiary);
-}
-
-/* ─── FAQ SIDEBAR BTN ────────────────────────────────── */
-.sidebar-divider {
-  border: none;
-  border-top: 1px solid var(--separator);
-  margin: 8px 6px;
-}
-
-.faq-sidebar-btn {
-  width: 100%;
-  text-align: left;
-  padding: 7px 10px;
-  border-radius: var(--radius-sm);
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  margin-bottom: 1px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-family: var(--font);
-  transition: var(--transition);
-  font-weight: 600;
-  color: #007AFF;
-}
-
-.faq-sidebar-btn:hover { background: rgba(0,122,255,0.06); }
-
-.faq-sidebar-btn.active {
-  background: #007AFF;
-  color: #fff;
-}
-
-/* ─── CONTENT ────────────────────────────────────────── */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 24px;
-}
-
-/* ─── SEARCH ─────────────────────────────────────────── */
-.search-wrap {
-  position: relative;
-  margin-bottom: 16px;
-}
-
-.search-input {
-  width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--separator);
-  border-radius: 12px;
-  padding: 11px 16px 11px 42px;
-  color: var(--text-primary);
-  font-size: 13.5px;
-  outline: none;
-  box-sizing: border-box;
-  font-family: var(--font);
-  transition: var(--transition);
-  box-shadow: var(--shadow-sm);
-  font-weight: 500;
-}
-
-.search-input:focus {
-  border-color: #007AFF;
-  box-shadow: 0 0 0 3px rgba(0,122,255,0.12), var(--shadow-sm);
-}
-
-.search-input::placeholder { color: var(--text-tertiary); }
-
-.search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 15px;
-  color: var(--text-tertiary);
-}
-
-/* ─── COMPARE SECTION ────────────────────────────────── */
-.compare-section {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-bottom: 16px;
-  overflow-x: auto;
-  border: 1px solid var(--separator);
-  box-shadow: var(--shadow-md);
-}
-
-.compare-title {
-  font-weight: 800;
-  font-size: 12px;
-  margin-bottom: 14px;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-}
-
-.compare-table { width:100%; border-collapse:collapse; font-size:12.5px; }
-.compare-table th {
-  text-align:left;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--separator);
-  font-weight: 700;
-  min-width: 130px;
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-.compare-table td {
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--separator-light);
-  font-size: 12px;
-  color: var(--text-primary);
-  vertical-align: top;
-}
-.compare-table tr:last-child td { border-bottom: none; }
-.compare-table tr:hover td { background: rgba(0,0,0,0.015); }
-.compare-table td.spec-label { color: var(--text-tertiary); font-weight: 500; }
-.compare-table td.char-val { font-weight: 700; }
-
-/* ─── CS MESSAGE BOX ─────────────────────────────────── */
-.cs-message-box {
-  margin-top: 16px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--separator);
-}
-
-.cs-message-header {
-  background: #1d1d1f;
-  padding: 11px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.cs-message-header-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-}
-.cs-message-header-left span { font-size: 14px; }
-
-.copy-btn {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 7px;
-  padding: 5px 12px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.9);
-  cursor: pointer;
-  font-weight: 700;
-  font-family: var(--font);
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.copy-btn:hover { background: rgba(255,255,255,0.2); }
-.copy-btn.copied { background: rgba(255,255,255,0.9); color: #1d1d1f; }
-
-.cs-message-body {
-  background: #fafafa;
-  padding: 16px;
-  font-size: 12.5px;
-  line-height: 1.75;
-  color: var(--text-secondary);
-  white-space: pre-wrap;
-  font-family: var(--font);
-  max-height: 280px;
-  overflow-y: auto;
-  border-top: 1px solid var(--separator);
-}
-
-/* ─── RESULT INFO ────────────────────────────────────── */
-.result-info {
-  font-size: 12px;
-  color: var(--text-tertiary);
-  margin-bottom: 12px;
-  font-weight: 500;
-}
-.compare-hint { color: #007AFF; margin-left: 8px; font-weight: 600; }
-
-/* ─── PRODUCT GRID ───────────────────────────────────── */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-  gap: 12px;
-}
-
-/* ─── PRODUCT CARD ───────────────────────────────────── */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--separator);
-  border-radius: var(--radius-lg);
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-lg);
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(0,0,0,0.1);
-}
-
-.card.selected {
-  border-color: transparent;
-  box-shadow: var(--shadow-hover);
-}
-
-/* Product image */
-.card-img-wrap {
-  width: 100%;
-  height: 155px;
-  background: var(--bg);
-  border-radius: var(--radius-md);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card:hover .card-img { transform: scale(1.07); }
-
-/* Checkmark */
-.check-mark {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  color: #fff;
-  font-weight: 800;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  z-index: 10;
-}
-
-/* No longer used but kept for JS compat */
-.card-stripe { display: none; }
-
-/* SKU + Category row */
-.card-top {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin-bottom: 7px;
-  flex-wrap: wrap;
-}
-
-.card-sku {
-  border-radius: var(--radius-xs);
-  padding: 3px 8px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
-}
-
-.card-cat {
-  font-size: 10px;
-  color: var(--text-tertiary);
-  background: rgba(0,0,0,0.04);
-  border-radius: 5px;
-  padding: 3px 7px;
-  font-weight: 600;
-  margin-left: auto;
-}
-
-.card-name {
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-  line-height: 1.3;
-  letter-spacing: -0.2px;
-}
-
-/* Karakteristik — slim, label style */
-.card-char { display: none; }
-
-/* Selling Points */
+.card-specs{border-top:1px solid #f1f5f9;padding-top:10px;flex-grow:1;}
+  /* Style Selling Point agar lebih menonjol */
 .card-sp-container {
-  margin-bottom: 12px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-height: 66px;
+  gap: 6px;
+  min-height: 70px;
 }
-
 .sp-badge {
-  font-size: 11.5px;
-  background: transparent;
-  color: var(--text-secondary);
-  padding: 3px 0 3px 10px;
-  border-left: 2.5px solid var(--cat-color, #007AFF);
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: -0.1px;
-}
-
-/* Specs */
-.card-specs {
-  border-top: 1px solid var(--separator-light);
-  padding-top: 10px;
-  flex-grow: 1;
-}
-
-.spec-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-  gap: 8px;
-}
-
-.spec-key {
   font-size: 11px;
-  color: var(--text-tertiary);
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.spec-val {
-  font-size: 11px;
-  color: var(--text-secondary);
-  text-align: right;
-  font-weight: 600;
-}
-
-/* Buttons at bottom of card */
-.detail-btn {
-  margin-top: 10px;
-  width: 100%;
-  border: 1px solid var(--separator);
-  border-radius: var(--radius-sm);
-  padding: 7px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 600;
-  font-family: var(--font);
-  background: rgba(0,0,0,0.02);
-}
-
-/* ─── NO RESULTS ─────────────────────────────────────── */
-.no-results {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-tertiary);
-  font-size: 14px;
-  font-weight: 500;
-}
-.no-results-emoji { font-size: 44px; margin-bottom: 12px; }
-
-/* ─── FAQ SECTION ────────────────────────────────────── */
-.faq-view { padding: 0; }
-
-.faq-header-bar {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 18px 22px;
-  margin-bottom: 16px;
-  border: 1px solid var(--separator);
-  box-shadow: var(--shadow-md);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.faq-header-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  flex-shrink: 0;
-  background: #1d1d1f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-.faq-header-title { font-weight: 800; font-size: 15px; color: var(--text-primary); letter-spacing: -0.3px; }
-.faq-header-sub   { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; font-weight: 500; }
-
-.faq-search-wrap {
-  position: relative;
-  margin-left: auto;
-  width: 220px;
-}
-
-.faq-search {
-  width: 100%;
-  background: rgba(0,0,0,0.04);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 8px 12px 8px 34px;
-  font-size: 12.5px;
-  outline: none;
-  font-family: var(--font);
-  transition: var(--transition);
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.faq-search:focus {
-  border-color: #007AFF;
-  background: var(--surface);
-  box-shadow: 0 0 0 3px rgba(0,122,255,0.10);
-}
-
-.faq-search-icon {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 13px;
-  color: var(--text-tertiary);
-}
-
-.faq-cat-block {
-  background: var(--surface);
-  border-radius: var(--radius-md);
-  margin-bottom: 10px;
-  border: 1px solid var(--separator);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.faq-cat-header {
-  padding: 13px 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  user-select: none;
-  transition: var(--transition);
-}
-
-.faq-cat-header:hover { background: rgba(0,0,0,0.02); }
-.faq-cat-dot   { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.faq-cat-name  { font-weight: 700; font-size: 13px; color: var(--text-primary); flex: 1; letter-spacing: -0.2px; }
-.faq-cat-count {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  background: rgba(0,0,0,0.05);
-  border-radius: 20px;
-  padding: 2px 8px;
-  font-weight: 600;
-}
-.faq-cat-chevron  { font-size: 10px; color: var(--text-tertiary); transition: transform 0.2s; }
-.faq-cat-block.open .faq-cat-chevron { transform: rotate(180deg); }
-
-.faq-items { display: none; border-top: 1px solid var(--separator-light); }
-.faq-cat-block.open .faq-items { display: block; }
-
-.faq-item { border-bottom: 1px solid var(--separator-light); }
-.faq-item:last-child { border-bottom: none; }
-
-.faq-q {
-  padding: 11px 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  transition: var(--transition);
-}
-.faq-q:hover { background: rgba(0,0,0,0.02); }
-
-.faq-q-icon {
-  width: 21px;
-  height: 21px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 800;
-  color: #fff;
-  margin-top: 1px;
-}
-
-.faq-q-text {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text-primary);
-  flex: 1;
-  line-height: 1.4;
-}
-.faq-q-arrow { font-size: 10px; color: var(--text-tertiary); transition: transform 0.2s; margin-top: 3px; flex-shrink: 0; }
-.faq-item.open .faq-q-arrow { transform: rotate(180deg); }
-.faq-item.open .faq-q { background: rgba(0,0,0,0.02); }
-.faq-a { display: none; padding: 0 18px 13px 49px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.7; }
-.faq-item.open .faq-a { display: block; }
-
-/* ─── MODAL ──────────────────────────────────────────── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.38);
-  backdrop-filter: blur(12px) saturate(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-  padding: 24px;
-}
-
-.modal-box {
-  background: var(--surface);
-  border-radius: var(--radius-xl);
-  max-width: 510px;
-  width: 100%;
-  max-height: 87vh;
-  overflow-y: auto;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.06);
-  border: 1px solid rgba(255,255,255,0.9);
-}
-
-.modal-header-bar {
-  padding: 24px 24px 18px;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  position: relative;
-}
-
-.modal-sku-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.modal-name {
-  font-weight: 800;
-  font-size: 19px;
-  color: #fff;
-  letter-spacing: -0.4px;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.12);
-}
-
-.modal-char {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.78);
-  margin-top: 4px;
-}
-
-.close-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(255,255,255,0.22);
-  border: none;
+  background: #f8fafc;
+  color: #334155;
+  padding: 5px 10px;
   border-radius: 8px;
-  width: 30px;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-.close-btn:hover { background: rgba(255,255,255,0.36); }
-
-.modal-body { padding: 20px 24px 28px; }
-
-.modal-specs-title {
-  font-size: 10px;
+  border-left: 4px solid var(--cat-color, #6366f1);
   font-weight: 700;
-  color: var(--text-tertiary);
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
-
-.modal-spec-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--separator-light);
-  gap: 12px;
+.spec-row{display:flex;justify-content:space-between;margin-bottom:4px;gap:8px;}
+.spec-key{font-size:11px;color:#94a3b8;font-weight:500;white-space:nowrap;}
+.spec-val{font-size:11px;color:#475569;text-align:right;font-weight:600;}
+.detail-btn{
+  margin-top:10px;width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:7px;
+  font-size:11px;cursor:pointer;transition:all 0.2s;font-weight:600;font-family:'Inter',sans-serif;
+  background:#fafbff;color:#6366f1;
 }
-.modal-spec-row:last-child { border-bottom: none; }
-.modal-spec-key { font-size: 13px; color: var(--text-tertiary); font-weight: 500; }
-.modal-spec-val { font-size: 13px; color: var(--text-primary); text-align: right; font-weight: 600; max-width: 65%; }
+.detail-btn:hover{color:#fff;border-color:transparent;}
 
-/* ─── SCROLLBAR ──────────────────────────────────────── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
+/* NO RESULTS */
+.no-results{text-align:center;padding:60px 20px;color:#94a3b8;font-size:14px;font-weight:500;}
+.no-results-emoji{font-size:48px;margin-bottom:12px;}
+
+/* FAQ SECTION */
+.faq-view{padding:0;}
+.faq-header-bar{background:#fff;border-radius:16px;padding:20px 24px;margin-bottom:18px;border:1px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.06);display:flex;align-items:center;gap:14px;}
+.faq-header-icon{width:48px;height:48px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.faq-header-title{font-weight:800;font-size:16px;color:#1e293b;}
+.faq-header-sub{font-size:12px;color:#94a3b8;margin-top:2px;}
+.faq-search-wrap{position:relative;margin-left:auto;width:240px;}
+.faq-search{width:100%;background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;padding:8px 12px 8px 36px;font-size:12px;outline:none;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.faq-search:focus{border-color:#6366f1;background:#fff;}
+.faq-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px;color:#94a3b8;}
+.faq-cat-block{background:#fff;border-radius:16px;margin-bottom:14px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+.faq-cat-header{padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;transition:background 0.15s;}
+.faq-cat-header:hover{background:#fafbff;}
+.faq-cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.faq-cat-name{font-weight:700;font-size:13px;color:#1e293b;flex:1;}
+.faq-cat-count{font-size:11px;color:#94a3b8;background:#f1f5f9;border-radius:20px;padding:2px 8px;font-weight:600;}
+.faq-cat-chevron{font-size:12px;color:#94a3b8;transition:transform 0.2s;}
+.faq-cat-block.open .faq-cat-chevron{transform:rotate(180deg);}
+.faq-items{display:none;border-top:1px solid #f1f5f9;}
+.faq-cat-block.open .faq-items{display:block;}
+.faq-item{border-bottom:1px solid #f8fafc;}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{padding:12px 18px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background 0.15s;}
+.faq-q:hover{background:#fafbff;}
+.faq-q-icon{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;margin-top:1px;}
+.faq-q-text{font-size:12.5px;font-weight:600;color:#334155;flex:1;line-height:1.4;}
+.faq-q-arrow{font-size:11px;color:#94a3b8;transition:transform 0.2s;margin-top:2px;flex-shrink:0;}
+.faq-item.open .faq-q-arrow{transform:rotate(180deg);}
+.faq-item.open .faq-q{background:#fafbff;}
+.faq-a{display:none;padding:0 18px 14px 50px;font-size:12.5px;color:#64748b;line-height:1.7;}
+.faq-item.open .faq-a{display:block;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.55);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:200;padding:24px;}
+.modal-box{background:#fff;border-radius:20px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.2);}
+.modal-header-bar{padding:22px 24px 16px;border-radius:20px 20px 0 0;position:relative;}
+.modal-sku-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.modal-name{font-weight:800;font-size:18px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.15);}
+.modal-char{font-size:12px;font-weight:600;color:rgba(255,255,255,0.85);margin-top:4px;}
+.close-btn{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.25);border:none;border-radius:10px;width:32px;height:32px;color:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.close-btn:hover{background:rgba(255,255,255,0.4);}
+.modal-body{padding:20px 24px 24px;}
+.modal-specs-title{font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px;}
+.modal-spec-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f1f5f9;gap:12px;}
+.modal-spec-row:last-child{border-bottom:none;}
+.modal-spec-key{font-size:13px;color:#94a3b8;font-weight:500;}
+.modal-spec-val{font-size:13px;color:#1e293b;text-align:right;font-weight:600;max-width:65%;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
+::-webkit-scrollbar-thumb:hover{background:#cbd5e1;}
 </style>
 </head>
 <body>
@@ -894,7 +321,7 @@ const catColors={
 "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
 "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
 "Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", 
-"Massager":"#E11D48"
+"Massager":"#E11D48" // Tadi di sini kurang koma kak
 };
 
 const FIELDS = {
@@ -1061,7 +488,7 @@ const manualUrls = {
   "JFBA007": BASE+"user-manual---hair-curler-jfba007",
   "JFBA008": BASE+"user-manual---hair-curler-jfba008",
   "JFBA009": BASE+"user-manual---2-in-1-hair-straightener-curler-jfba009",
-  "RFSH001": BASE+"user-manual---hair-dryer-brush-rfsh001",
+ "RFSH001": BASE+"user-manual---hair-dryer-brush-rfsh001",
   "RFSH002": BASE+"user-manual---hair-dryer-brush-rfsh002",
   "CFJH003": "https://pc.simplus.online/pages/hair-dryer-cfjh003-user-manual-english-version",
   "ZFBA001": "https://pc.simplus.online/pages/hair-straightener-zfba001-user-manual-english-version",
@@ -1194,7 +621,7 @@ const faqs = {
   {q:"Kapsul merek apa yang kompatibel dengan mesin kapsul Simplus?",a:"Mesin kapsul Simplus kompatibel dengan kapsul standar Nespresso Original Line. Periksa manual produk untuk konfirmasi kompatibilitas, karena beberapa mesin mungkin memiliki spesifikasi tertentu."},
   {q:"Bagaimana cara membersihkan mesin kapsul secara rutin?",a:"Setelah setiap penggunaan: kosongkan wadah kapsul bekas dan drip tray. Mingguan: jalankan siklus air panas tanpa kapsul untuk membersihkan saluran. Bulanan: descaling tangki air menggunakan larutan descaling yang direkomendasikan."},
   {q:"Apakah kapsul bekas bisa didaur ulang?",a:"Banyak produsen kapsul kopi menyediakan program daur ulang resmi. Kumpulkan kapsul bekas dan kembalikan ke titik pengumpulan yang ditunjuk. Beberapa kapsul kini juga tersedia dalam versi biodegradable atau compostable."},
-  {q:"Berapa lama mesin kapsul siap digunakan setelah dinyalakan?",a:"KFJH008 siap dalam 35 detik, KFJH019 dalam 30 detik. Ini jauh lebih cepat dibanding mesin espresso manual. Sangat ideal untuk pagi hari yang sibuk ketika butuh kopi instan."},
+  {q:"Berapa lama mesin kapsul siap digunakan setelah dinyalakan?",a:"KFJH008 siap dalam 35 detik, KFJH019 dalam 30 detik. Ini jauh lebih cepat dibanding mesin espresso manual. Sangat ideal untuk pagi hari yang sibuk ketika butuh kopi cepat."},
   {q:"Apakah bisa membuat kopi dalam jumlah besar sekaligus dengan mesin kapsul?",a:"Mesin kapsul menghasilkan satu shot per kapsul. Untuk membuat lebih dari 1 gelas, gunakan beberapa kapsul secara berurutan. KFJH008 dengan tangki 0,9 L bisa membuat lebih banyak porsi sebelum perlu isi ulang dibanding KFJH019 (0,6 L)."}
 ],
 "Electric Chopper":[
@@ -1242,6 +669,7 @@ const faqs = {
 };
 
 const rawProducts = [
+  // --- VACUUM CLEANER ---
   { sku:"XCQH002", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Ringan, harga terjangkau", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"0.35 L","Daya":"400 W","Suction":"13000 PA","Kebisingan":"82 dBA","Kabel":"4 m","Berat":"1.1 kg"}, sellingPoints:["Desain ringan mudah dioperasikan","Daya hisap stabil dengan kabel","Sistem filtrasi HEPA F8"] },
   { sku:"XCQH008", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Model dasar", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"0.5 L","Daya":"500 W","Suction":"16000 PA","Kebisingan":"< 75 dBA","Kabel":"4 m","Berat":"1.57 kg"}, sellingPoints:["Hisapan kuat 16000 PA","Tangki debu 0.5 liter","Suara mesin halus"] },
   { sku:"XCQH011", name:"Corded Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Model hemat energi", specs:{"Metode":"Berkabel","Filter":"HEPA F8","Debu":"0.5 L","Daya":"500 W","Suction":"18000 PA","Kebisingan":"82 dBA","Kabel":"4 m","Berat":"1.39 kg"}, sellingPoints:["Efisiensi energi tinggi","Daya hisap 18000 PA","Filtrasi HEPA efektif"] },
@@ -1252,6 +680,8 @@ const rawProducts = [
   { sku:"XCQH012", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Ringan, harga terjangkau", specs:{"Metode":"Tidak berkabel","Filter":"HEPA F8","Debu":"0.35 L","Daya":"60 W","Suction":"8000 PA","Kebisingan":"≤65 dBA","Berat":"0.85 kg"}, sellingPoints:["Sangat ringan 0.85 kg","Suara mesin sangat senyap","Praktis untuk harian"] },
   { sku:"XCQH013", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Filtrasi Tingkat Tinggi", specs:{"Metode":"Tidak berkabel","Filter":"HEPA H12","Debu":"0.5 L","Daya":"250 W","Suction":"24000 PA","Kebisingan":"82 dBA","Berat":"2.05 kg"}, sellingPoints:["Hisapan nirkabel 24000 PA","Filter HEPA H12 premium","Motor bertenaga tinggi"] },
   { sku:"XCQH017", name:"Cordless Vacuum Cleaner", category:"Vacuum Cleaner", karakteristik:"Penampung debu besar", specs:{"Metode":"Tidak berkabel","Filter":"HEPA F9","Debu":"0.7 L","Daya":"150 W","Suction":"16000 PA","Kebisingan":"72.2 dBA","Berat":"2.25 kg"}, sellingPoints:["Tangki debu besar 0.7 L","Keseimbangan performa harga","Baterai tahan lama"] },
+
+  // --- GARMENT STEAMER / IRON ---
   { sku:"GTJH008", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Model pemula", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"120 ml","Panas":"5 s","Uap":"15-20 g/min","Berat":"0.76 kg"}, sellingPoints:["Panas instan 5 detik","Desain kompak travel-friendly","Merapikan pakaian cepat"] },
   { sku:"GTJH010", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Tangki Air Diperbesar", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"250 ml","Panas":"5 s","Uap":"23 g/min","Berat":"0.75 kg"}, sellingPoints:["Tangki kapasitas 250 ml","Semburan uap lebih kuat","Bisa vertikal & horizontal"] },
   { sku:"GTJH011", name:"Setrika Uap Tangan", category:"Garment Steamer / Iron", karakteristik:"Lipat, Travel", specs:{"Tipe":"Handheld","Daya":"1200 W","Kapasitas":"170 ml","Panas":"5 s","Uap":"20 g/min","Berat":"0.72 kg"}, sellingPoints:["Gagang bisa dilipat","Kapasitas tangki 170 ml","Ideal untuk bepergian"] },
@@ -1263,34 +693,48 @@ const rawProducts = [
   { sku:"GTJH014", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"3 in 1 System", specs:{"Tipe":"Stand Steamer","Daya":"850 W","Kapasitas":"1800 ml","Panas":"20 s","Uap":"32 g/min","Berat":"3.2 kg"}, sellingPoints:["Multifungsi 3 in 1","Pengaturan uap bertingkat","Tiang penyangga kokoh"] },
   { sku:"GTJH018", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"Papan Setrika Lipat", specs:{"Tipe":"Stand Steamer","Daya":"1580 W","Kapasitas":"1500 ml","Panas":"20 s","Uap":"38 g/min","Berat":"4.7 kg"}, sellingPoints:["Papan setrika terintegrasi","Hasil setrika lebih rapi","Output uap sangat deras"] },
   { sku:"GTJH023", name:"Stand Garment Steamer", category:"Garment Steamer / Iron", karakteristik:"Tangki Diperbesar", specs:{"Tipe":"Stand Steamer","Daya":"850 W","Kapasitas":"2100 ml","Panas":"40 s","Uap":"34 g/min","Berat":"3.2 kg"}, sellingPoints:["Tangki air raksasa 2.1 liter","Tiang teleskopik adjustable","Uap stabil tahan lama"] },
+
+  // --- DEHUMIDIFIER ---
   { sku:"CUSH001", name:"Dehumidifier Portabel", category:"Dehumidifier", karakteristik:"Portabel", specs:{"Kontrol":"Layar sentuh","Tangki":"0.6 L","Kapasitas":"380 mL/hari","Daya":"23 W","Kebisingan":"35 dBA"}, sellingPoints:["Ukuran mini hemat ruang","Operasi sangat senyap","Kontrol sentuh modern"] },
   { sku:"CUSH002", name:"Dehumidifier Aroma", category:"Dehumidifier", karakteristik:"Dehumidifikasi & Aromaterapi", specs:{"Kontrol":"Layar sentuh","Tangki":"2.5 L","Kapasitas":"380 mL/hari","Daya":"65 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Bonus fungsi aromaterapi","Tangki air kapasitas 2.5 liter","Menjaga ruangan tetap kering"] },
   { sku:"CUSH004", name:"Dehumidifier Hemat", category:"Dehumidifier", karakteristik:"Hemat energi", specs:{"Kontrol":"Layar sentuh","Tangki":"1 L","Kapasitas":"500 mL/hari","Daya":"30 W","Kebisingan":"< 46.5 dBA"}, sellingPoints:["Konsumsi daya sangat rendah","Efektif serap lembab harian","Desain minimalis stylish"] },
   { sku:"CUSH005", name:"Dehumidifier Humid", category:"Dehumidifier", karakteristik:"Humidifikasi & Membersihkan", specs:{"Kontrol":"Tombol putar","Tangki":"1.5 L","Kapasitas":"750 mL/hari","Daya":"40 W","Kebisingan":"45 dBA"}, sellingPoints:["Fungsi ganda cerdas","Kapasitas serap tinggi","Mudah dioperasikan"] },
   { sku:"CUSH006", name:"Dehumidifier Pintar", category:"Dehumidifier", karakteristik:"Teknologi pintar", specs:{"Kontrol":"Layar sentuh","Tangki":"2 L","Kapasitas":"1200 mL/hari","Daya":"200 W","Kebisingan":"48.4 dBA"}, sellingPoints:["Performa industri 1.2 L per hari","Sistem kontrol otomatis","Awet untuk penggunaan lama"] },
   { sku:"CUSH007", name:"Dehumidifier Aroma V2", category:"Dehumidifier", karakteristik:"Dehumidifikasi & Aromaterapi", specs:{"Kontrol":"Layar sentuh","Tangki":"2.5 L","Kapasitas":"400 mL/hari","Daya":"65 W","Kebisingan":"35 dBA"}, sellingPoints:["Optimasi serap kelembaban","Tangki besar 2.5 liter","Slot aroma khusus tersedia"] },
+
+  // --- HUMIDIFIER ---
   { sku:"JASH002", name:"Humidifier Seharian", category:"Humidifier", karakteristik:"Melembabkan seharian", specs:{"Kapasitas":"4000 ml","Output":"350 ml/h","Baterai":"24 h","Daya":"23 W","Kebisingan":"36 dBA"}, sellingPoints:["Tangki raksasa 4 liter","Tahan hingga 24 jam nonstop","Output kabut sangat halus"] },
   { sku:"JASH003", name:"Humidifier Mobil", category:"Humidifier", karakteristik:"Untuk kendaraan", specs:{"Kapasitas":"300 ml","Output":"35 ml/h","Baterai":"4h-8h","Daya":"5 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Pas di cup holder mobil","Koneksi kabel USB praktis","Mencegah udara kering di AC"] },
   { sku:"JASH004", name:"Humidifier Meja", category:"Humidifier", karakteristik:"Meja kerja", specs:{"Kapasitas":"500 ml","Output":"51 ml/h","Baterai":"6h","Daya":"5 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Desain estetik untuk meja","Meningkatkan kelembapan kulit","Sangat senyap tidak ganggu"] },
   { sku:"JASH005", name:"Humidifier Portabel", category:"Humidifier", karakteristik:"Portabel", specs:{"Kapasitas":"250 ml","Output":"40 ml/h","Baterai":"14 h","Daya":"2.5 W","Kebisingan":"< 35 dBA"}, sellingPoints:["Kecil bisa dibawa tas","Daya sangat hemat 2.5 W","Tahan hingga 14 jam"] },
   { sku:"JASH006", name:"Humidifier Besar", category:"Humidifier", karakteristik:"Tangki Air Besar", specs:{"Kapasitas":"4500 ml","Output":"300 ml/h","Baterai":"26 h","Daya":"23 W","Kebisingan":"35 dBA"}, sellingPoints:["Kapasitas terbesar 4.5 liter","Tahan operasional 26 jam","Cocok untuk ruangan luas"] },
+
+  // --- AIR PURIFIER ---
   { sku:"KQJH004", name:"Air Purifier Hemat", category:"Air Purifier", karakteristik:"Model hemat energi", specs:{"Kontrol":"Layar sentuh","CADR":"300 m³/jam","Filter":"HEPA H11","Daya":"30 W","Area":"25~35 m²"}, sellingPoints:["CADR 300 membersihkan cepat","Layar sentuh indikator udara","Filter HEPA H11 berkualitas"] },
   { sku:"KQJH005", name:"Air Purifier Dasar", category:"Air Purifier", karakteristik:"Model dasar", specs:{"Kontrol":"Tombol/APP","CADR":"150 m³/jam","Filter":"HEPA H13","Daya":"23 W","Area":"15~20 m²"}, sellingPoints:["Filter HEPA H13 medis","Kontrol via aplikasi smartphone","Ideal untuk kamar tidur"] },
   { sku:"KQJH006", name:"Air Purifier Pro", category:"Air Purifier", karakteristik:"Teknologi pintar", specs:{"Kontrol":"Layar sentuh/APP","CADR":"500 m³/jam","Filter":"HEPA H11","Daya":"50 W","Area":"50~70 m²"}, sellingPoints:["CADR 500 tenaga maksimal","Cakupan luas hingga 70 m²","Sistem filtrasi berlapis"] },
   { sku:"KQJH007", name:"Air Purifier Auto", category:"Air Purifier", karakteristik:"Penyesuaian otomatis", specs:{"Kontrol":"Layar sentuh","CADR":"330 m³/jam","Filter":"HEPA H13","Daya":"40 W","Area":"30~40 m²"}, sellingPoints:["Sensor kualitas udara otomatis","Filter HEPA H13 proteksi tinggi","Layar indikator warna PM2.5"] },
+
+  // --- DUST MITE VACUUM ---
   { sku:"CMYH004", name:"Dust Mite Vacuum", category:"Dust Mite Vacuum", karakteristik:"Hemat biaya", specs:{"Filter":"HEPA F9","Daya":"300 W","Kabel":"4 m","Suction":"14000 Pa","Getaran":"8500 bpm"}, sellingPoints:["Hisapan 14000 PA angkat tungau","Filter logam SUS304 awet","Kabel panjang 4 meter"] },
   { sku:"CMYH005", name:"Dust Mite Vacuum UV", category:"Dust Mite Vacuum", karakteristik:"Model hemat energi", specs:{"UV":"Tersedia","Daya":"300 W","Kabel":"4 m","Suction":"14000 Pa","Getaran":"10000 bpm"}, sellingPoints:["Dilengkapi lampu UV sterilizer","Getaran tinggi 10000 kali per menit","Efektif bersihkan kasur"] },
   { sku:"CMYH006", name:"Dust Mite Vacuum Heat", category:"Dust Mite Vacuum", karakteristik:"Bantuan panas", specs:{"UV":"Tersedia","Fitur":"Pengering panas","Daya":"400 W","Suction":"16000 Pa","Getaran":"14000 bpm"}, sellingPoints:["Pengering panas hingga 50 derajat","Hisapan ekstra kuat 16000 PA","Double tank system modern"] },
   { sku:"CMYH007", name:"Dust Mite Vacuum Aroma", category:"Dust Mite Vacuum", karakteristik:"Fungsi aroma", specs:{"UV":"Tersedia","Fitur":"Aromaterapi","Daya":"350 W","Suction":"18000 Pa","Getaran":"96000 bpm"}, sellingPoints:["Bonus tablet aroma wangi","Getaran ultra frekuensi tinggi","Hisapan terkuat 18000 PA"] },
+
+  // --- VACUUM MOP ---
   { sku:"XDJH001", name:"Wet Dry Vacuum V1", category:"Vacuum Mop", karakteristik:"Model dasar", specs:{"Suction":"17000 PA","Tangki":"600/800 ml","Daya":"200 W","Cas":"3-4 jam","Pakai":"15-40 min"}, sellingPoints:["Ngepel & nyedot sekaligus","Sistem tangki ganda bersih kotor","Membersihkan noda tumpahan"] },
   { sku:"XDJH002", name:"Wet Dry Vacuum Wide", category:"Vacuum Mop", karakteristik:"Kepala sikat lebar", specs:{"Suction":"19000 PA","Tangki":"600/800 ml","Daya":"200 W","Cas":"3-4 jam","Pakai":"25-40 min"}, sellingPoints:["Kepala sikat ekstra lebar","Hisapan ditingkatkan 19000 PA","Hemat waktu pembersihan"] },
   { sku:"XDJH003", name:"Wet Dry Vacuum Eco", category:"Vacuum Mop", karakteristik:"Efisiensi biaya", specs:{"Suction":"12000 PA","Tangki":"360/400 ml","Daya":"150 W","Cas":"2-3 jam","Pakai":"21-32 min"}, sellingPoints:["Bobot ringan mudah manuver","Harga paling ekonomis","Praktis untuk lantai kecil"] },
   { sku:"XDJH004", name:"Wet Dry Vacuum Smart", category:"Vacuum Mop", karakteristik:"Teknologi pintar", specs:{"Suction":"20000 PA","Tangki":"810/1130 ml","Daya":"200 W","Cas":"4 jam","Pakai":"24-41 min"}, sellingPoints:["Kapasitas tangki air raksasa","Hisapan sangat kuat 20000 PA","Indikator LED status kerja"] },
   { sku:"XDJH005", name:"Wet Dry Vacuum Lie-Flat", category:"Vacuum Mop", karakteristik:"180° Lie-Flat", specs:{"Suction":"21000 PA","Fitur":"Hot Air Drying","Daya":"150 W","Cas":"4.5 jam","Pakai":"30-50 min"}, sellingPoints:["Bisa rebah 180 derajat kolong","Pengering sikat udara panas","Sterilisasi ion perak alami"] },
+
+  // --- CARPET & UPHOLSTERY ---
   { sku:"BYJH001", name:"Spot Cleaner Upgrade", category:"Carpet & Upholstery", karakteristik:"Versi upgrade", specs:{"Suction":"16000 PA","Tangki":"1.5 L","Daya":"1200 W","Kabel":"5 m","Berat":"4.5 kg"}, sellingPoints:["Membersihkan noda sofa & karpet","Daya hisap kuat 16000 PA","Kabel 5 meter jangkauan luas"] },
   { sku:"BYJH002", name:"Spot Cleaner Eco", category:"Carpet & Upholstery", karakteristik:"Hemat energi", specs:{"Suction":"16000 PA","Tangki":"1.6 L","Daya":"500 W","Kabel":"5 m","Berat":"3.9 kg"}, sellingPoints:["Konsumsi daya hanya 500 W","Tangki air kapasitas besar","Ringan mudah dibawa"] },
   { sku:"BYJH003", name:"Spot Cleaner Pro", category:"Carpet & Upholstery", karakteristik:"Kapasitas ditingkatkan", specs:{"Suction":"18000 PA","Tangki":"2.3 L","Daya":"1800 W","Kabel":"3 m","Berat":"4.6 kg"}, sellingPoints:["Pembersihan noda membandel Pro","Output air tekanan tinggi","Paling bertenaga 1800 W"] },
   { sku:"BYJH004", name:"Spot Cleaner Mini", category:"Carpet & Upholstery", karakteristik:"Ukuran ringkas", specs:{"Suction":"12000 PA","Tangki":"1.1 L","Daya":"330 W","Kabel":"3 m","Berat":"2.5 kg"}, sellingPoints:["Sangat ringkas mudah simpan","Ideal untuk tumpahan harian","Hemat listrik 330 W"] },
+
+  // --- ELECTRIC FAN ---
   { sku:"DFSH007", name:"Handheld Fan", category:"Electric Fan", karakteristik:"Keamanan Ditingkatkan", specs:{"Tipe":"USB","Mode":"2 Speed","Daya":"2.5 W","Berat":"0.12 kg"}, sellingPoints:["Genggam praktis masuk saku","Keamanan jari ekstra terjamin","Daya tahan baterai lama"] },
   { sku:"DFSH010", name:"Table Fan", category:"Electric Fan", karakteristik:"Model dasar", specs:{"Tipe":"USB","Mode":"3 Speed","Daya":"8 W","Berat":"0.16 kg"}, sellingPoints:["Bisa ditaruh meja atau jepit","Angin kencang 3 percepatan","Kabel USB fleksibel"] },
   { sku:"DFSH011", name:"Kipas USB 3in1", category:"Electric Fan", karakteristik:"Baling karet", specs:{"Tipe":"USB","Mode":"3 Speed","Daya":"10 W","Berat":"0.17 kg"}, sellingPoints:["Baling-baling karet aman","Bisa jadi senter & powerbank","Lipat portabel simpan mudah"] },
@@ -1298,40 +742,60 @@ const rawProducts = [
   { sku:"DFSH013", name:"Super Fan 100", category:"Electric Fan", karakteristik:"Angin ditingkatkan", specs:{"Tipe":"USB","Mode":"100 Speed","Daya":"10.2 W","Berat":"0.23 kg"}, sellingPoints:["100 level pengaturan angin","Fitur pendingin logam dingin","Layar digital persentase"] },
   { sku:"DFSH014", name:"Desk Fan Wireless", category:"Electric Fan", karakteristik:"Tanpa kabel", specs:{"Tipe":"Desktop","Mode":"Infinite","Daya":"6.5 W","Berat":"0.46 kg"}, sellingPoints:["Tanpa kabel baterai besar","Osilasi kiri kanan otomatis","Angin sejuk alami merata"] },
   { sku:"DFSH015", name:"Mini USB Fan", category:"Electric Fan", karakteristik:"Mini", specs:{"Tipe":"USB","Mode":"3 Speed","Daya":"2.22 W","Berat":"0.08 kg"}, sellingPoints:["Sangat ringan 80 gram","Gantungan kunci atau lanyard","Angin kencang di ukuran mini"] },
+
+  // --- AIR COOLER ---
   { sku:"LFSH002", name:"Air Cooler Remote", category:"Air Cooler", karakteristik:"Kendali jarak jauh", specs:{"Tangki":"10 L","Mode":"3 Speed","Daya":"65 W","Berat":"3.7 kg"}, sellingPoints:["Pakai remote tidak perlu bangun","Tangki 10 liter awet semalam","Hemat daya hanya 65 Watt"] },
   { sku:"LFSH003", name:"Air Cooler Industrial", category:"Air Cooler", karakteristik:"Tangki air besar", specs:{"Tangki":"40 L","Mode":"3 Speed","Daya":"220 W","Berat":"9.8 kg"}, sellingPoints:["Tangki raksasa 40 liter","Dingin maksimal area luas","Body kokoh tahan banting"] },
   { sku:"LFSH004", name:"Air Cooler Compact", category:"Air Cooler", karakteristik:"Hemat energi", specs:{"Tangki":"10 L","Mode":"3 Speed","Daya":"80 W","Berat":"4.2 kg"}, sellingPoints:["Pendinginan cepat instan","Mudah dipindah dengan roda","Suara operasional senyap"] },
   { sku:"LFSH005", name:"Air Cooler Pro", category:"Air Cooler", karakteristik:"Pendinginan cepat", specs:{"Tangki":"40 L","Mode":"3 Speed","Daya":"120 W","Berat":"7.5 kg"}, sellingPoints:["Angin kencang jangkauan jauh","Tangki 40 liter anti ribet","Desain slim modern"] },
+
+  // --- AIR FRYER DIGITAL ---
   { sku:"KQZG015", name:"Air Fryer Future", category:"Air Fryer (Digital)", karakteristik:"Tampilan futuristik", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1450 W","Kapasitas":"5 L","Jendela":"✓"}, sellingPoints:["Layar sentuh digital futuristik","Jendela pantau masakan","Kapasitas 5 liter standar keluarga"] },
   { sku:"KQZG017", name:"Air Fryer Minimalist", category:"Air Fryer (Digital)", karakteristik:"Desain minimalis", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"800 W","Kapasitas":"3.5 L","Jendela":"✓"}, sellingPoints:["Sangat hemat listrik 800 W","Desain estetik minimalis","Mudah dibersihkan anti lengket"] },
   { sku:"KQZG018", name:"Air Fryer Jumbo", category:"Air Fryer (Digital)", karakteristik:"Kapasitas besar", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"800 W","Kapasitas":"6.5 L","Jendela":"✓"}, sellingPoints:["Kapasitas ekstra besar 6.5 L","Masak ayam utuh sekeluarga","Panel sentuh intuitif"] },
   { sku:"KQZG020", name:"Air Fryer Dual", category:"Air Fryer (Digital)", karakteristik:"Dua keranjang", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1800 W","Kapasitas":"6L+4L","Jendela":"✓"}, sellingPoints:["Dua keranjang masak terpisah","Total kapasitas 10 liter","Masak dua menu sekaligus"] },
+
+  // --- AIR FRYER KNOB ---
   { sku:"KQZG007", name:"Air Fryer Classic", category:"Air Fryer (Knob)", karakteristik:"Hemat biaya", specs:{"Suhu":"80-200°C","Waktu":"30 min","Daya":"650 W","Kapasitas":"4 L"}, sellingPoints:["Operasi simpel putar knob","Harga paling bersaing","Konsumsi daya sangat rendah"] },
   { sku:"KQZG013", name:"Air Fryer Smart Knob", category:"Air Fryer (Knob)", karakteristik:"Kontrol pintar", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1400 W","Kapasitas":"5 L"}, sellingPoints:["Knob presisi kontrol waktu","Pemanasan merata 360 derajat","Material food grade aman"] },
   { sku:"KQZG014", name:"Air Fryer Window Knob", category:"Air Fryer (Knob)", karakteristik:"Masak terlihat", specs:{"Suhu":"80-200°C","Waktu":"60 min","Daya":"1450 W","Kapasitas":"5 L","Jendela":"✓"}, sellingPoints:["Jendela pantau kaca tebal","Body anti panas aman sentuh","Mudah digunakan pemula"] },
   { sku:"KQZG021", name:"Air Fryer Mini", category:"Air Fryer (Knob)", karakteristik:"Cepat panas", specs:{"Suhu":"200°C","Waktu":"60 min","Daya":"500 W","Kapasitas":"2.5 L"}, sellingPoints:["Pas untuk anak kos/lajang","Daya sangat kecil 500 W","Penyimpanan sangat praktis"] },
+
+  // --- ELECTRIC COOKER ---
   { sku:"DZGH003", name:"Panci Elektrik Eco", category:"Electric Cooker", karakteristik:"Hemat energi", specs:{"Bahan":"Keramik Glasir","Kapasitas":"1.5 L","Daya":"630 W","Berat":"0.97 kg"}, sellingPoints:["Lapisan keramik anti lengket","Mudah dibersihkan bilas saja","Cocok untuk mie dan hotpot"] },
   { sku:"DZGH010", name:"Panci Elektrik Family", category:"Electric Cooker", karakteristik:"Model keluarga", specs:{"Bahan":"Aluminium Keramik","Kapasitas":"3 L","Daya":"1000 W","Berat":"1.11 kg"}, sellingPoints:["Kapasitas besar 3 liter","Pemanasan sangat cepat","Cocok untuk masak porsi besar"] },
+
+  // --- ELECTRIC STEAMER ---
   { sku:"DZEG001", name:"Pengukus 3 Tier", category:"Electric Steamer", karakteristik:"Model hemat energi", specs:{"Kapasitas":"12 L","Tier":"3","Jadwal":"✓","Daya":"800 W"}, sellingPoints:["Kukus 3 susun sekaligus","Bisa dijadwal masak otomatis","Kapasitas besar untuk keluarga"] },
   { sku:"DZEG002", name:"Pengukus 2 Tier", category:"Electric Steamer", karakteristik:"Mengukus Merebus", specs:{"Kapasitas":"12 L","Tier":"2","Jadwal":"✓","Daya":"1200 W"}, sellingPoints:["Bisa kukus dan rebus bawah","Power besar masak lebih cepat","Kapasitas lega 12 liter"] },
   { sku:"DZEG003", name:"Pengukus Pro", category:"Electric Steamer", karakteristik:"Model Dasar Pro", specs:{"Kapasitas":"14 L","Tier":"1","Jadwal":"✓","Daya":"800 W"}, sellingPoints:["Tangki uap sangat stabil","Penjadwalan presisi tinggi","Material premium tahan panas"] },
   { sku:"DZEG004", name:"Pengukus Compact", category:"Electric Steamer", karakteristik:"Keluarga kecil", specs:{"Kapasitas":"11 L","Tier":"2","Jadwal":"✓","Daya":"800 W"}, sellingPoints:["Ukuran compact hemat meja","Praktis untuk sarapan harian","Sistem auto-off aman"] },
   { sku:"DZEG005", name:"Pengukus Raksasa", category:"Electric Steamer", karakteristik:"Upgrade kapasitas", specs:{"Kapasitas":"21 L","Tier":"3","Jadwal":"✓","Daya":"1300 W"}, sellingPoints:["Kapasitas terbesar 21 liter","Muat ikan utuh besar","Daya uap sangat kencang"] },
+
+  // --- DRIP COFFEE MACHINE ---
   { sku:"KFJH006", name:"Coffee Maker Mini", category:"Drip Coffee Machine", karakteristik:"Mudah Disimpan", specs:{"Tangki":"0.3 L","Gelas":"3 Gelas","Daya":"450 W","Waktu":"1 min"}, sellingPoints:["Kopi siap dalam 1 menit","Sangat kecil masuk kabinet","Hemat listrik pemakaian harian"] },
   { sku:"KFJH009", name:"Coffee Maker Eco", category:"Drip Coffee Machine", karakteristik:"Hemat Biaya", specs:{"Tangki":"0.7 L","Gelas":"6 Gelas","Daya":"650 W","Waktu":"5 min"}, sellingPoints:["Kapasitas pas 6 gelas","Harga sangat terjangkau","Filter permanen tanpa kertas"] },
   { sku:"KFJH011", name:"Coffee Maker Classic", category:"Drip Coffee Machine", karakteristik:"Model Klasik", specs:{"Tangki":"0.75 L","Gelas":"7 Gelas","Daya":"600 W","Waktu":"6-8 min"}, sellingPoints:["Desain klasik retro","Plat pemanas jaga kopi hangat","Kapasitas sedang ideal rumah"] },
   { sku:"KFJH012", name:"Coffee Maker Large", category:"Drip Coffee Machine", karakteristik:"Kapasitas Besar", specs:{"Tangki":"1.25 L","Gelas":"12 Gelas","Daya":"750 W","Waktu":"6-8 min"}, sellingPoints:["Muat banyak 12 gelas","Cocok untuk kantor/arisan","Tangki air transparan jelas"] },
   { sku:"KFJH013", name:"Coffee Maker Solo", category:"Drip Coffee Machine", karakteristik:"Model Hemat Daya", specs:{"Tangki":"0.25 L","Gelas":"2 Gelas","Daya":"450 W","Waktu":"3 min"}, sellingPoints:["Daya sangat rendah 450 W","Ideal untuk personal use","Mudah dibawa-bawa"] },
   { sku:"KFJH018", name:"Coffee Maker Dual", category:"Drip Coffee Machine", karakteristik:"2 Saluran Keluar", specs:{"Tangki":"0.3 L","Gelas":"3 Gelas","Daya":"450 W","Waktu":"4 min"}, sellingPoints:["Tuang kopi ke 2 gelas sekaligus","Desain modern minimalis","Ekstraksi aroma maksimal"] },
+
+  // --- SEMI-AUTO ESPRESSO ---
   { sku:"KFJH007", name:"Espresso Pro 20 Bar", category:"Semi-auto Espresso", karakteristik:"Model Pemula Pro", specs:{"Tekanan":"20 bar","Tangki":"1.4 L","Daya":"1465 W","Panas":"30 s"}, sellingPoints:["Tekanan 20 bar rasa kafe","Steam wand foam susu lembut","Tangki air besar 1.4 liter"] },
   { sku:"KFJH014", name:"Espresso Expert", category:"Semi-auto Espresso", karakteristik:"Ahli Pembuat Kopi", specs:{"Tekanan":"15 bar","Tangki":"1.2 L","Daya":"1465 W","Panas":"40 s"}, sellingPoints:["Ekstraksi rasa kopi otentik","Kontrol manual brewing Pro","Material stainless steel elegan"] },
   { sku:"KFJH017", name:"Espresso Mini", category:"Semi-auto Espresso", karakteristik:"Ukuran Kecil", specs:{"Tekanan":"5 bar","Tangki":"0.30 L","Daya":"800 W","Berat":"1.53 kg"}, sellingPoints:["Sangat praktis dan ringan","Bisa buat espresso & latte","Harga sangat terjangkau"] },
+
+  // --- CAPSULE COFFEE ---
   { sku:"KFJH008", name:"Capsule Machine Pro", category:"Capsule Coffee", karakteristik:"Model Pemula", specs:{"Tekanan":"20 bar","Tangki":"0.90 L","Daya":"1400 W","Panas":"35 s"}, sellingPoints:["Kompatibel kapsul Nespresso","Tekanan 20 bar crema tebal","Auto-off hemat energi"] },
   { sku:"KFJH019", name:"Capsule Machine Mini", category:"Capsule Coffee", karakteristik:"Portabel Travel", specs:{"Tekanan":"20 bar","Tangki":"0.60 L","Daya":"1200 W","Panas":"30 s"}, sellingPoints:["Body ramping lebar 8 cm","Siap brew dalam 30 detik","Desain modern minimalis"] },
+
+  // --- ELECTRIC CHOPPER ---
   { sku:"DDJR003", name:"Chopper Stainless", category:"Electric Chopper", karakteristik:"Bodi stainless steel", specs:{"Kapasitas":"2 L","Pisau":"4 SUS420","Daya":"300 W","Berat":"1.68 kg"}, sellingPoints:["Wadah stainless anti pecah","Mencincang daging sangat halus","4 mata pisau tajam presisi"] },
   { sku:"DDJR004", name:"Chopper Glass", category:"Electric Chopper", karakteristik:"Model pemula", specs:{"Kapasitas":"2 L","Pisau":"4 SUS420","Daya":"300 W","Berat":"1.63 kg"}, sellingPoints:["Wadah kaca tebal food grade","Pantau hasil cacahan jelas","Operasi simpel satu tombol"] },
   { sku:"DDJR005", name:"Chopper MPASI", category:"Electric Chopper", karakteristik:"Portabel Mini", specs:{"Kapasitas":"300 ml","Pisau":"8 SUS304","Daya":"200 W","Berat":"0.97 kg"}, sellingPoints:["8 mata pisau cacah sangat halus","Sangat cocok untuk MPASI","Bisa dibawa traveling"] },
   { sku:"DDJR006", name:"Chopper Slim", category:"Electric Chopper", karakteristik:"Mudah disimpan", specs:{"Kapasitas":"750 ml","Pisau":"4 SUS304","Daya":"200 W","Berat":"1.30 kg"}, sellingPoints:["Body ramping hemat tempat","Kapasitas pas harian rumah","BPA Free aman kesehatan"] },
+
+  // --- BLENDER / JUICER ---
   { sku:"LLJH004", name:"Blender Basic", category:"Blender / Juicer", karakteristik:"Model pemula", specs:{"Kapasitas":"600 ml","Pisau":"4 SUS304","Daya":"250 W","Berat":"1 kg"}, sellingPoints:["Blender personal praktis","Gelas food grade transparan","Mudah dilepas dan dicuci"] },
   { sku:"LLJH005", name:"Blender 3in1", category:"Blender / Juicer", karakteristik:"Aksesoris khusus", specs:{"Kapasitas":"600 ml","Pisau":"Multiset","Daya":"380 W","Berat":"2.05 kg"}, sellingPoints:["Lengkap aksesoris bumbu","Motor bertenaga stabil","Material tahan benturan"] },
   { sku:"LLJH007", name:"Ice Crusher Pro", category:"Blender / Juicer", karakteristik:"Penghancuran es", specs:{"Kapasitas":"800 ml","Pisau":"6 SUS304","Daya":"400 W","Berat":"2.64 kg"}, sellingPoints:["Hancurkan es batu sangat cepat","6 mata pisau vortex system","Wadah kaca ekstra tebal"] },
@@ -1339,6 +803,8 @@ const rawProducts = [
   { sku:"ZZJH006", name:"Portable Juicer Pro", category:"Blender / Juicer", karakteristik:"Portabel Dasar", specs:{"Kapasitas":"400 ml","Pisau":"10 SUS304","Daya":"80 W","Berat":"0.52 kg"}, sellingPoints:["Baterai cas USB tahan lama","10 mata pisau giling halus","Mudah dicuci bilas saja"] },
   { sku:"ZZJH008", name:"Portable Juicer Eco", category:"Blender / Juicer", karakteristik:"Hemat energi", specs:{"Kapasitas":"340 ml","Pisau":"10 SUS304","Daya":"55 W","Berat":"0.32 kg"}, sellingPoints:["Bobot sangat ringan","Bahan tritan aman kesehatan","Baterai awet 15x pemakaian"] },
   { sku:"ZZJH009", name:"Slow Juicer", category:"Blender / Juicer", karakteristik:"Bebas ampas", specs:{"Kapasitas":"720 ml","Bahan":"PC Food Grade","Daya":"200 W","Berat":"2.16 kg"}, sellingPoints:["Sari buah murni tanpa ampas","Nutrisi buah terjaga maksimal","Suara mesin sangat halus"] },
+
+  // --- HAIR DRYER ---
   { sku:"CFJH001", name:"Hair Dryer Basic", category:"Hair Dryer", karakteristik:"Model dasar", specs:{"Motor":"Bersikat","Daya":"1250 W","Speed":"20 m/s","Kabel":"1.52 m","Berat":"0.24 kg"}, sellingPoints:["Ringan tidak buat pegal","Daya tiup stabil","Harga sangat ekonomis"] },
   { sku:"CFJH004", name:"Hair Dryer Mini", category:"Hair Dryer", karakteristik:"Hemat energi", specs:{"Motor":"Bersikat","Daya":"1000 W","Speed":"12 m/s","Kabel":"1.6 m","Berat":"0.26 kg"}, sellingPoints:["Konsumsi daya rendah 1000W","Ukuran kecil mudah simpan","Angin sejuk tersedia"] },
   { sku:"CFJH006", name:"Hair Dryer Gift", category:"Hair Dryer", karakteristik:"High Speed Pro", specs:{"Motor":"Brushless DC","Ion":"400 Juta","Daya":"1200 W","Speed":"65 m/s","Kabel":"1.75 m"}, sellingPoints:["400 juta ion negatif rambut halus","Motor brushless awet & kencang","Box premium cocok untuk kado"] },
@@ -1349,6 +815,8 @@ const rawProducts = [
   { sku:"CFJH011", name:"Hair Dryer Quiet", category:"Hair Dryer", karakteristik:"Bersuara rendah", specs:{"Motor":"Brushless","Ion":"200 Juta","Daya":"1300 W","Speed":"70 m/s","Kabel":"1.8 m"}, sellingPoints:["Teknologi reduksi kebisingan","Kecepatan angin 70m/s Pro","Pilihan suhu udara cerdas"] },
   { sku:"CFJH003", name:"Hair Dryer 1800W", category:"Hair Dryer", karakteristik:"Dasar 1800W", specs:{"Motor":"Bersikat","Daya":"1800 W","Speed":"20 m/s","Kabel":"1.5 m","Berat":"0.45 kg"}, sellingPoints:["Power sangat besar 1800W","Cepat keringkan rambut tebal","Sangat awet untuk harian"] },
   { sku:"CFJH005", name:"Ionic Hair Dryer", category:"Hair Dryer", karakteristik:"Desain minimalis", specs:{"Motor":"Bersikat","Ion":"Tersedia","Daya":"1800 W","Speed":"20 m/s","Kabel":"1.5 m"}, sellingPoints:["Fitur ionik kurangi rambut kaku","Model ramping minimalis","Pilihan panas dingin mudah"] },
+
+  // --- HAIR STRAIGHTENER ---
   { sku:"ZFBA002", name:"Catokan Basic", category:"Hair Straightener", karakteristik:"Tipe Pemula", specs:{"Suhu":"200°C","Daya":"30 W","Panas":"30 s","Lapisan":"Keramik"}, sellingPoints:["Simpel satu tombol operasional","Lapisan keramik licin di rambut","Pas untuk pemakaian harian"] },
   { sku:"ZFBA003", name:"Catokan Digital", category:"Hair Straightener", karakteristik:"Kontrol Presisi", specs:{"Suhu":"110-230°C","Mode":"9 Level","Daya":"45 W","Panas":"10 s","Lapisan":"Keramik"}, sellingPoints:["9 level suhu sesuai rambut","Layar digital indikator panas","Panas instan hanya 10 detik"] },
   { sku:"ZFBA004", name:"Catokan Mini", category:"Hair Straightener", karakteristik:"Mini Portabel", specs:{"Suhu":"180°C","Daya":"17 W","Panas":"10 s","Lapisan":"Keramik","Berat":"0.12 kg"}, sellingPoints:["Ukuran mini masuk tas rias","Sangat ringan dibawa travel","Cepat panas praktis digunakan"] },
@@ -1361,6 +829,8 @@ const rawProducts = [
   { sku:"ZFBA007", name:"Catokan Mini V2", category:"Hair Straightener", karakteristik:"Mini Ringan", specs:{"Suhu":"180°C","Daya":"17 W","Panas":"10 s","Lapisan":"Tourmaline","Berat":"0.12 kg"}, sellingPoints:["Plat Tourmaline rambut kilau","Ringan hanya 120 gram","Cocok untuk pria & wanita"] },
   { sku:"ZFBA010", name:"Catokan Essential", category:"Hair Straightener", karakteristik:"Minyak Esensial", specs:{"Suhu":"120-200°C","Mode":"5 Level","Daya":"45 W","Panas":"30 s","Lapisan":"Minyak Esensial"}, sellingPoints:["Lapisan panel minyak esensial","Menyehatkan rambut saat catok","Layar digital suhu presisi"] },
   { sku:"ZFSH004", name:"Sisir Catok Cool", category:"Hair Straightener", karakteristik:"Mode Cool Shot", specs:{"Suhu":"120-200°C","Mode":"5 Level","Daya":"45 W","Panas":"30 s","Fitur":"Cool Shot"}, sellingPoints:["Mode angin dingin kunci gaya","Meluruskan rambut lebih tahan lama","Mengurangi sensasi panas kepala"] },
+
+  // --- HAIR CURLER ---
   { sku:"JFBA004", name:"Curler 2in1", category:"Hair Curler", karakteristik:"Lurus & Keriting", specs:{"Diameter":"30 mm","Suhu":"140-200°C","Daya":"49 W","Panas":"3 s","Berat":"0.38 kg"}, sellingPoints:["Bisa catok lurus & curly","Pemanasan kilat 3 detik","Ideal untuk berbagai gaya"] },
   { sku:"JFBA005", name:"Curler Anggun", category:"Hair Curler", karakteristik:"Model Anggun", specs:{"Diameter":"32 mm","Suhu":"160-200°C","Daya":"30 W","Panas":"10 s","Berat":"0.36 kg"}, sellingPoints:["Diameter 32 mm curly natural","Hasil tahan lama sepanjang hari","Plat tidak merusak rambut"] },
   { sku:"JFBA006", name:"Catokan Wave Kucing", category:"Hair Curler", karakteristik:"Wave Kucing", specs:{"Diameter":"32 mm","Suhu":"170-230°C","Daya":"42 W","Panas":"20 s","Berat":"0.37 kg"}, sellingPoints:["Hasil keriting gelombang kucing","Gaya rambut kekinian","Sangat mudah digunakan"] },
@@ -1369,11 +839,15 @@ const rawProducts = [
   { sku:"JFBA009", name:"Curler Portabel", category:"Hair Curler", karakteristik:"Paling Portabel", specs:{"Diameter":"28 mm","Suhu":"210°C","Daya":"30 W","Panas":"10 s","Berat":"0.20 kg"}, sellingPoints:["Body ramping masuk tas travel","Panas maksimal hasil cetar","Sangat ringan dibawa-bawa"] },
   { sku:"JFBA010", name:"Auto Curler", category:"Hair Curler", karakteristik:"Otomatis", specs:{"Diameter":"32 mm","Suhu":"170-210°C","Daya":"52 W","Panas":"10 s","Berat":"0.37 kg"}, sellingPoints:["Keriting otomatis tinggal masukin","Anti ribet untuk pemula","Hasil salon dalam sekejap"] },
   { sku:"JFBA011", name:"Curler Wand", category:"Hair Curler", karakteristik:"Desain Ergonomis", specs:{"Diameter":"28 mm","Suhu":"160-200°C","Daya":"45 W","Panas":"30 s","Berat":"0.35 kg"}, sellingPoints:["Pegangan ergonomis nyaman","Pemanasan merata dan cepat","Curly yang indah berkilau"] },
+
+  // --- HAIR DRYER BRUSH ---
   { sku:"RFSH001", name:"Styler Brush Basic", category:"Hair Dryer Brush", karakteristik:"Model dasar", specs:{"Speed":"3 Level","Ion":"×","Kepala":"✓","Daya":"1200 W","Kabel":"1.8 m"}, sellingPoints:["Kepala sisir bisa dilepas","Keringkan & sisir sekaligus","Kabel putar bebas hambatan"] },
   { sku:"RFSH002", name:"Styler Brush Eco", category:"Hair Dryer Brush", karakteristik:"Model pemula", specs:{"Speed":"3 Level","Ion":"×","Kepala":"×","Daya":"1200 W","Kabel":"1.75 m"}, sellingPoints:["Harga sangat terjangkau","Angin kencang mudah styling","Material kokoh tahan panas"] },
   { sku:"RFSH003", name:"Styler Brush Multi", category:"Hair Dryer Brush", karakteristik:"Multi-gaya", specs:{"Speed":"Multi","Ion":"130 Juta","Kepala":"✓","Daya":"1500 W","Kabel":"1.8 m"}, sellingPoints:["Ion negatif hilangkan frizz","Fitur auto-bersih praktis","Kepala ganti-ganti serbaguna"] },
   { sku:"RFSH004", name:"Mini Air Styler", category:"Hair Dryer Brush", karakteristik:"Mini Portabel", specs:{"Speed":"3 Level","Ion":"×","Daya":"600 W","Berat":"0.3 kg"}, sellingPoints:["Desain mini 3in1 praktis","Kabel putar 360 derajat","Cocok untuk traveling"] },
   { sku:"RFSH005", name:"Oval Air Brush", category:"Hair Dryer Brush", karakteristik:"Volume Ekstra", specs:{"Speed":"3 Level","Ion":"×","Kepala":"✓","Daya":"1200 W","Berat":"0.45 kg"}, sellingPoints:["Sikat oval beri volume rambut","Filter udara bisa dilepas","Hasil blow salon di rumah"] },
+
+  // --- BODY CARE & OTHERS ---
   { sku:"TZCH001", name:"Timbangan Digital", category:"Body Scale", karakteristik:"LED Tersembunyi", specs:{"Kapasitas":"180 kg","Baterai":"AAA","Display":"LED","Ukuran":"28×28 cm"}, sellingPoints:["Akurasi tinggi sensor presisi","Kaca tempered sangat kuat","Layar LED menyala otomatis"] },
   { sku:"TZCH002", name:"Timbangan Smart", category:"Body Scale", karakteristik:"Tuya App", specs:{"Kapasitas":"180 kg","Baterai":"USB Cas","Fitur":"Analisis App","Ukuran":"28×28 cm"}, sellingPoints:["Analisis massa tubuh lewat App","Bisa dicas pakai kabel USB","Data kesehatan real-time"] },
   { sku:"JMQH001", name:"Massager Gun Pro", category:"Massager", karakteristik:"Relaksasi Otot", specs:{"Speed":"4 Speed","Kepala":"4 Jenis","Baterai":"USB-C","Berat":"0.8 kg"}, sellingPoints:["Meredakan nyeri otot dalam","4 tingkat kecepatan pijat","Mudah dicas via USB-C"] },
@@ -1381,6 +855,7 @@ const rawProducts = [
 ];
 
 const imageOverrides = {
+  // --- BATCH 1: HOME, KITCHEN, VACUUM, FAN ---
   "XCQH002": "https://img.myshopline.com/image/store/2000075912/1622516949344/XCQI002-_900x.jpeg?w=400",
   "XCQH009": "https://img.myshopline.com/image/store/2000075912/1622516949344/XCQH009-1.jpeg?w=800&h=800",
   "XCQH011": "https://img.myshopline.com/image/store/1622516949344/XCQH011-.png?w=1200&h=1650",
@@ -1432,9 +907,11 @@ const imageOverrides = {
   "DFSH014": "https://img.myshopline.com/image/store/1622516949344/DFSH014-(1).jpeg?w=1200&h=1650",
   "DFSH015": "https://img.myshopline.com/image/store/1622516949344/DFSH015-1.jpeg?w=1280&h=1280",
   "TZCH002": "https://img.myshopline.com/image/store/1622516949344/TZCH002-.jpeg?w=1200&h=1650",
-  "KFJH021": "https://img.myshopline.com/image/store/1622516949344/KFJH021-4.jpeg",
-  "RFSH005": "https://pc.simplus.online/cdn/shop/files/RFSH005_1.png",
+  "KFJH021": "https://pc.simplus.online/cdn/shop/files/KFJH021_1.png", 
+  "RFSH005": "https://pc.simplus.online/cdn/shop/files/RFSH005_1.png", 
   "JMQH001": "https://img.myshopline.com/image/store/1622516949344/JMQH001-.jpeg?w=1200&h=1650",
+
+  // --- BATCH 2: PERSONAL CARE (NEW SCRAPE) ---
   "CFJH001": "https://img.myshopline.com/image/store/2000075912/1622516949344/CFJH001-_1.jpeg?w=800&h=800",
   "CFJH003": "https://img.myshopline.com/image/store/1622516949344/CFJH003-1_900x.jpeg?w=400",
   "CFJH004": "https://img.myshopline.com/image/store/2000075912/1622516949344/CFJH004.jpeg?w=1280&h=1280",
@@ -1445,6 +922,7 @@ const imageOverrides = {
   "CFJH009": "https://img.myshopline.com/image/store/1622516949344/CFJH009.jpeg?w=1200&h=1650",
   "CFJH010": "https://img.myshopline.com/image/store/1622516949344/CFJH010-1.jpeg?w=1250&h=1600",
   "CFJH011": "https://img.myshopline.com/image/store/1622516949344/CFJH011-1-0.jpeg?w=1200&h=1650",
+  
   "ZFBA001": "https://img.myshopline.com/image/store/2000075912/1622516949344/ZFBA001-3.jpeg?w=800&h=800",
   "ZFBA003": "https://img.myshopline.com/image/store/1622516949344/ZFBA003-.jpeg?w=1200&h=1650",
   "ZFBA004": "https://img.myshopline.com/image/store/1622516949344/ZFBA004-2.jpeg?w=1280&h=1280",
@@ -1455,12 +933,14 @@ const imageOverrides = {
   "ZFBA011": "https://img.myshopline.com/image/store/1622516949344/png-10000-5_1296x.jpg?w=1280&h=1280",
   "ZFSH001": "https://img.myshopline.com/image/store/1622516949344/ZFSH001-.jpeg?w=1200&h=1650",
   "ZFSH004": "https://img.myshopline.com/image/store/1622516949344/ZFSH004-3.png?w=3000&h=3000",
+  
   "JFBA006": "https://img.myshopline.com/image/store/1622516949344/JFBA006-.png?w=1280&h=1280",
   "JFBA007": "https://img.myshopline.com/image/store/2000075912/1622516949344/JFBA007.jpeg?w=1200&h=1200",
   "JFBA008": "https://img.myshopline.com/image/store/1622516949344/JFBA008-.jpeg?w=1200&h=1650",
   "JFBA009": "https://img.myshopline.com/image/store/1622516949344/JFBA009-.jpeg?w=1200&h=1650",
   "JFBA010": "https://img.myshopline.com/image/store/1622516949344/JFBA010-.jpeg?w=1200&h=1650",
   "JFBA011": "https://img.myshopline.com/image/store/1622516949344/JFBA011--1.jpeg?w=1280&h=1280",
+  
   "RFSH001": "https://img.myshopline.com/image/store/1622516949344/RFSH001-1_900x.jpeg?w=400",
   "RFSH002": "https://img.myshopline.com/image/store/1622516949344/RFSH002-2.jpeg?w=1280&h=1280",
   "RFSH003": "https://img.myshopline.com/image/store/1622516949344/RFSH003-.jpeg?w=1200&h=1650",
@@ -1476,27 +956,45 @@ const imageOverrides = {
   "KFJH017": "https://img.myshopline.com/image/store/1622516949344/KFJH017-.jpeg",
   "KFJH018": "https://img.myshopline.com/image/store/1622516949344/KFJH018-1.jpeg",
   "KFJH019": "https://img.myshopline.com/image/store/1622516949344/KFJH019-1.jpeg",
+  "KFJH021": "https://img.myshopline.com/image/store/1622516949344/KFJH021-4.jpeg",
+  // --- ELECTRIC COOKER (Hasil Scrape Baru) ---
   "DZGH003": "https://img.myshopline.com/image/store/2000075912/1622516949344/-1-.jpeg",
   "DZGH010": "https://img.myshopline.com/image/store/1622516949344/DZGH010--1.jpeg",
+  // --- ELECTRIC STEAMER (DZEG) ---
   "DZEG001": "https://img.myshopline.com/image/store/2000075912/1622516949344/b91fb740fab1796f2607c8d6a5e1af2.jpeg",
   "DZEG002": "https://img.myshopline.com/image/store/1622516949344/DZEG002-.jpeg",
   "DZEG003": "https://img.myshopline.com/image/store/1622516949344/DZEG003--1.jpeg",
   "DZEG004": "https://img.myshopline.com/image/store/1622516949344/DZEG004-1.jpeg",
   "DZEG005": "https://img.myshopline.com/image/store/1622516949344/DZEG005-1.jpeg",
+  // --- ELECTRIC CHOPPER (Hasil Scrape Baru) ---
   "DDJR003": "https://img.myshopline.com/image/store/2000075912/1622516949344/9d3e34720bc081b26bae97eb4f8962d.jpeg",
   "DDJR004": "https://img.myshopline.com/image/store/1622516949344/lQDPJxM72imQy9DNBQDNBQCwiDSHO0Dh0aME9gIlkwCjAA-1280-1280.jpeg",
   "DDJR005": "https://img.myshopline.com/image/store/1622516949344/DDJR005-.png",
   "DDJR006": "https://img.myshopline.com/image/store/1622516949344/DDJR006-(1).jpeg",
 };
-
+// 2. Proses datanya
 const products = rawProducts.map(p => {
   const skuUp = p.sku.toUpperCase();
-  if (imageOverrides[skuUp]) return { ...p, image: imageOverrides[skuUp] };
-  return { ...p, image: `https://img.myshopline.com/image/store/1622516949344/${skuUp}-1_900x.jpeg?w=400` };
+  
+  // Cek apakah SKU ini masuk di daftar jalur khusus di atas?
+  if (imageOverrides[skuUp]) {
+    return { ...p, image: imageOverrides[skuUp] }; // Pakai link manual
+  }
+  
+  // Kalau tidak ada di jalur khusus, pakai rumus pola standar
+  return {
+    ...p, 
+    image: `https://img.myshopline.com/image/store/1622516949344/${skuUp}-1_900x.jpeg?w=400`
+  };
 });
 
+// --- FUNGSI: GENERATE SELLING POINT ---
 function generateSellingPoint(p) {
-  if (p.sellingPoints && p.sellingPoints.length > 0) return p.sellingPoints.slice(0, 4);
+  // Prioritas: pakai sellingPoints dari data produk jika tersedia
+  if (p.sellingPoints && p.sellingPoints.length > 0) {
+    return p.sellingPoints.slice(0, 4);
+  }
+  // Fallback ke generasi dinamis jika tidak ada
   let points = [];
   if (p.karakteristik) points.push(p.karakteristik);
   const specs = p.specs || {};
@@ -1504,8 +1002,11 @@ function generateSellingPoint(p) {
   return points.slice(0, 4);
 }
 
+// --- FUNGSI: GENERATE CS TEXT (DINAMIS) ---
+// -- GENERATE CS MESSAGE (DENGAN LOGIC REKOMENDASI CERDAS) --
 function generateCSMessage(compareProds) {
   let msg = "Halo Kak! Berikut perbandingan produk Simplus yang kakak tanyakan ya~\n\n";
+
   compareProds.forEach((p, i) => {
     const num = ["(1)", "(2)", "(3)", "(4)"][i];
     msg += num + " " + p.sku + " -- " + p.name + "\n";
@@ -1514,40 +1015,227 @@ function generateCSMessage(compareProds) {
     points.forEach(pt => { msg += "- " + pt + "\n"; });
     msg += "\n";
   });
-  if (compareProds.length < 2) { msg += "Kalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya!"; return msg; }
+
+  if (compareProds.length < 2) {
+    msg += "Kalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya!";
+    return msg;
+  }
+
   const allSameCat = compareProds.every(p => p.category === compareProds[0].category);
-  if (!allSameCat) { msg += "----------------\nRekomendasi Singkat:\nSemua produk di atas punya fungsi berbeda ya kak, tinggal disesuaikan dengan kebutuhan kakak.\n\nKalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya!"; return msg; }
-  msg += "----------------\nRekomendasi Singkat:\n";
+  if (!allSameCat) {
+    msg += "----------------\nRekomendasi Singkat:\nSemua produk di atas punya fungsi berbeda ya kak, tinggal disesuaikan dengan kebutuhan kakak.\n\nKalau ada pertanyaan lain, kakak bisa tanya-tanya lagi ya!";
+    return msg;
+  }
+
+  msg += "----------------\n";
+  msg += "Rekomendasi Singkat:\n";
+
   const cat = compareProds[0].category;
   let rekomendasi = "";
   const getSpec = (p, k) => (p.specs && p.specs[k]) ? p.specs[k] : "";
+
   if (cat === "Vacuum Cleaner") {
     const strongest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Suction")) > parseInt(getSpec(b,"Suction")) ? a : b);
     const lightest  = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Berat")) < parseFloat(getSpec(b,"Berat")) ? a : b);
     const bestFilter = compareProds.find(p => getSpec(p,"Filter").includes("H13")) || compareProds.find(p => getSpec(p,"Filter").includes("H12")) || compareProds.find(p => getSpec(p,"Filter").includes("F9"));
     const cordless = compareProds.filter(p => getSpec(p,"Metode") === "Tidak berkabel");
     const corded   = compareProds.filter(p => getSpec(p,"Metode") === "Berkabel");
-    if (cordless.length > 0 && corded.length > 0) { rekomendasi += "Kalau kakak cari yang stabil, " + corded.map(p=>p.sku).join(" & ") + " pilihan tepat.\n"; rekomendasi += "Kalau kakak butuh yang fleksibel, " + cordless.map(p=>p.sku).join(" & ") + " lebih praktis.\n"; }
-    rekomendasi += strongest.sku + " punya daya hisap terkuat (" + getSpec(strongest,"Suction") + ").\n";
-    if (lightest.sku !== strongest.sku) rekomendasi += lightest.sku + " paling ringan (" + getSpec(lightest,"Berat") + ").\n";
-    if (bestFilter) rekomendasi += bestFilter.sku + " filter " + getSpec(bestFilter,"Filter") + " lebih optimal untuk kualitas udara.\n";
-  } else {
-    rekomendasi = "Semua produk punya keunggulan masing-masing, sesuaikan dengan kebutuhan kakak ya.\n";
+    if (cordless.length > 0 && corded.length > 0) {
+      rekomendasi += "Kalau kakak cari yang stabil dan konsisten, " + corded.map(p=>p.sku).join(" & ") + " pilihan tepat karena berkabel.\n";
+      rekomendasi += "Kalau kakak butuh yang fleksibel, " + cordless.map(p=>p.sku).join(" & ") + " lebih praktis dipakai.\n";
+    }
+    rekomendasi += strongest.sku + " punya daya hisap terkuat (" + getSpec(strongest,"Suction") + "), cocok untuk kotoran dan debu membandel.\n";
+    if (lightest.sku !== strongest.sku) rekomendasi += lightest.sku + " paling ringan (" + getSpec(lightest,"Berat") + "), nyaman untuk pemakaian rutin.\n";
+    if (bestFilter) rekomendasi += bestFilter.sku + " dengan filter " + getSpec(bestFilter,"Filter") + " lebih optimal untuk menjaga kualitas udara.\n";
   }
+
+  else if (cat === "Garment Steamer / Iron") {
+    const mostSteam   = compareProds.reduce((a, b) => parseInt(getSpec(a,"Uap")) > parseInt(getSpec(b,"Uap")) ? a : b);
+    const fastestHeat = compareProds.reduce((a, b) => parseInt(getSpec(a,"Panas")) < parseInt(getSpec(b,"Panas")) ? a : b);
+    const biggestTank = compareProds.reduce((a, b) => parseInt(getSpec(a,"Kapasitas")) > parseInt(getSpec(b,"Kapasitas")) ? a : b);
+    rekomendasi += mostSteam.sku + " output uap terbesar (" + getSpec(mostSteam,"Uap") + "), paling cepat ngilangin kusut.\n";
+    if (fastestHeat.sku !== mostSteam.sku) rekomendasi += fastestHeat.sku + " paling cepat panas (" + getSpec(fastestHeat,"Panas") + " detik), langsung siap dipakai.\n";
+    if (biggestTank.sku !== mostSteam.sku) rekomendasi += biggestTank.sku + " tangkinya paling besar (" + getSpec(biggestTank,"Kapasitas") + " ml), nggak perlu sering isi ulang.\n";
+  }
+
+  else if (cat === "Dehumidifier") {
+    const highest  = compareProds.reduce((a, b) => parseInt(getSpec(a,"Kapasitas")) > parseInt(getSpec(b,"Kapasitas")) ? a : b);
+    const quietest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Kebisingan")) < parseInt(getSpec(b,"Kebisingan")) ? a : b);
+    const bigTank  = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Tangki")) > parseFloat(getSpec(b,"Tangki")) ? a : b);
+    rekomendasi += highest.sku + " paling kuat menyerap kelembaban (" + getSpec(highest,"Kapasitas") + "), cocok untuk ruangan yang sangat lembab.\n";
+    if (bigTank.sku !== highest.sku) rekomendasi += bigTank.sku + " tangkinya paling besar (" + getSpec(bigTank,"Tangki") + " L), lebih jarang perlu dikosongkan.\n";
+    if (quietest.sku !== highest.sku) rekomendasi += quietest.sku + " paling senyap (" + getSpec(quietest,"Kebisingan") + " dBA), cocok dipakai di kamar tidur.\n";
+  }
+
+  else if (cat === "Humidifier") {
+    const biggest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Kapasitas")) > parseInt(getSpec(b,"Kapasitas")) ? a : b);
+    const longest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Baterai")) > parseInt(getSpec(b,"Baterai")) ? a : b);
+    rekomendasi += biggest.sku + " kapasitas tangki terbesar (" + getSpec(biggest,"Kapasitas") + "), tahan lebih lama tanpa isi ulang.\n";
+    if (longest.sku !== biggest.sku) rekomendasi += longest.sku + " bisa beroperasi paling lama (" + getSpec(longest,"Baterai") + "), cocok untuk pemakaian seharian.\n";
+  }
+
+  else if (cat === "Air Purifier") {
+    const highestCADR = compareProds.reduce((a, b) => parseInt(getSpec(a,"CADR")) > parseInt(getSpec(b,"CADR")) ? a : b);
+    const bestFilter  = compareProds.find(p => getSpec(p,"Filter").includes("H13")) || compareProds.find(p => getSpec(p,"Filter").includes("H11"));
+    const hasApp      = compareProds.filter(p => getSpec(p,"Kontrol").includes("APP"));
+    rekomendasi += highestCADR.sku + " paling unggul di CADR (" + getSpec(highestCADR,"CADR") + "), paling cepat membersihkan udara.\n";
+    if (bestFilter) rekomendasi += bestFilter.sku + " pakai filter " + getSpec(bestFilter,"Filter") + ", lebih efektif nangkap partikel halus dan polutan.\n";
+    if (hasApp.length > 0) rekomendasi += hasApp.map(p=>p.sku).join(" & ") + " bisa dikontrol lewat aplikasi, lebih praktis.\n";
+  }
+
+  else if (cat === "Dust Mite Vacuum") {
+    const strongest  = compareProds.reduce((a, b) => parseInt(getSpec(a,"Suction")) > parseInt(getSpec(b,"Suction")) ? a : b);
+    const highestVib = compareProds.reduce((a, b) => parseInt(getSpec(a,"Getaran")) > parseInt(getSpec(b,"Getaran")) ? a : b);
+    const hasUV      = compareProds.filter(p => getSpec(p,"UV") && getSpec(p,"UV") !== "x" && getSpec(p,"UV") !== "");
+    rekomendasi += strongest.sku + " daya hisap terkuat (" + getSpec(strongest,"Suction") + "), paling efektif angkat tungau dan kotoran halus.\n";
+    if (highestVib.sku !== strongest.sku) rekomendasi += highestVib.sku + " getarannya lebih tinggi (" + getSpec(highestVib,"Getaran") + "), lebih efektif meluruhkan tungau dari serat kain.\n";
+    if (hasUV.length > 0) rekomendasi += hasUV.map(p=>p.sku).join(" & ") + " dilengkapi UV untuk sterilisasi bakteri dan kuman, lebih higienis.\n";
+  }
+
+  else if (cat === "Vacuum Mop") {
+    const strongest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Suction")) > parseInt(getSpec(b,"Suction")) ? a : b);
+    const longest   = compareProds.reduce((a, b) => parseInt(getSpec(a,"Pakai")) > parseInt(getSpec(b,"Pakai")) ? a : b);
+    rekomendasi += strongest.sku + " daya hisap terkuat (" + getSpec(strongest,"Suction") + "), lebih efektif untuk noda membandel.\n";
+    if (longest.sku !== strongest.sku) rekomendasi += longest.sku + " durasi pakainya lebih lama (" + getSpec(longest,"Pakai") + "), cocok untuk area yang luas.\n";
+  }
+
+  else if (cat === "Carpet & Upholstery") {
+    const strongest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Suction")) > parseInt(getSpec(b,"Suction")) ? a : b);
+    const biggest   = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Tangki")) > parseFloat(getSpec(b,"Tangki")) ? a : b);
+    rekomendasi += strongest.sku + " daya hisap terkuat (" + getSpec(strongest,"Suction") + "), paling efektif untuk noda membandel di karpet dan sofa.\n";
+    if (biggest.sku !== strongest.sku) rekomendasi += biggest.sku + " kapasitas tangki lebih besar (" + getSpec(biggest,"Tangki") + " L), lebih hemat waktu saat bersihin area luas.\n";
+  }
+
+  else if (cat === "Electric Fan") {
+    const lowest    = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Daya")) < parseFloat(getSpec(b,"Daya")) ? a : b);
+    const multiMode = compareProds.filter(p => getSpec(p,"Mode") && getSpec(p,"Mode").includes("100"));
+    rekomendasi += lowest.sku + " paling hemat listrik (" + getSpec(lowest,"Daya") + " W), cocok untuk pemakaian seharian.\n";
+    if (multiMode.length > 0) rekomendasi += multiMode.map(p=>p.sku).join(" & ") + " punya 100 tingkat kecepatan, bisa atur angin dengan sangat presisi.\n";
+  }
+
+  else if (cat === "Air Cooler") {
+    const biggest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Tangki")) > parseInt(getSpec(b,"Tangki")) ? a : b);
+    const lowest  = compareProds.reduce((a, b) => parseInt(getSpec(a,"Daya")) < parseInt(getSpec(b,"Daya")) ? a : b);
+    rekomendasi += biggest.sku + " tangki air terbesar (" + getSpec(biggest,"Tangki") + " L), tahan lebih lama tanpa isi ulang.\n";
+    if (lowest.sku !== biggest.sku) rekomendasi += lowest.sku + " lebih hemat listrik (" + getSpec(lowest,"Daya") + " W), cocok untuk pemakaian rutin.\n";
+  }
+
+  else if (cat === "Air Fryer (Digital)" || cat === "Air Fryer (Knob)") {
+    const biggest = compareProds.reduce((a, b) => {
+      const aVol = parseFloat((getSpec(a,"Kapasitas")||"0").replace(/[^0-9.]/g,""));
+      const bVol = parseFloat((getSpec(b,"Kapasitas")||"0").replace(/[^0-9.]/g,""));
+      return aVol > bVol ? a : b;
+    });
+    const lowestPower = compareProds.reduce((a, b) => parseInt(getSpec(a,"Daya")) < parseInt(getSpec(b,"Daya")) ? a : b);
+    const hasWindow   = compareProds.filter(p => getSpec(p,"Jendela") === "\u2713");
+    rekomendasi += biggest.sku + " kapasitas terbesar (" + getSpec(biggest,"Kapasitas") + "), paling cocok untuk masak porsi keluarga.\n";
+    if (lowestPower.sku !== biggest.sku) rekomendasi += lowestPower.sku + " lebih hemat listrik (" + getSpec(lowestPower,"Daya") + " W), cocok untuk pemakaian harian.\n";
+    if (hasWindow.length > 0 && hasWindow.length < compareProds.length) rekomendasi += hasWindow.map(p=>p.sku).join(" & ") + " dilengkapi jendela transparan, bisa pantau masakan tanpa buka tutup.\n";
+  }
+
+  else if (cat === "Electric Cooker") {
+    const biggest = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Kapasitas")) > parseFloat(getSpec(b,"Kapasitas")) ? a : b);
+    const fastest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Daya")) > parseInt(getSpec(b,"Daya")) ? a : b);
+    rekomendasi += biggest.sku + " kapasitasnya terbesar (" + getSpec(biggest,"Kapasitas") + "), cocok untuk masak porsi lebih banyak.\n";
+    if (fastest.sku !== biggest.sku) rekomendasi += fastest.sku + " dayanya lebih besar (" + getSpec(fastest,"Daya") + "), jadi masak lebih cepat.\n";
+  }
+
+  else if (cat === "Electric Steamer") {
+    const biggest  = compareProds.reduce((a, b) => parseInt(getSpec(a,"Kapasitas")) > parseInt(getSpec(b,"Kapasitas")) ? a : b);
+    const mostTier = compareProds.reduce((a, b) => parseInt(getSpec(a,"Tier")) > parseInt(getSpec(b,"Tier")) ? a : b);
+    rekomendasi += biggest.sku + " kapasitas terbesar (" + getSpec(biggest,"Kapasitas") + " L), muat lebih banyak makanan dalam sekali kukus.\n";
+    if (mostTier.sku !== biggest.sku) rekomendasi += mostTier.sku + " punya tier terbanyak (" + getSpec(mostTier,"Tier") + " susun), bisa kukus berbagai menu sekaligus.\n";
+  }
+
+  else if (cat === "Drip Coffee Machine") {
+    const mostGlass   = compareProds.reduce((a, b) => parseInt(getSpec(a,"Gelas")) > parseInt(getSpec(b,"Gelas")) ? a : b);
+    const fastest     = compareProds.reduce((a, b) => parseInt(getSpec(a,"Waktu")) < parseInt(getSpec(b,"Waktu")) ? a : b);
+    const biggestTank = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Tangki")) > parseFloat(getSpec(b,"Tangki")) ? a : b);
+    const lowestPower = compareProds.reduce((a, b) => parseInt(getSpec(a,"Daya")) < parseInt(getSpec(b,"Daya")) ? a : b);
+    rekomendasi += mostGlass.sku + " muat paling banyak (" + getSpec(mostGlass,"Gelas") + " gelas), cocok untuk keluarga atau kantor yang banyak orang.\n";
+    if (fastest.sku !== mostGlass.sku) rekomendasi += fastest.sku + " paling cepat menyeduh (" + getSpec(fastest,"Waktu") + " menit), kopi siap saji tanpa nunggu lama.\n";
+    if (biggestTank.sku !== mostGlass.sku) rekomendasi += biggestTank.sku + " tangki airnya paling besar (" + getSpec(biggestTank,"Tangki") + " L), lebih jarang isi ulang.\n";
+    if (lowestPower.sku !== mostGlass.sku && lowestPower.sku !== fastest.sku) rekomendasi += lowestPower.sku + " paling hemat listrik (" + getSpec(lowestPower,"Daya") + " W), cocok untuk pemakaian rutin harian.\n";
+  }
+
+  else if (cat === "Semi-auto Espresso" || cat === "Capsule Coffee") {
+    const highestBar  = compareProds.reduce((a, b) => parseInt(getSpec(a,"Tekanan")) > parseInt(getSpec(b,"Tekanan")) ? a : b);
+    const fastest     = compareProds.reduce((a, b) => parseInt(getSpec(a,"Panas")) < parseInt(getSpec(b,"Panas")) ? a : b);
+    const biggestTank = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Tangki")) > parseFloat(getSpec(b,"Tangki")) ? a : b);
+    rekomendasi += highestBar.sku + " tekanannya paling tinggi (" + getSpec(highestBar,"Tekanan") + " bar), menghasilkan crema tebal dan rasa kopi lebih kaya.\n";
+    if (fastest.sku !== highestBar.sku) rekomendasi += fastest.sku + " siap paling cepat (" + getSpec(fastest,"Panas") + " detik), cocok untuk yang butuh kopi instan.\n";
+    if (biggestTank.sku !== highestBar.sku) rekomendasi += biggestTank.sku + " tangki airnya lebih besar (" + getSpec(biggestTank,"Tangki") + " L), bisa buat lebih banyak porsi sebelum isi ulang.\n";
+  }
+
+  else if (cat === "Electric Chopper" || cat === "Blender / Juicer") {
+    const highest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Daya")) > parseInt(getSpec(b,"Daya")) ? a : b);
+    const biggest = compareProds.reduce((a, b) => parseFloat(getSpec(a,"Kapasitas")) > parseFloat(getSpec(b,"Kapasitas")) ? a : b);
+    rekomendasi += highest.sku + " dayanya paling besar (" + getSpec(highest,"Daya") + " W), lebih bertenaga untuk bahan yang keras.\n";
+    if (biggest.sku !== highest.sku) rekomendasi += biggest.sku + " kapasitasnya lebih besar (" + getSpec(biggest,"Kapasitas") + "), cocok untuk memproses bahan dalam jumlah banyak.\n";
+  }
+
+  else if (cat === "Hair Dryer") {
+    const brushless  = compareProds.filter(p => (getSpec(p,"Motor")||"").toLowerCase().includes("brushless"));
+    const fastest    = compareProds.reduce((a, b) => parseInt(getSpec(a,"Speed")) > parseInt(getSpec(b,"Speed")) ? a : b);
+    const ionList    = compareProds.filter(p => getSpec(p,"Ion") && getSpec(p,"Ion") !== "x");
+    if (brushless.length > 0 && brushless.length < compareProds.length) rekomendasi += brushless.map(p=>p.sku).join(" & ") + " pakai motor brushless, lebih awet, kencang, dan senyap dibanding motor biasa.\n";
+    rekomendasi += fastest.sku + " kecepatan anginnya paling tinggi (" + getSpec(fastest,"Speed") + "), ngeringin rambut paling cepat.\n";
+    if (ionList.length > 0) rekomendasi += ionList[0].sku + " dilengkapi ion negatif (" + getSpec(ionList[0],"Ion") + "), rambut lebih halus, berkilau, dan anti frizz.\n";
+  }
+
+  else if (cat === "Hair Straightener") {
+    const widestTemp = compareProds.reduce((a, b) => {
+      const aMax = parseInt((getSpec(a,"Suhu")||"0").split("-").pop());
+      const bMax = parseInt((getSpec(b,"Suhu")||"0").split("-").pop());
+      return aMax > bMax ? a : b;
+    });
+    const fastest    = compareProds.reduce((a, b) => parseInt(getSpec(a,"Panas")) < parseInt(getSpec(b,"Panas")) ? a : b);
+    const wireless   = compareProds.filter(p => p.karakteristik && p.karakteristik.toLowerCase().includes("nirkabel"));
+    rekomendasi += widestTemp.sku + " range suhu paling tinggi (" + getSpec(widestTemp,"Suhu") + "), cocok untuk semua jenis rambut termasuk yang tebal.\n";
+    if (fastest.sku !== widestTemp.sku) rekomendasi += fastest.sku + " paling cepat panas (" + getSpec(fastest,"Panas") + " detik), langsung bisa dipakai.\n";
+    if (wireless.length > 0) rekomendasi += wireless.map(p=>p.sku).join(" & ") + " model nirkabel, bebas bergerak tanpa hambatan kabel.\n";
+  }
+
+  else if (cat === "Hair Curler") {
+    const smallest = compareProds.reduce((a, b) => parseInt(getSpec(a,"Diameter")) < parseInt(getSpec(b,"Diameter")) ? a : b);
+    const largest  = compareProds.reduce((a, b) => parseInt(getSpec(a,"Diameter")) > parseInt(getSpec(b,"Diameter")) ? a : b);
+    if (smallest.sku !== largest.sku) {
+      rekomendasi += smallest.sku + " diameter lebih kecil (" + getSpec(smallest,"Diameter") + " mm), cocok untuk keriting rapat dan tahan lama.\n";
+      rekomendasi += largest.sku + " diameter lebih besar (" + getSpec(largest,"Diameter") + " mm), menghasilkan gelombang longgar dan natural.\n";
+    }
+  }
+
+  else if (cat === "Hair Dryer Brush") {
+    const highest    = compareProds.reduce((a, b) => parseInt(getSpec(a,"Daya")) > parseInt(getSpec(b,"Daya")) ? a : b);
+    const withIon    = compareProds.filter(p => getSpec(p,"Ion") && getSpec(p,"Ion") !== "x");
+    const detachable = compareProds.filter(p => getSpec(p,"Kepala") === "v" || getSpec(p,"Kepala") === "\u2713");
+    rekomendasi += highest.sku + " dayanya terbesar (" + getSpec(highest,"Daya") + " W), ngeringin sekaligus styling lebih cepat.\n";
+    if (withIon.length > 0 && withIon.length < compareProds.length) rekomendasi += withIon.map(p=>p.sku).join(" & ") + " dilengkapi ion negatif, rambut lebih berkilau dan anti frizz.\n";
+    if (detachable.length > 0 && detachable.length < compareProds.length) rekomendasi += detachable.map(p=>p.sku).join(" & ") + " kepala sikatnya bisa dilepas, lebih mudah dibersihkan dan fleksibel untuk berbagai gaya.\n";
+  }
+
+  // fallback
+  if (rekomendasi === "") {
+    rekomendasi = "Semua produk di atas punya keunggulan masing-masing, tinggal disesuaikan sama kebutuhan kakak.\n";
+  }
+
   msg += rekomendasi;
-  msg += "\nKalau masih bingung pilih yang mana, bilangin aja kebutuhan kakak!";
+  msg += "\nKalau masih bingung pilih yang mana, bilangin aja kebutuhan kakak, nanti aku bantu arahin yang paling cocok.";
   return msg;
 }
 
+// --- CORE UI FUNCTIONS ---
 function renderHeader() {
   document.getElementById("headerSub").textContent = `${products.length} produk · ${categories.length - 1} kategori`;
   const right = document.getElementById("headerRight");
   if (selected.length > 0 && viewMode === "products") {
     right.innerHTML = `
-      <div class="selected-badge">${selected.length}/4 dipilih</div>
+      <div class="selected-badge">${selected.length}/4 dipilih untuk compare</div>
       <button class="reset-btn" onclick="resetSelected()">✕ Reset</button>
     `;
-  } else { right.innerHTML = ""; }
+  } else {
+    right.innerHTML = "";
+  }
 }
 
 function resetSelected() { selected = []; render(); }
@@ -1557,19 +1245,24 @@ function renderSidebar() {
   const title = sidebar.querySelector(".sidebar-title");
   sidebar.innerHTML = "";
   sidebar.appendChild(title);
+
+  // FAQ button
   const faqBtn = document.createElement("button");
   faqBtn.className = "faq-sidebar-btn" + (viewMode === "faq" ? " active" : "");
-  faqBtn.innerHTML = `<span>❓</span><span style="flex:1">FAQs</span><span style="font-size:10px;padding:1px 6px;border-radius:20px;background:${viewMode==='faq'?'rgba(255,255,255,0.3)':'rgba(0,122,255,0.1)'};color:${viewMode==='faq'?'#fff':'#007AFF'};font-weight:700;">${Object.keys(faqs).length}</span>`;
+  faqBtn.innerHTML = `<span>❓</span><span style="flex:1">FAQs</span><span style="font-size:10px;padding:1px 6px;border-radius:20px;background:${viewMode==='faq'?'rgba(255,255,255,0.3)':'#eef2ff'};color:${viewMode==='faq'?'#fff':'#6366f1'};font-weight:700;">${Object.keys(faqs).length}</span>`;
   faqBtn.onclick = () => { viewMode = viewMode === "faq" ? "products" : "faq"; activeCat = "Semua"; render(); };
   sidebar.appendChild(faqBtn);
+
   const hr = document.createElement("hr");
   hr.className = "sidebar-divider";
   sidebar.appendChild(hr);
+
   const catTitle = document.createElement("div");
   catTitle.className = "sidebar-title";
   catTitle.style.paddingTop = "8px";
   catTitle.textContent = "Kategori";
   sidebar.appendChild(catTitle);
+
   categories.forEach(cat => {
     const count = cat === "Semua" ? products.length : products.filter(p => p.category === cat).length;
     const btn = document.createElement("button");
@@ -1589,36 +1282,52 @@ function renderSidebar() {
 function renderCompare() {
   const section = document.getElementById("compareSection");
   const compareProds = selected.map(s => products.find(p => p.sku === s)).filter(Boolean);
-  if (compareProds.length < 2) { section.innerHTML = ""; return; }
+
+  if (compareProds.length < 2) {
+    section.innerHTML = "";
+    return;
+  }
+
   const fields = FIELDS[compareProds[0].category] || [];
-  let headCells = `<th style="color:var(--text-tertiary);font-weight:600;min-width:120px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">Spesifikasi</th>`;
+
+  // Header Tabel
+  let headCells = `<th style="color:#94a3b8;font-weight:600;min-width:120px;">Spesifikasi</th>`;
   compareProds.forEach(p => {
     const col = catColors[p.category] || "#64748b";
     headCells += `<th>
       <div style="text-align:center;margin-bottom:8px;">
-        <img src="${p.image}" style="width:56px;height:56px;object-fit:contain;border-radius:10px;border:1px solid rgba(0,0,0,0.06);" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
+        <img src="${p.image}" style="width:60px;height:60px;object-fit:contain;border-radius:8px;border:1px solid #e2e8f0;" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
       </div>
-      <span style="background:${col}12;border:1px solid ${col}30;border-radius:6px;padding:3px 8px;font-size:11px;color:${col};font-weight:800;">${p.sku}</span>
-      <div style="font-size:11px;color:var(--text-tertiary);margin-top:4px;font-weight:500;">${p.name}</div>
+      <span style="background:${col}18;border:1px solid ${col}40;border-radius:7px;padding:3px 9px;font-size:11px;color:${col};font-weight:800;">${p.sku}</span>
+      <div style="font-size:11px;color:#94a3b8;margin-top:4px;font-weight:500;">${p.name}</div>
     </th>`;
   });
+
+  // Baris Karakteristik
   let rows = `<tr>
     <td class="spec-label">Karakteristik</td>
-    ${compareProds.map(p => `<td style="font-weight:700;color:${catColors[p.category] || '#1d1d1f'}">${p.karakteristik || "—"}</td>`).join("")}
+    ${compareProds.map(p => `<td class="char-val" style="color:${catColors[p.category] || '#6366f1'}">${p.karakteristik || "—"}</td>`).join("")}
   </tr>`;
+
+  // Baris Spesifikasi
   fields.forEach(f => {
     rows += `<tr>
       <td class="spec-label">${f}</td>
-      ${compareProds.map(p => { const val = (p.specs && p.specs[f]) ? p.specs[f] : "—"; return `<td>${val}</td>`; }).join("")}
+      ${compareProds.map(p => {
+        const val = (p.specs && p.specs[f]) ? p.specs[f] : (p[f.toLowerCase()] || "—");
+        return `<td>${val}</td>`;
+      }).join("")}
     </tr>`;
   });
+
   const csMsg = generateCSMessage(compareProds);
+  
   section.innerHTML = `
     <div class="compare-section" id="compareCaptureArea" style="position:relative;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
-        <div class="compare-title">Perbandingan Produk</div>
-        <button id="downloadImgBtn" onclick="downloadTableAsImage()" style="background:#1d1d1f;border:none;border-radius:8px;padding:6px 14px;font-size:11px;color:#fff;cursor:pointer;font-weight:700;transition:all 0.2s;letter-spacing:0.2px;">
-          ↓ Download
+        <div class="compare-title" style="margin-bottom:0;">⚖️ PERBANDINGAN PRODUK</div>
+        <button id="downloadImgBtn" onclick="downloadTableAsImage()" style="background:linear-gradient(135deg, #10b981, #059669); border:none; border-radius:8px; padding:6px 14px; font-size:11px; color:#fff; cursor:pointer; font-weight:700; transition:all 0.2s; box-shadow:0 2px 8px rgba(16,185,129,0.3);">
+          📥 Download Gambar
         </button>
       </div>
       <div style="overflow-x:auto;">
@@ -1627,7 +1336,7 @@ function renderCompare() {
       <div class="cs-message-box">
         <div class="cs-message-header">
           <div class="cs-message-header-left"><span>💬</span> Teks Siap Kirim ke Customer</div>
-          <button class="copy-btn" id="copyBtn" onclick="copyMessage()">📋 Copy</button>
+          <button class="copy-btn" id="copyBtn" onclick="copyMessage()">📋 Copy Teks</button>
         </div>
         <div class="cs-message-body" id="csMessageBody">${csMsg}</div>
       </div>
@@ -1636,201 +1345,386 @@ function renderCompare() {
 
 function downloadTableAsImage() {
   const element = document.getElementById("compareCaptureArea");
-  if (!element) return;
+  if (!element) {
+    alert("Area perbandingan tidak ditemukan.");
+    return;
+  }
+
   const btn = document.getElementById("downloadImgBtn");
+  const originalText = btn.textContent;
+  
+  // Memberi feedback visual saat proses pengolahan
   btn.textContent = "⌛ Memproses...";
-  btn.style.opacity = "0.6";
+  btn.style.opacity = "0.7";
   btn.disabled = true;
-  html2canvas(element, { useCORS: true, scale: 2, backgroundColor: "#f5f5f7", logging: false }).then(canvas => {
+
+  html2canvas(element, {
+    useCORS: true,      // Wajib diaktifkan agar gambar dari domain Shopline bisa terbaca
+    scale: 2,           // Meningkatkan resolusi gambar (High Definition)
+    backgroundColor: "#f0f4ff", // Menentukan warna latar belakang gambar
+    logging: false      // Mematikan log di konsol browser
+  }).then(canvas => {
     const link = document.createElement("a");
-    link.download = `Simplus-Comparison-${new Date().getTime()}.png`;
+    const timestamp = new Date().getTime();
+    
+    link.download = `Simplus-Comparison-${timestamp}.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
-    btn.textContent = "↓ Download";
+
+    // Reset tombol
+    btn.textContent = originalText;
     btn.style.opacity = "1";
     btn.disabled = false;
   }).catch(err => {
-    alert("Gagal download gambar.");
-    btn.textContent = "↓ Download";
+    console.error("Gagal mengambil gambar:", err);
+    alert("Maaf, terjadi kesalahan saat mendownload gambar.");
+    btn.textContent = originalText;
     btn.style.opacity = "1";
     btn.disabled = false;
   });
-}
-
+}// ============================================================
+// UTILITY
+// ============================================================
 function escapeHTML(str) {
-  return String(str ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+  return String(str ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
+// Cache elemen modal supaya tidak querySelector tiap kali
 const modalEls = {
-  headerBar: document.getElementById("modalHeaderBar"),
-  skuRow: document.getElementById("modalSkuRow"),
-  name: document.getElementById("modalName"),
-  char: document.getElementById("modalChar"),
-  specsList: document.getElementById("modalSpecsList"),
-  modal: document.getElementById("modal"),
+  headerBar  : document.getElementById("modalHeaderBar"),
+  skuRow     : document.getElementById("modalSkuRow"),
+  name       : document.getElementById("modalName"),
+  char       : document.getElementById("modalChar"),
+  specsList  : document.getElementById("modalSpecsList"),
+  modal      : document.getElementById("modal"),
 };
 
+// ============================================================
+// RENDER GRID
+// ============================================================
 function renderGrid(filtered) {
-  const grid = document.getElementById("grid");
+  const grid      = document.getElementById("grid");
   const noResults = document.getElementById("noResults");
-  if (filtered.length === 0) { grid.innerHTML = ""; noResults.style.display = "block"; return; }
+
+  if (filtered.length === 0) {
+    grid.innerHTML          = "";
+    noResults.style.display = "block";
+    return;
+  }
+
   noResults.style.display = "none";
+
   grid.innerHTML = filtered.map(p => {
-    const col = catColors[p.category] || "#007AFF";
+    const col   = catColors[p.category] || "#64748b";
     const isSel = selected.includes(p.sku);
-    const fields = (FIELDS[p.category] || []).slice(0, 3);
+
+    // Ambil 3 spesifikasi utama
+    const fields   = (FIELDS[p.category] || []).slice(0, 3);
     const specRows = fields.map(f => {
       const val = p.specs?.[f] ?? "—";
-      return `<div class="spec-row"><span class="spec-key">${escapeHTML(LABELS[f] || f)}</span><span class="spec-val">${escapeHTML(val)}</span></div>`;
+      return `
+        <div class="spec-row">
+          <span class="spec-key">${escapeHTML(LABELS[f] || f)}</span>
+          <span class="spec-val">${escapeHTML(val)}</span>
+        </div>`;
     }).join("");
-    const sp = generateSellingPoint(p);
-    const spBadges = sp.map(s => `<div class="sp-badge" style="--cat-color:${col}">${escapeHTML(s)}</div>`).join("");
-    const safeSku = escapeHTML(p.sku);
+
+    const sp       = generateSellingPoint(p);
+    const spBadges = sp.map(s =>
+      `<div class="sp-badge" style="--cat-color:${col}">${escapeHTML(s)}</div>`
+    ).join("");
+
+    const safeSku  = escapeHTML(p.sku);
     const safeName = escapeHTML(p.name);
-    const safeCat = escapeHTML(p.category);
-    const safeImg = escapeHTML(p.image);
+    const safeCat  = escapeHTML(p.category);
+    const safeImg  = escapeHTML(p.image);
+
     const manualBtn = manualUrls[p.sku]
-      ? `<a href="${escapeHTML(manualUrls[p.sku])}" target="_blank" rel="noopener" onclick="event.stopPropagation()"
-           style="display:flex;align-items:center;justify-content:center;gap:4px;flex:1;border:1px solid rgba(0,0,0,0.08);border-radius:var(--radius-sm);padding:7px;font-size:11.5px;font-weight:600;color:var(--text-secondary);background:rgba(0,0,0,0.02);text-decoration:none;transition:var(--transition);">
+      ? `<a href="${escapeHTML(manualUrls[p.sku])}"
+            target="_blank"
+            rel="noopener"
+            onclick="event.stopPropagation()"
+            style="display:flex; align-items:center; justify-content:center; gap:4px;
+                   flex:1; border:1.5px solid ${col}35; border-radius:10px; padding:7px;
+                   font-size:11px; font-weight:600; color:${col}; background:#fafbff;
+                   text-decoration:none; transition:all 0.2s;">
            Manual
          </a>`
-      : `<button disabled style="flex:1;border:1px solid rgba(0,0,0,0.05);border-radius:var(--radius-sm);padding:7px;font-size:11.5px;font-weight:500;color:var(--text-tertiary);background:transparent;cursor:default;">N/A</button>`;
+      : `<button disabled
+           style="flex:1; border:1.5px solid #e2e8f0; border-radius:10px; padding:7px;
+                  font-size:11px; font-weight:600; color:#cbd5e1; background:#fafbff;
+                  cursor:default;">
+           N/A
+         </button>`;
+
     return `
-  <div class="card ${isSel ? "selected" : ""}"
+  <div class="card ${isSel ? "selected" : ""}" 
        onclick="toggleSelect('${safeSku}')"
-       style="${isSel ? `border-color:${col};box-shadow:0 0 0 3px ${col}18,var(--shadow-hover);` : ""}"
+       style="border-color:${isSel ? col : "#f1f5f9"};
+             ${isSel ? `box-shadow:0 8px 25px ${col}30` : ""}"
        data-sku="${safeSku}">
-    ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
-    <div class="card-img-wrap">
-      <img src="${safeImg}" class="card-img" onerror="this.src='https://placehold.co/400x400/f5f5f7/86868b?text=${safeSku}'">
-    </div>
-    <div class="card-top">
-      <span class="card-sku" style="background:${col}12;border:1px solid ${col}28;color:${col}">${safeSku}</span>
-      <span class="card-cat">${safeCat}</span>
-    </div>
-    <div class="card-name">${safeName}</div>
-    <div class="card-sp-container">${spBadges}</div>
-    <div class="card-specs" style="margin-top:10px;border-top:1px solid rgba(0,0,0,0.05);padding-top:10px;">${specRows}</div>
-    <div style="display:flex;gap:6px;margin-top:10px;">
-      <button class="detail-btn open-modal-btn" data-sku="${safeSku}"
-        style="color:${col};margin-top:0;flex:1;"
-        onmouseover="this.style.background='${col}';this.style.color='#fff';this.style.borderColor='transparent';"
-        onmouseout="this.style.background='rgba(0,0,0,0.02)';this.style.color='${col}';this.style.borderColor='rgba(0,0,0,0.08)';">
-        Detail →
-      </button>
-      ${manualBtn}
-    </div>
-  </div>`;
+
+        ${isSel ? `<div class="check-mark" style="background:${col}">✓</div>` : ""}
+
+        <div class="card-img-wrap">
+          <img src="${safeImg}"
+               class="card-img"
+               onerror="this.src='https://placehold.co/400x400/f8fafc/94a3b8?text=${safeSku}'">
+        </div>
+
+        <div class="card-top">
+          <span class="card-sku"
+                style="background:${col}18; border:1px solid ${col}35; color:${col}">
+            ${safeSku}
+          </span>
+          <span class="card-cat">${safeCat}</span>
+        </div>
+
+        <div class="card-name">${safeName}</div>
+
+        <div class="card-sp-container">${spBadges}</div>
+
+        <div class="card-specs"
+             style="margin-top:12px; border-top:1px solid #f1f5f9; padding-top:10px;">
+          ${specRows}
+        </div>
+
+        <div style="display:flex; gap:6px; margin-top:10px;">
+          <button class="detail-btn open-modal-btn"
+                  data-sku="${safeSku}"
+                  style="color:${col}; margin-top:0; flex:1"
+                  onmouseover="this.style.background='${col}'; this.style.color='#fff'"
+                  onmouseout="this.style.background='#fafbff'; this.style.color='${col}'">
+            Detail ->
+          </button>
+          ${manualBtn}
+        </div>
+      </div>`;
   }).join("");
+
   grid.querySelectorAll(".open-modal-btn").forEach(btn => {
-    btn.addEventListener("click", e => { e.stopPropagation(); openModal(btn.dataset.sku); });
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      openModal(btn.dataset.sku);
+    });
   });
 }
 
+// ============================================================
+// OPEN MODAL
+// ============================================================
 function openModal(sku) {
   const p = products.find(x => x.sku === sku);
   if (!p) return;
-  const col = catColors[p.category] || "#1d1d1f";
-  const fields = FIELDS[p.category] || [];
-  modalEls.headerBar.style.background = `linear-gradient(145deg, ${col}, ${col}cc)`;
+
+  const col    = catColors[p.category] || "#6366f1";
+  const fields = FIELDS[p.category]   || [];
+
+  // ── Header ────────────────────────────────────────────────
+  modalEls.headerBar.style.background =
+    `linear-gradient(135deg, ${col}, ${col}cc)`;
+
   modalEls.skuRow.innerHTML = `
-    <span style="background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:3px 9px;font-size:11px;color:#fff;font-weight:800;">${escapeHTML(p.sku)}</span>
-    <span style="background:rgba(255,255,255,0.12);border-radius:5px;padding:3px 8px;font-size:10px;color:rgba(255,255,255,0.8);">${escapeHTML(p.category)}</span>`;
-  modalEls.name.textContent = p.name || "";
+    <span style="background:rgba(255,255,255,0.25); border:1px solid rgba(255,255,255,0.4);
+                 border-radius:7px; padding:3px 10px; font-size:11px;
+                 color:#fff; font-weight:800;">
+      ${escapeHTML(p.sku)}
+    </span>
+    <span style="background:rgba(255,255,255,0.15); border-radius:6px;
+                 padding:3px 8px; font-size:10px; color:rgba(255,255,255,0.85);">
+      ${escapeHTML(p.category)}
+    </span>`;
+
+  modalEls.name.textContent = p.name          || "";
   modalEls.char.textContent = p.karakteristik || "";
-  const imgHTML = `<div style="text-align:center;margin-bottom:20px;"><img src="${escapeHTML(p.image)}" style="max-width:160px;max-height:160px;object-fit:contain;" onerror="this.style.display='none'"></div>`;
-  const sp = generateSellingPoint(p);
+
+  // ── Gambar ────────────────────────────────────────────────
+  const imgHTML = `
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="${escapeHTML(p.image)}"
+           style="max-width:180px; max-height:180px; object-fit:contain;"
+           onerror="this.style.display='none'">
+    </div>`;
+
+  // ── Selling point ─────────────────────────────────────────
+  const sp     = generateSellingPoint(p);
   const spHTML = sp.length > 0
-    ? `<div style="margin-bottom:16px;background:${col}06;border-radius:12px;padding:14px;border:1px solid ${col}15;">
-         <div style="font-size:10px;font-weight:700;color:${col};letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px;">Keunggulan Produk</div>
-         ${sp.map(s => `<div style="font-size:12.5px;color:var(--text-secondary);margin-bottom:5px;padding-left:10px;border-left:2px solid ${col};font-weight:600;">${escapeHTML(s)}</div>`).join("")}
-       </div>` : "";
+    ? `<div style="margin-bottom:16px; background:${col}08; border-radius:10px;
+                   padding:12px; border:1px solid ${col}20;">
+         <div style="font-size:10px; font-weight:700; color:${col};
+                     letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;">
+           Keunggulan Produk
+         </div>
+         ${sp.map(s =>
+           `<div style="font-size:12px; color:#334155; margin-bottom:4px; font-weight:600;">
+              - ${escapeHTML(s)}
+            </div>`
+         ).join("")}
+       </div>`
+    : "";
+
+  // ── Spesifikasi ───────────────────────────────────────────
   const specsHTML = fields.map(f => {
     const val = p.specs?.[f] ?? "-";
-    return `<div class="modal-spec-row"><span class="modal-spec-key">${escapeHTML(LABELS[f] || f)}</span><span class="modal-spec-val">${escapeHTML(val)}</span></div>`;
+    return `
+      <div class="modal-spec-row">
+        <span class="modal-spec-key">${escapeHTML(LABELS[f] || f)}</span>
+        <span class="modal-spec-val">${escapeHTML(val)}</span>
+      </div>`;
   }).join("");
+
+  // ── Tips / FAQ ────────────────────────────────────────────
   const tipsHTML = faqs[p.category]
-    ? `<div style="margin-top:20px;background:rgba(0,0,0,0.02);border-radius:12px;padding:16px;border:1px solid rgba(0,0,0,0.06);">
-         <div style="font-size:11px;font-weight:700;color:var(--text-tertiary);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:12px;">Panduan Penggunaan</div>
-         ${faqs[p.category].slice(0,2).map(faq => `
+    ? `<div style="margin-top:20px; background:#f8fafc; border-radius:12px;
+                   padding:16px; border:1px solid #e2e8f0;">
+         <div style="font-size:13px; font-weight:800; color:#1e293b; margin-bottom:12px;">
+           Panduan Penggunaan
+         </div>
+         ${faqs[p.category].slice(0, 2).map(faq => `
            <div style="margin-bottom:10px;">
-             <div style="font-size:12px;font-weight:700;color:var(--text-primary);margin-bottom:3px;">${escapeHTML(faq.q)}</div>
-             <div style="font-size:11.5px;color:var(--text-secondary);line-height:1.6;">${escapeHTML(faq.a)}</div>
+             <div style="font-size:11px; font-weight:700; color:#475569;">
+               ${escapeHTML(faq.q)}
+             </div>
+             <div style="font-size:11px; color:#64748b;">
+               ${escapeHTML(faq.a)}
+             </div>
            </div>`).join("")}
-       </div>` : "";
+       </div>`
+    : "";
+
+  // ── Manual link ───────────────────────────────────────────
   const manualHTML = manualUrls[p.sku]
-    ? `<div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06);">
-         <a href="${escapeHTML(manualUrls[p.sku])}" target="_blank" rel="noopener"
-            style="display:flex;align-items:center;justify-content:center;width:100%;padding:12px;border-radius:var(--radius-sm);text-decoration:none;font-weight:700;font-size:13px;color:#fff;background:${col};">
+    ? `<div style="margin-top:16px; padding-top:16px; border-top:1px solid #f1f5f9;">
+         <a href="${escapeHTML(manualUrls[p.sku])}"
+            target="_blank"
+            rel="noopener"
+            style="display:flex; align-items:center; justify-content:center;
+                   width:100%; padding:11px; border-radius:12px; text-decoration:none;
+                   font-weight:700; font-size:13px; color:#fff; background:${col};">
            Lihat Manual Lengkap
          </a>
-       </div>` : "";
-  modalEls.specsList.innerHTML = imgHTML + spHTML + specsHTML + tipsHTML + manualHTML;
+       </div>`
+    : "";
+
+  // ── Gabung semua ──────────────────────────────────────────
+  modalEls.specsList.innerHTML =
+    imgHTML + spHTML + specsHTML + tipsHTML + manualHTML;
+
   modalEls.modal.style.display = "flex";
 }
 
-function closeModal() { modalEls.modal.style.display = "none"; }
-
+// ============================================================
+// CLOSE MODAL
+// ============================================================
+function closeModal() {
+  modalEls.modal.style.display = "none";
+}
 function toggleSelect(sku) {
   const index = selected.indexOf(sku);
-  if (index > -1) { selected.splice(index, 1); }
-  else {
-    if (selected.length >= 4) { alert("Maksimal 4 produk."); return; }
+  
+  if (index > -1) {
+    selected.splice(index, 1);
+  } else {
+    if (selected.length >= 4) {
+      alert("Maksimal hanya bisa membandingkan 4 produk sekaligus.");
+      return;
+    }
+    
     if (selected.length > 0) {
       const firstProd = products.find(p => p.sku === selected[0]);
       const newProd = products.find(p => p.sku === sku);
-      if (firstProd && newProd && firstProd.category !== newProd.category) { alert("Hanya bisa membandingkan produk dalam kategori yang sama."); return; }
+      if (firstProd && newProd && firstProd.category !== newProd.category) {
+        alert("Hanya bisa membandingkan produk dalam kategori yang sama.");
+        return;
+      }
     }
+    
     selected.push(sku);
   }
+  
   render();
 }
 
 function copyMessage() {
   const msgBody = document.getElementById("csMessageBody");
   if (!msgBody) return;
-  navigator.clipboard.writeText(msgBody.innerText).then(() => {
+  
+  const text = msgBody.innerText;
+  navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById("copyBtn");
-    if (btn) { btn.innerText = "✅ Tersalin!"; btn.classList.add("copied"); setTimeout(() => { btn.innerText = "📋 Copy"; btn.classList.remove("copied"); }, 2000); }
+    if (btn) {
+      btn.innerText = "✅ Tersalin!";
+      btn.classList.add("copied");
+      setTimeout(() => {
+        btn.innerText = "📋 Copy Teks";
+        btn.classList.remove("copied");
+      }, 2000);
+    }
   });
 }
-
+// --- FAQ FUNCTIONS ---
 function renderFAQ() {
   const faqView = document.getElementById("faqView");
   const q = faqSearch.toLowerCase().trim();
+
   const catEntries = Object.entries(faqs);
-  const filtered = catEntries.map(([cat, items]) => ({ cat, items: items.filter(item => !q || item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q)) })).filter(e => e.items.length > 0);
+  const filtered = catEntries.map(([cat, items]) => ({
+    cat,
+    items: items.filter(item => !q || item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q))
+  })).filter(e => e.items.length > 0);
+
   const totalQ = filtered.reduce((sum, e) => sum + e.items.length, 0);
+
   faqView.innerHTML = `
     <div class="faq-header-bar">
       <div class="faq-header-icon">❓</div>
-      <div><div class="faq-header-title">Frequently Asked Questions</div><div class="faq-header-sub">${totalQ} pertanyaan · ${filtered.length} kategori</div></div>
-      <div class="faq-search-wrap"><span class="faq-search-icon">🔍</span><input class="faq-search" placeholder="Cari pertanyaan..." value="${faqSearch}" oninput="faqSearch=this.value;renderFAQ()"/></div>
+      <div>
+        <div class="faq-header-title">Frequently Asked Questions</div>
+        <div class="faq-header-sub">${totalQ} pertanyaan di ${filtered.length} kategori</div>
+      </div>
+      <div class="faq-search-wrap">
+        <span class="faq-search-icon">🔍</span>
+        <input class="faq-search" placeholder="Cari pertanyaan..." value="${faqSearch}" oninput="faqSearch=this.value;renderFAQ()" />
+      </div>
     </div>
     ${filtered.length === 0 ? `<div class="no-results"><div class="no-results-emoji">🔎</div><div>Tidak ada FAQ yang sesuai</div></div>` : ""}
     ${filtered.map((e, ci) => {
-      const col = catColors[e.cat] || "#007AFF";
-      return `<div class="faq-cat-block" id="faqBlock${ci}">
-        <div class="faq-cat-header" onclick="toggleFAQCat(${ci})">
-          <div class="faq-cat-dot" style="background:${col}"></div>
-          <div class="faq-cat-name">${e.cat}</div>
-          <div class="faq-cat-count">${e.items.length}</div>
-          <div class="faq-cat-chevron">▾</div>
-        </div>
-        <div class="faq-items">
-          ${e.items.map((item, qi) => `
-            <div class="faq-item" id="faqItem${ci}_${qi}">
-              <div class="faq-q" onclick="toggleFAQItem(${ci},${qi})">
-                <div class="faq-q-icon" style="background:${col}">Q</div>
-                <div class="faq-q-text">${highlight(item.q, q)}</div>
-                <div class="faq-q-arrow">▾</div>
+      const col = catColors[e.cat] || "#6366f1";
+      return `
+        <div class="faq-cat-block" id="faqBlock${ci}">
+          <div class="faq-cat-header" onclick="toggleFAQCat(${ci})">
+            <div class="faq-cat-dot" style="background:${col}"></div>
+            <div class="faq-cat-name">${e.cat}</div>
+            <div class="faq-cat-count">${e.items.length} FAQ</div>
+            <div class="faq-cat-chevron">▼</div>
+          </div>
+          <div class="faq-items">
+            ${e.items.map((item, qi) => `
+              <div class="faq-item" id="faqItem${ci}_${qi}">
+                <div class="faq-q" onclick="toggleFAQItem(${ci},${qi})">
+                  <div class="faq-q-icon" style="background:${col}">Q</div>
+                  <div class="faq-q-text">${highlight(item.q, q)}</div>
+                  <div class="faq-q-arrow">▼</div>
+                </div>
+                <div class="faq-a">${highlight(item.a, q)}</div>
               </div>
-              <div class="faq-a">${highlight(item.a, q)}</div>
-            </div>`).join("")}
-        </div>
-      </div>`;
-    }).join("")}`;
-  if (q) { filtered.forEach((_, ci) => { const block = document.getElementById(`faqBlock${ci}`); if (block) block.classList.add("open"); }); }
+            `).join("")}
+          </div>
+        </div>`;
+    }).join("")}
+  `;
+
+  if (q) {
+    filtered.forEach((_, ci) => {
+      const block = document.getElementById(`faqBlock${ci}`);
+      if (block) block.classList.add("open");
+    });
+  }
 }
 
 function highlight(text, q) {
@@ -1839,22 +1733,39 @@ function highlight(text, q) {
   return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark style="background:#fef08a;border-radius:3px;padding:0 2px;">$1</mark>');
 }
 
-function toggleFAQCat(ci) { const block = document.getElementById(`faqBlock${ci}`); if (block) block.classList.toggle("open"); }
-function toggleFAQItem(ci, qi) { const item = document.getElementById(`faqItem${ci}_${qi}`); if (item) item.classList.toggle("open"); }
+function toggleFAQCat(ci) {
+  const block = document.getElementById(`faqBlock${ci}`);
+  if (block) block.classList.toggle("open");
+}
 
+function toggleFAQItem(ci, qi) {
+  const item = document.getElementById(`faqItem${ci}_${qi}`);
+  if (item) item.classList.toggle("open");
+}
+
+// --- RENDER MASTER ---
 function render() {
   renderSidebar();
   renderHeader();
+
   const searchWrap = document.getElementById("searchWrap");
   const compareSection = document.getElementById("compareSection");
   const resultInfo = document.getElementById("resultInfo");
   const grid = document.getElementById("grid");
   const noResults = document.getElementById("noResults");
   const faqView = document.getElementById("faqView");
+
   if (viewMode === "faq") {
-    searchWrap.style.display = "none"; compareSection.innerHTML = ""; resultInfo.innerHTML = ""; grid.innerHTML = ""; noResults.style.display = "none"; faqView.style.display = "block"; renderFAQ();
+    searchWrap.style.display = "none";
+    compareSection.innerHTML = "";
+    resultInfo.innerHTML = "";
+    grid.innerHTML = "";
+    noResults.style.display = "none";
+    faqView.style.display = "block";
+    renderFAQ();
   } else {
-    searchWrap.style.display = "block"; faqView.style.display = "none";
+    searchWrap.style.display = "block";
+    faqView.style.display = "none";
     const q = document.getElementById("searchInput").value.trim().toLowerCase();
     const filtered = products.filter(p => {
       const matchCat = activeCat === "Semua" || p.category === activeCat;
@@ -1862,13 +1773,15 @@ function render() {
       return matchCat && matchQ;
     });
     renderCompare();
-    resultInfo.innerHTML = `${filtered.length} produk${activeCat !== "Semua" ? ` dalam <strong>${activeCat}</strong>` : ""}
-      ${selected.length > 0 ? `<span class="compare-hint">· ${selected.length} dipilih</span>` : `<span style="color:var(--text-tertiary);margin-left:8px;">· Klik produk untuk compare (maks. 4)</span>`}`;
+    resultInfo.innerHTML = `${filtered.length} produk ditemukan${activeCat !== "Semua" ? ` dalam <strong>${activeCat}</strong>` : ""}
+      ${selected.length > 0 ? `<span class="compare-hint">· ${selected.length} produk dipilih — pilih minimal 2 untuk compare</span>` : `<span style="color:#94a3b8;margin-left:8px;">· Klik kartu produk untuk membandingkan (maks. 4)</span>`}`;
     renderGrid(filtered);
   }
 }
 
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// INISIALISASI
 render();
 </script>
 </body>
