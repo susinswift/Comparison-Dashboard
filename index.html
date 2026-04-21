@@ -310,6 +310,8 @@ let selected  = [];
 let viewMode  = "products"; 
 let faqSearch = "";
 
+const presaleCache = {};
+
 const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush", "Body Scale", "Massager"];
 
 const catColors={
@@ -1617,10 +1619,41 @@ function openModal(sku) {
     : "";
 
   // ── Gabung semua ──────────────────────────────────────────
+ const preSaleHTML = `
+    <div style="margin-top:16px;">
+      <div class="cs-message-box">
+        <div class="cs-message-header">
+          <div class="cs-message-header-left"><span>🛍️</span> Pre-Sale Chat</div>
+          <button class="copy-btn" id="copyPresaleBtn" onclick="copyPresaleChat()">📋 Copy</button>
+        </div>
+        <div class="cs-message-body" id="presaleBody"
+             style="min-height:60px;display:flex;align-items:center;justify-content:center;
+                    color:#94a3b8;font-size:12px;font-style:italic;">
+          Generating pre-sale chat...
+        </div>
+      </div>
+    </div>`;
+
   modalEls.specsList.innerHTML =
-    imgHTML + spHTML + specsHTML + tipsHTML + manualHTML;
+    imgHTML + spHTML + specsHTML + tipsHTML + manualHTML + preSaleHTML;
 
   modalEls.modal.style.display = "flex";
+
+  // Load pre-sale chat
+  const _sku = p.sku;
+  if (presaleCache[_sku]) {
+    const el = document.getElementById("presaleBody");
+    if (el) { el.removeAttribute("style"); el.textContent = presaleCache[_sku]; }
+  } else {
+    fetchPreSaleChat(p).then(text => {
+      presaleCache[_sku] = text;
+      const el = document.getElementById("presaleBody");
+      if (el) { el.removeAttribute("style"); el.textContent = text; }
+    }).catch(() => {
+      const el = document.getElementById("presaleBody");
+      if (el) { el.removeAttribute("style"); el.textContent = "Gagal generate. Coba tutup dan buka lagi."; }
+    });
+  }
 }
 
 // ============================================================
@@ -1782,6 +1815,54 @@ function render() {
       ${selected.length > 0 ? `<span class="compare-hint">· ${selected.length} produk dipilih — pilih minimal 2 untuk compare</span>` : `<span style="color:#94a3b8;margin-left:8px;">· Klik kartu produk untuk membandingkan (maks. 4)</span>`}`;
     renderGrid(filtered);
   }
+}
+
+async function fetchPreSaleChat(p) {
+  const spList   = generateSellingPoint(p).map(s => `- ${s}`).join("\n");
+  const specList = Object.entries(p.specs || {}).map(([k, v]) => `- ${k}: ${v}`).join("\n");
+  const prompt = `Kamu adalah CS toko online Simplus Indonesia. Buatkan pre-sale chat untuk produk berikut.
+
+Aturan:
+- Bahasa Indonesia, friendly dan natural, tidak kaku
+- Tidak lebay, maksimal 1 emoji di seluruh pesan atau tidak sama sekali
+- Awali dengan menyebut bahwa produk ready
+- Highlight 2-3 keunggulan utama secara singkat dalam paragraf
+- Akhiri dengan soft call-to-action yang halus
+- Jangan pakai em dash, bullet points, atau list
+- Langsung tulis pesannya saja tanpa label apapun
+
+Nama: ${p.name} (${p.sku})
+Kategori: ${p.category}
+Karakteristik: ${p.karakteristik}
+Keunggulan:\n${spList}
+Spesifikasi:\n${specList}`;
+
+  const res  = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+  const data = await res.json();
+  if (data.content?.[0]?.text) return data.content[0].text;
+  throw new Error("No content");
+}
+
+function copyPresaleChat() {
+  const el = document.getElementById("presaleBody");
+  if (!el) return;
+  navigator.clipboard.writeText(el.innerText).then(() => {
+    const btn = document.getElementById("copyPresaleBtn");
+    if (btn) {
+      const orig = btn.innerText;
+      btn.innerText = "✅ Tersalin!";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.innerText = orig; btn.classList.remove("copied"); }, 2000);
+    }
+  });
 }
 
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
