@@ -13,9 +13,9 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;min-height:100v
 
 /* HEADER */
 .header{
-  background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899);
+  background:#f472b6;
   padding:16px 28px;display:flex;align-items:center;gap:14px;
-  box-shadow:0 4px 20px rgba(99,102,241,0.3);
+  box-shadow:0 4px 20px rgba(236,72,153,0.3);
   position:sticky;top:0;z-index:50;
 }
 .header-logo{
@@ -256,6 +256,33 @@ body{font-family:'Inter',system-ui,sans-serif;background:#f0f4ff;min-height:100v
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}
 ::-webkit-scrollbar-thumb:hover{background:#cbd5e1;}
+
+/* PLUS POINT DROPDOWN */
+.plus-point-wrap{position:relative;flex:1;}
+.plus-point-btn{
+  width:100%;border-radius:10px;padding:7px;font-size:11px;cursor:pointer;
+  transition:all 0.2s;font-weight:700;font-family:'Inter',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  border:1.5px solid;background:#fafbff;
+}
+.plus-point-dropdown{
+  display:none;position:absolute;bottom:calc(100% + 6px);left:0;right:0;
+  background:#fff;border:1.5px solid #e0e7ff;border-radius:12px;
+  box-shadow:0 8px 24px rgba(99,102,241,0.15);z-index:100;overflow:hidden;
+}
+.plus-point-dropdown.open{display:block;}
+.plus-point-header{
+  padding:8px 12px 6px;font-size:10px;font-weight:800;letter-spacing:1px;
+  text-transform:uppercase;color:#6366f1;background:#f0f2ff;
+  border-bottom:1px solid #e0e7ff;
+}
+.plus-point-item{
+  display:flex;align-items:flex-start;gap:8px;padding:8px 12px;
+  border-bottom:1px solid #f8fafc;font-size:11.5px;color:#334155;font-weight:600;
+  line-height:1.4;
+}
+.plus-point-item:last-child{border-bottom:none;}
+.plus-point-icon{color:#6366f1;font-size:13px;flex-shrink:0;margin-top:1px;}
 </style>
 </head>
 <body>
@@ -312,7 +339,7 @@ let faqSearch = "";
 
 const presaleCache = {};
 
-const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush", "Body Scale", "Massager"];
+const categories = ["Semua","Vacuum Cleaner","Garment Steamer / Iron","Dehumidifier","Humidifier","Air Purifier","Dust Mite Vacuum","Vacuum Mop","Carpet & Upholstery","Electric Fan","Air Cooler","Air Fryer (Digital)","Air Fryer (Knob)","Electric Cooker","Electric Steamer","Drip Coffee Machine","Semi-auto Espresso","Capsule Coffee","Electric Chopper","Blender / Juicer","Hair Dryer","Hair Straightener","Hair Curler","Hair Dryer Brush", "Body Scale", "Massager", "Electric Sandwich Maker"];
 
 const catColors={
 "Vacuum Cleaner":"#3B82F6","Garment Steamer / Iron":"#8B5CF6","Dehumidifier":"#06B6D4",
@@ -323,7 +350,8 @@ const catColors={
 "Semi-auto Espresso":"#92400E","Capsule Coffee":"#6B7280","Electric Chopper":"#DC2626",
 "Blender / Juicer":"#7C3AED","Hair Dryer":"#DB2777","Hair Straightener":"#0D9488",
 "Hair Curler":"#B45309","Hair Dryer Brush":"#4F46E5", "Body Scale":"#0284C7", 
-"Massager":"#E11D48" // Tadi di sini kurang koma kak
+"Massager":"#E11D48",
+"Electric Sandwich Maker":"#F59E0B"
 };
 
 const FIELDS = {
@@ -351,7 +379,8 @@ const FIELDS = {
   "Hair Curler": ["Diameter", "Suhu", "Daya", "Panas", "Berat"],
   "Hair Dryer Brush": ["Speed", "Ion", "Kepala", "Daya", "Kabel"],
   "Body Scale": ["Kapasitas", "Baterai", "Display", "Fitur"],
-  "Massager": ["Speed", "Kepala", "Baterai", "Berat"]
+  "Massager": ["Speed", "Kepala", "Baterai", "Berat"],
+  "Electric Sandwich Maker": ["Daya", "Tegangan", "Tipe"]
 };
 
 const LABELS={
@@ -503,7 +532,9 @@ const manualUrls = {
   "JFBA011": "https://pc.simplus.online/pages/catokan-curly-jfba011-panduan-penggunaan-versi-indonesia?isPreview=1",
   "RFSH004": "https://pc.simplus.online/pages/hair-dryer-brush-rfsh004-user-manual",
   "RFSH005": "https://pc.simplus.online/pages/simplus-hair-dryer-brush-rfsh005-user-manual",
-  "KFJH021": "https://pc.simplus.online/products/user-manual---electric-coffee-machine-kfjh021"
+  "KFJH021": "https://pc.simplus.online/products/user-manual---electric-coffee-machine-kfjh021",
+  "SMZJ006": "https://pc.simplus.online/pages/simplus-electric-sandwich-machine-smzj006-user-manual-1",
+  "KQZG022": "https://pc.simplus.online/pages/simplus-air-fryer-kqzg022-user-manual"
 };
 
 const faqs = {
@@ -853,7 +884,13 @@ const rawProducts = [
   { sku:"TZCH001", name:"Timbangan Digital", category:"Body Scale", karakteristik:"LED Tersembunyi", specs:{"Kapasitas":"180 kg","Baterai":"AAA","Display":"LED","Ukuran":"28×28 cm"}, sellingPoints:["Akurasi tinggi sensor presisi","Kaca tempered sangat kuat","Layar LED menyala otomatis"] },
   { sku:"TZCH002", name:"Timbangan Smart", category:"Body Scale", karakteristik:"Tuya App", specs:{"Kapasitas":"180 kg","Baterai":"USB Cas","Fitur":"Analisis App","Ukuran":"28×28 cm"}, sellingPoints:["Analisis massa tubuh lewat App","Bisa dicas pakai kabel USB","Data kesehatan real-time"] },
   { sku:"JMQH001", name:"Massager Gun Pro", category:"Massager", karakteristik:"Relaksasi Otot", specs:{"Speed":"4 Speed","Kepala":"4 Jenis","Baterai":"USB-C","Berat":"0.8 kg"}, sellingPoints:["Meredakan nyeri otot dalam","4 tingkat kecepatan pijat","Mudah dicas via USB-C"] },
-  { sku:"KFJH021", name:"Espresso Compact V2", category:"Semi-auto Espresso", karakteristik:"Model Ringkas", specs:{"Tekanan":"5 bar","Tangki":"0.24 L","Uap":"✓","Daya":"800 W","Panas":"60 s"}, sellingPoints:["Desain ramping hemat tempat","Dilengkapi steam wand susu","Kapasitas pas harian"] }
+  { sku:"KFJH021", name:"Espresso Compact V2", category:"Semi-auto Espresso", karakteristik:"Model Ringkas", specs:{"Tekanan":"5 bar","Tangki":"0.24 L","Uap":"✓","Daya":"800 W","Panas":"60 s"}, sellingPoints:["Desain ramping hemat tempat","Dilengkapi steam wand susu","Kapasitas pas harian"] },
+
+  // --- ELECTRIC SANDWICH MAKER ---
+  { sku:"SMZJ006", name:"Electric Sandwich Maker", category:"Electric Sandwich Maker", karakteristik:"Praktis & Cepat", specs:{"Daya":"750 W","Tegangan":"220-240V~","Tipe":"Sandwich Maker"}, sellingPoints:["Matang merata dalam 2-4 menit","Indikator ready otomatis","Anti lengket mudah dibersihkan","Ringkas bisa disimpan tegak"] },
+
+  // --- AIR FRYER (KNOB) extra ---
+  { sku:"KQZG022", name:"Air Fryer Window Knob V2", category:"Air Fryer (Knob)", karakteristik:"Jendela + Knob", specs:{"Suhu":"200°C","Waktu":"60 min","Daya":"1300 W","Kapasitas":"5 L","Jendela":"✓"}, sellingPoints:["Jendela pantau masakan tanpa buka","Kontrol knob presisi suhu","Basket anti lengket mudah cuci","Hemat minyak lebih sehat"] }
 ];
 
 const imageOverrides = {
@@ -911,6 +948,8 @@ const imageOverrides = {
   "TZCH002": "https://img.myshopline.com/image/store/1622516949344/TZCH002-.jpeg?w=1200&h=1650",
   "KFJH021": "https://pc.simplus.online/cdn/shop/files/KFJH021_1.png", 
   "RFSH005": "https://pc.simplus.online/cdn/shop/files/RFSH005_1.png", 
+  "SMZJ006": "https://img.myshopline.com/image/store/1622516949344/SMZJ006-1_900x.jpeg?w=400",
+  "KQZG022": "https://img.myshopline.com/image/store/1622516949344/KQZG022-1_900x.jpeg?w=400",
   "JMQH001": "https://img.myshopline.com/image/store/1622516949344/JMQH001-.jpeg?w=1200&h=1650",
 
   // --- BATCH 2: PERSONAL CARE (NEW SCRAPE) ---
@@ -1446,6 +1485,11 @@ function renderGrid(filtered) {
       `<div class="sp-badge" style="--cat-color:${col}">${escapeHTML(s)}</div>`
     ).join("");
 
+    // Plus Point dropdown items
+    const plusPointItems = sp.map(s =>
+      `<div class="plus-point-item"><span class="plus-point-icon">✦</span>${escapeHTML(s)}</div>`
+    ).join("");
+
     const safeSku  = escapeHTML(p.sku);
     const safeName = escapeHTML(p.name);
     const safeCat  = escapeHTML(p.category);
@@ -1509,6 +1553,19 @@ function renderGrid(filtered) {
                   onmouseout="this.style.background='#fafbff'; this.style.color='${col}'">
             Detail ->
           </button>
+          <div class="plus-point-wrap">
+            <button class="plus-point-btn"
+                    style="color:${col}; border-color:${col}40;"
+                    onmouseover="this.style.background='${col}18'"
+                    onmouseout="this.style.background='#fafbff'"
+                    onclick="event.stopPropagation(); togglePlusPoint(this)">
+              ✦ Plus Point
+            </button>
+            <div class="plus-point-dropdown">
+              <div class="plus-point-header" style="color:${col}; background:${col}12; border-color:${col}30;">✦ Plus Point</div>
+              ${plusPointItems}
+            </div>
+          </div>
           ${manualBtn}
         </div>
       </div>`;
@@ -1865,6 +1922,19 @@ function copyPresaleChat() {
 }
 
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+// Close plus-point dropdowns when clicking outside
+document.addEventListener("click", () => {
+  document.querySelectorAll(".plus-point-dropdown.open").forEach(d => d.classList.remove("open"));
+});
+
+function togglePlusPoint(btn) {
+  const dropdown = btn.nextElementSibling;
+  const isOpen = dropdown.classList.contains("open");
+  // Close all others first
+  document.querySelectorAll(".plus-point-dropdown.open").forEach(d => d.classList.remove("open"));
+  if (!isOpen) dropdown.classList.add("open");
+}
 
 // INISIALISASI
 render();
