@@ -1874,37 +1874,137 @@ function render() {
   }
 }
 
-async function fetchPreSaleChat(p) {
-  const spList   = generateSellingPoint(p).map(s => `- ${s}`).join("\n");
-  const specList = Object.entries(p.specs || {}).map(([k, v]) => `- ${k}: ${v}`).join("\n");
-  const prompt = `Kamu adalah CS toko online Simplus Indonesia. Buatkan pre-sale chat untuk produk berikut.
+function fetchPreSaleChat(p) {
+  const sp    = generateSellingPoint(p);
+  const specs = p.specs || {};
 
-Aturan:
-- Bahasa Indonesia, friendly dan natural, tidak kaku
-- Tidak lebay, maksimal 1 emoji di seluruh pesan atau tidak sama sekali
-- Awali dengan menyebut bahwa produk ready
-- Highlight 2-3 keunggulan utama secara singkat dalam paragraf
-- Akhiri dengan soft call-to-action yang halus
-- Jangan pakai em dash, bullet points, atau list
-- Langsung tulis pesannya saja tanpa label apapun
+  // Helper: ambil nilai spec, return null kalau tidak ada
+  const s = k => specs[k] || null;
 
-Nama: ${p.name} (${p.sku})
-Kategori: ${p.category}
-Karakteristik: ${p.karakteristik}
-Keunggulan:\n${spList}
-Spesifikasi:\n${specList}`;
+  // ── Kalimat pembuka ──────────────────────────────────────
+  const opens = [
+    `Halo Kak, produknya ready ya!`,
+    `Halo Kak! Produknya ready nih.`,
+    `Hai Kak, stoknya ready ya!`,
+    `Halo Kak, ready ya untuk ${p.name}!`,
+  ];
+  const open = opens[Math.floor(Math.random() * opens.length)];
 
-  const GEMINI_KEY = "AIzaSyC6zlMqNIADcbr0tF6-pgCu8IMXjWN-g-c";
-  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }]
-    })
-  });
-  const data = await res.json();
-  if (data.candidates?.[0]?.content?.parts?.[0]?.text) return data.candidates[0].content.parts[0].text;
-  throw new Error("No content");
+  // ── Kalimat deskripsi produk ─────────────────────────────
+  // Gunakan karakteristik + 2-3 selling point pertama, tulis sebagai paragraf
+  const highlights = sp.slice(0, 3);
+
+  let body = "";
+
+  // Rangkai highlight jadi kalimat natural
+  if (highlights.length >= 3) {
+    body = `${p.name} ini ${highlights[0].toLowerCase()}, ${highlights[1].toLowerCase()}, dan ${highlights[2].toLowerCase()}.`;
+  } else if (highlights.length === 2) {
+    body = `${p.name} ini ${highlights[0].toLowerCase()} dan ${highlights[1].toLowerCase()}.`;
+  } else if (highlights.length === 1) {
+    body = `${p.name} ini ${highlights[0].toLowerCase()}.`;
+  }
+
+  // ── Tambahan spesifikasi kunci berdasarkan kategori ──────
+  let specDetail = "";
+
+  const cat = p.category;
+  if (cat === "Vacuum Cleaner") {
+    if (s("Suction")) specDetail += ` Daya hisapnya ${s("Suction")}`;
+    if (s("Filter"))  specDetail += `, dilengkapi filter ${s("Filter")}`;
+    if (s("Berat"))   specDetail += `, bobotnya ringan hanya ${s("Berat")}`;
+    if (specDetail)   specDetail += ".";
+  } else if (cat === "Garment Steamer / Iron") {
+    if (s("Uap"))      specDetail += ` Output uapnya ${s("Uap")}`;
+    if (s("Kapasitas"))specDetail += `, tangki ${s("Kapasitas")} ml`;
+    if (s("Panas"))    specDetail += `, panas dalam ${s("Panas")} detik`;
+    if (specDetail)    specDetail += ".";
+  } else if (cat === "Dehumidifier") {
+    if (s("Kapasitas"))specDetail += ` Kapasitas serapnya ${s("Kapasitas")}`;
+    if (s("Tangki"))   specDetail += ` dengan tangki air ${s("Tangki")} L`;
+    if (s("Daya"))     specDetail += `, daya listriknya hemat hanya ${s("Daya")}`;
+    if (s("Kebisingan"))specDetail += `, suaranya rendah sekitar ${s("Kebisingan")}`;
+    if (specDetail)    specDetail += ".";
+  } else if (cat === "Humidifier") {
+    if (s("Kapasitas"))specDetail += ` Kapasitas tangkinya ${s("Kapasitas")}`;
+    if (s("Output"))   specDetail += `, output kabut ${s("Output")}`;
+    if (s("Baterai"))  specDetail += `, tahan hingga ${s("Baterai")} jam`;
+    if (s("Daya"))     specDetail += `, daya hemat ${s("Daya")}`;
+    if (specDetail)    specDetail += ".";
+  } else if (cat === "Air Purifier") {
+    if (s("CADR"))  specDetail += ` CADR-nya ${s("CADR")}`;
+    if (s("Filter"))specDetail += `, pakai filter ${s("Filter")}`;
+    if (s("Area"))  specDetail += `, cocok untuk ruangan ${s("Area")}`;
+    if (s("Daya"))  specDetail += `, konsumsi daya hanya ${s("Daya")}`;
+    if (specDetail) specDetail += ".";
+  } else if (cat === "Air Fryer (Digital)" || cat === "Air Fryer (Knob)") {
+    if (s("Kapasitas"))specDetail += ` Kapasitasnya ${s("Kapasitas")}`;
+    if (s("Daya"))     specDetail += `, daya ${s("Daya")}`;
+    if (s("Suhu"))     specDetail += `, suhu bisa diatur sampai ${s("Suhu")}`;
+    if (specDetail)    specDetail += ".";
+  } else if (cat === "Hair Dryer") {
+    if (s("Daya"))  specDetail += ` Dayanya ${s("Daya")}`;
+    if (s("Speed")) specDetail += `, kecepatan angin ${s("Speed")}`;
+    if (s("Ion") && s("Ion") !== "×") specDetail += `, dilengkapi ion negatif ${s("Ion")}`;
+    if (specDetail) specDetail += ".";
+  } else if (cat === "Hair Straightener") {
+    if (s("Suhu"))    specDetail += ` Suhu bisa diatur ${s("Suhu")}`;
+    if (s("Panas"))   specDetail += `, panas dalam ${s("Panas")} detik`;
+    if (s("Lapisan")) specDetail += `, plat ${s("Lapisan")}`;
+    if (specDetail)   specDetail += ".";
+  } else if (cat === "Hair Curler") {
+    if (s("Diameter"))specDetail += ` Diameter barrel ${s("Diameter")} mm`;
+    if (s("Suhu"))    specDetail += `, suhu ${s("Suhu")}`;
+    if (s("Panas"))   specDetail += `, panas dalam ${s("Panas")} detik`;
+    if (specDetail)   specDetail += ".";
+  } else if (cat === "Hair Dryer Brush") {
+    if (s("Daya"))  specDetail += ` Dayanya ${s("Daya")}`;
+    if (s("Ion") && s("Ion") !== "×") specDetail += `, ion negatif ${s("Ion")}`;
+    if (s("Speed")) specDetail += `, ada ${s("Speed")} pilihan kecepatan`;
+    if (specDetail) specDetail += ".";
+  } else if (cat === "Drip Coffee Machine") {
+    if (s("Gelas")) specDetail += ` Muat hingga ${s("Gelas")} gelas sekali seduh`;
+    if (s("Waktu")) specDetail += `, kopi siap dalam ${s("Waktu")} menit`;
+    if (s("Daya"))  specDetail += `, daya ${s("Daya")}`;
+    if (specDetail) specDetail += ".";
+  } else if (cat === "Semi-auto Espresso" || cat === "Capsule Coffee") {
+    if (s("Tekanan"))specDetail += ` Tekanannya ${s("Tekanan")} bar`;
+    if (s("Panas"))  specDetail += `, siap dalam ${s("Panas")} detik`;
+    if (s("Tangki")) specDetail += `, tangki air ${s("Tangki")} L`;
+    if (specDetail)  specDetail += ".";
+  } else if (cat === "Electric Cooker" || cat === "Electric Steamer") {
+    if (s("Kapasitas"))specDetail += ` Kapasitasnya ${s("Kapasitas")} L`;
+    if (s("Daya"))     specDetail += `, daya ${s("Daya")}`;
+    if (specDetail)    specDetail += ".";
+  } else if (cat === "Vacuum Mop") {
+    if (s("Suction"))specDetail += ` Daya hisapnya ${s("Suction")}`;
+    if (s("Pakai"))  specDetail += `, tahan dipakai hingga ${s("Pakai")} menit`;
+    if (specDetail)  specDetail += ".";
+  } else if (cat === "Electric Chopper" || cat === "Blender / Juicer") {
+    if (s("Kapasitas"))specDetail += ` Kapasitasnya ${s("Kapasitas")}`;
+    if (s("Daya"))     specDetail += `, daya ${s("Daya")}`;
+    if (s("Pisau"))    specDetail += `, ${s("Pisau")} mata pisau stainless`;
+    if (specDetail)    specDetail += ".";
+  } else if (cat === "Electric Sandwich Maker") {
+    if (s("Daya"))  specDetail += ` Dayanya ${s("Daya")}`;
+    if (specDetail) specDetail += ", roti matang merata dan keemasan dalam hitungan menit.";
+  } else {
+    // fallback: sebutkan daya kalau ada
+    if (s("Daya")) specDetail = ` Daya listriknya ${s("Daya")}.`;
+  }
+
+  // ── Kalimat penutup ──────────────────────────────────────
+  const closes = [
+    `Ada voucher tersedia sekarang juga, Kak. Ada yang mau ditanyain dulu?`,
+    `Kakak bisa langsung order sekarang, stok terbatas ya. Ada pertanyaan dulu?`,
+    `Kalau ada yang mau ditanyain atau mau lihat foto produknya, langsung aja ya Kak!`,
+    `Ada yang ingin kakak tanyakan lebih lanjut?`,
+  ];
+  const close = closes[Math.floor(Math.random() * closes.length)];
+
+  // ── Gabung jadi pesan final ──────────────────────────────
+  const msg = `${open} ${body}${specDetail ? " " + specDetail.trim() : ""} ${close}`;
+  return Promise.resolve(msg);
 }
 
 function copyPresaleChat() {
